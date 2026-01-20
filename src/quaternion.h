@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include "scalar.h"
 #include "vec.h"
 #include "matrix.h"
@@ -58,10 +59,16 @@ public:
 
 	template<int N, int M, class X>
 	void set_unit(matrix<N, M, X> const &m) {
-		x = sign(m.ij[1][2] - m.ij[2][1]) * T(sqrt(1 + m.ij[0][0] - m.ij[1][1] - m.ij[2][2])) / 2;
-		y = sign(m.ij[2][0] - m.ij[0][2]) * T(sqrt(1 - m.ij[0][0] + m.ij[1][1] - m.ij[2][2])) / 2;
-		z = sign(m.ij[0][1] - m.ij[1][0]) * T(sqrt(1 - m.ij[0][0] - m.ij[1][1] + m.ij[2][2])) / 2;
-		w = T(sqrt(m.ij[0][0] + m.ij[1][1] + m.ij[2][2] + 1));
+		// Clamp to avoid negative values due to floating point precision issues
+		T x_sq = std::max(T(0), T(1 + m.ij[0][0] - m.ij[1][1] - m.ij[2][2]));
+		T y_sq = std::max(T(0), T(1 - m.ij[0][0] + m.ij[1][1] - m.ij[2][2]));
+		T z_sq = std::max(T(0), T(1 - m.ij[0][0] - m.ij[1][1] + m.ij[2][2]));
+		T w_sq = std::max(T(0), T(m.ij[0][0] + m.ij[1][1] + m.ij[2][2] + 1));
+
+		x = sign(m.ij[1][2] - m.ij[2][1]) * T(sqrt(x_sq)) / 2;
+		y = sign(m.ij[2][0] - m.ij[0][2]) * T(sqrt(y_sq)) / 2;
+		z = sign(m.ij[0][1] - m.ij[1][0]) * T(sqrt(z_sq)) / 2;
+		w = T(sqrt(w_sq)) / 2;
 	}
 };
 
@@ -88,6 +95,12 @@ public:
 		(q2_ = q).normalize();
 
         T dot = dot_product(q1_, q2_);
+
+		// If dot product is negative, negate one quaternion to take the shorter path
+		if (dot < 0) {
+			q2_ = -q2_;
+			dot = -dot;
+		}
 
 		omega_ = (T) acos(dot);
 

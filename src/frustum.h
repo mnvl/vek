@@ -1,7 +1,6 @@
 #pragma once
 
 #include <boost/array.hpp>
-#include <luabind/lua_include.hpp>
 #include "vec.h"
 #include "plane.h"
 #include "matrix.h"
@@ -42,7 +41,5 @@ public:
 	bool test_intersection(aabb<3,T> const &bounds) const;
 	bool test_intersection(obb<3,T> const &bounds) const;
 };
-
-void bind_frustum(lua_State *L);
 
 }

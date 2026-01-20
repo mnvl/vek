@@ -1,6 +1,5 @@
 #pragma once
 
-#include <luabind/lua_include.hpp>
 #include "scalar.h"
 #include "vec.h"
 #include "ray.h"
@@ -103,7 +102,5 @@ public:
 	classification_t classify(aabb<ARITY, scalar_t> const &bounds) const;
 	classification_t classify(obb<ARITY, scalar_t> const &bounds) const;
 };
-
-void bind_plane(lua_State *L);
 
 }

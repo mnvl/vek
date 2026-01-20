@@ -1,6 +1,5 @@
 #pragma once
 
-#include <luabind/lua_include.hpp>
 #include "scalar.h"
 #include "vec.h"
 
@@ -24,10 +23,6 @@ struct contact_info {
 		if (penetrated == true && ci.penetrated == true) return penetration_depth > ci.penetration_depth;
 		return time > ci.time;
 	}
-
-	static void bind(lua_State *L, char const *name);
 };
-
-void bind_contact_info(lua_State *L);
 
 }

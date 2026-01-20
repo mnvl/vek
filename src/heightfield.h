@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <luabind/lua_include.hpp>
 #include <boost/shared_ptr.hpp>
 #include "vec.h"
 #include "aabb.h"
@@ -50,8 +49,6 @@ public:
 		archive & local_to_world_ & world_to_local_ & ncols_ & nrows_ & heights_ & local_aabb_;
 	}
 
-	static void bind(lua_State *L, char const *name);
-
 private:
     matrix<4,4> local_to_world_, world_to_local_;
     size_t ncols_, nrows_;
@@ -65,7 +62,5 @@ private:
 
 	void post_load();
 };
-
-void bind_heightfield(lua_State *L);
 
 }

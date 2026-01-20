@@ -21,18 +21,6 @@ capsule<N, T>::get_aabb(aabb<ARITY, scalar_t> &bounds) const
 	bounds.extend(axe.B + diagonal);
 }
 
-void bind_capsule(lua_State *L)
-{
-	using namespace luabind;
-
-	module(L, "math")
-	[
-		class_<capsule<3> >("capsule3")
-		.def_readwrite("axe", &capsule<3>::axe)
-		.def_readwrite("radius", &capsule<3>::radius)
-	];
-}
-
 template class capsule<3>;
 
 }

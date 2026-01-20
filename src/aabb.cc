@@ -1,5 +1,5 @@
 
-#include <luabind/luabind.hpp>
+#include <cassert>
 #include "ray.h"
 #include "aabb.h"
 
@@ -134,20 +134,5 @@ bool aabb<N, T>::trace(ray_t const &r, scalar_t t_min, scalar_t t_max) const
 
 template class aabb<2>;
 template class aabb<3>;
-
-void bind_aabb(lua_State *L)
-{
-	using namespace luabind;
-
-	module(L, "math")
-	[
-		class_<aabb<3> >("aabb3")
-		.def(constructor<aabb<3> const &>())
-		.def(constructor<vec<3> const &, vec<3> const &>())
-		.def_readwrite("lo", &aabb<3>::lo)
-		.def_readwrite("hi", &aabb<3>::hi)
-		.def("contains", (bool (aabb<3>::*)(vec<3> const &) const) &aabb<3>::contains)
-	];
-}
 
 }

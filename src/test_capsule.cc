@@ -1,6 +1,5 @@
 
 #include <boost/test/unit_test.hpp>
-#include <util/logger.h>
 #include "aabb.h"
 #include "obb.h"
 #include "capsule.h"
@@ -38,7 +37,6 @@ BOOST_AUTO_TEST_CASE (bounds_1)
 		}
 	}
 
-	LOG_DEBUG("false_positives = " << false_positives);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -1,5 +1,4 @@
 
-#include <util/logger.h>
 #include "a_star.h"
 
 namespace math

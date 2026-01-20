@@ -1,6 +1,5 @@
 #pragma once
 
-#include <luabind/luabind.hpp>
 #include "line.h"
 
 namespace math
@@ -44,8 +43,6 @@ public:
 
 	void get_aabb(aabb<ARITY, scalar_t> &bounds) const;
 };
-
-void bind_capsule(lua_State *L);
 
 }
 

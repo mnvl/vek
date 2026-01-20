@@ -1,5 +1,4 @@
 
-#include <luabind/luabind.hpp>
 #include "matrix.h"
 #include "ray.h"
 
@@ -64,29 +63,5 @@ ray<N, T>::query_intersection(ray const &r, scalar_t &t) const
 
 template class ray<2>;
 template class ray<3>;
-
-void bind_ray(lua_State *L)
-{
-	using namespace luabind;
-
-	module(L, "math")
-	[
-		class_<ray<2> >("ray2")
-		.def(constructor<>())
-		.def(constructor<const vec<2> &, const vec<2> &>())
-		.def("set", &ray<2>::set)
-		.def("apply", &ray<2>::apply)
-		.def_readwrite("r0", &ray<2>::r0)
-		.def_readwrite("a", &ray<2>::a),
-
-		class_<ray<3> >("ray3")
-		.def(constructor<>())
-		.def(constructor<const vec<3> &, const vec<3> &>())
-		.def("set", &ray<3>::set)
-		.def("apply", &ray<3>::apply)
-		.def_readwrite("r0", &ray<3>::r0)
-		.def_readwrite("a", &ray<3>::a)
-	];
-}
 
 }

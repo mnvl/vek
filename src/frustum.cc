@@ -1,6 +1,4 @@
 
-#include <luabind/luabind.hpp>
-#include <luabind/iterator_policy.hpp>
 #include "aabb.h"
 #include "obb.h"
 #include "frustum.h"
@@ -101,21 +99,5 @@ bool frustum<T>::test_intersection(obb<3,T> const &bounds) const
 }
 
 template class frustum<>;
-
-void bind_frustum(lua_State *L) {
-	using namespace luabind;
-
-	module(L, "math")
-	[
-		class_<frustum<> >("frustum")
-		.enum_("const")
-		[
-			value("PLANES_COUNT", frustum<>::PLANES_COUNT)
-		]
-		.def_readonly("planes", &frustum<>::planes, return_stl_iterator)
-		.def(constructor<math::matrix<4,4> const &>())
-		.def("contains", &frustum<>::contains)
-	];
-}
 
 }

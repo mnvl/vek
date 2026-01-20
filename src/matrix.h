@@ -2,7 +2,6 @@
 
 #include <assert.h>
 #include <iosfwd>
-#include <luabind/lua_include.hpp>
 #include "scalar.h"
 #include "vec.h"
 
@@ -27,8 +26,6 @@ template<class T> inline void mul(vec<4,T> &r,const vec<4,T> &v,const matrix<4,4
 
 template<int M,int N,int K,class T> inline void
 mul(matrix<M,K,T> &result,const matrix<M,N,T> &left,const matrix<N,K,T> &right);
-
-void bind_matrix(lua_State *L);
 
 template<class T>
 class matrix<3,3,T> {

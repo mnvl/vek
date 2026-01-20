@@ -1,6 +1,5 @@
 #pragma once
 
-#include <luabind/lua_include.hpp>
 #include "scalar.h"
 #include "vec.h"
 #include "ray.h"
@@ -74,8 +73,6 @@ public:
 		return sqrt(distance_sq(point));
 	}
 };
-
-void bind_line(lua_State *L);
 
 }
 

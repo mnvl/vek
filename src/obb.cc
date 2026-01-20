@@ -1,5 +1,4 @@
 
-#include <luabind/luabind.hpp>
 #include "obb.h"
 
 namespace math
@@ -294,23 +293,5 @@ obb<3,T>::is_basis_linearly_independent() const
 }
 
 template class obb<3>;
-
-void bind_obb(lua_State *L)
-{
-	using namespace luabind;
-
-	module(L, "math")
-	[
-		class_<obb<3> >("obb3")
-		.def(constructor<>())
-		.def(constructor<aabb<3> const &>())
-		.def_readwrite("origin", &obb<3>::origin)
-		.def_readwrite("tangent", &obb<3>::tangent)
-		.def_readwrite("normal", &obb<3>::normal)
-		.def_readwrite("binormal", &obb<3>::binormal)
-		.def("transform", &obb<3>::transform)
-		.def("get_radius", &obb<3>::get_radius)
-	];
-}
 
 }

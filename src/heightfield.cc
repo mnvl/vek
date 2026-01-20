@@ -4,8 +4,6 @@
 #include <boost/cstdint.hpp>
 #include <boost/bind.hpp>
 #include <boost/unordered_set.hpp>
-#include <luabind/luabind.hpp>
-#include <luabind/iterator_policy.hpp>
 #include "a_star.h"
 #include "bresenham_supercover.h"
 #include "heightfield.h"
@@ -306,38 +304,8 @@ void heightfield<T>::post_load()
 	local_aabb_.hi.z = scalar(nrows_ - 1);
 }
 
-template<class T>
-void heightfield<T>::bind(lua_State *L, char const *name)
-{
-	using namespace luabind;
-
-	module(L, "math")
-	[
-		class_<heightfield>(name)
-		.def(constructor<matrix<4,4> const &, size_t, size_t>())
-		.def("y_under", &heightfield::y_under)
-		.def("max_y_in_cell", (scalar (heightfield::*)(vec<3> const &, scalar) const) &heightfield::max_y_in_cell)
-		.def("ncols", &heightfield::ncols)
-		.def("nrows", &heightfield::nrows)
-		.def("set_local_to_world", &heightfield::set_local_to_world)
-		.def("get_local_aabb", &heightfield::get_local_aabb)
-		.def("world_position_to_cell", &heightfield::world_position_to_cell)
-		.def("cell_to_world_position", &heightfield::cell_to_world_position)
-		.def("build_path", &heightfield::build_path)
-		.def("trace", &heightfield::trace)
-		.def("resize", &heightfield::resize)
-	];
-}
-
 template class heightfield<boost::uint8_t>;
 template class heightfield<boost::uint16_t>;
 template class heightfield<scalar>;
-
-void bind_heightfield(lua_State *L)
-{
-	heightfield<boost::uint8_t>::bind(L, "heightfield_u8");
-	heightfield<boost::uint16_t>::bind(L, "heightfield_u16");
-	heightfield<scalar>::bind(L, "heightfield_s");
-}
 
 }

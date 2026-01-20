@@ -1,5 +1,4 @@
 
-#include <luabind/luabind.hpp>
 #include "ray.h"
 #include "line.h"
 #include "capsule.h"
@@ -96,17 +95,5 @@ sphere<N, T>::test_intersection(capsule<N, T> const &c) const
 
 template class sphere<2>;
 template class sphere<3>;
-
-void bind_sphere(lua_State *L)
-{
-	using namespace luabind;
-
-	module(L, "math")
-	[
-		class_<sphere<3> >("sphere3")
-		.def_readwrite("centre", &sphere<3>::centre)
-		.def_readwrite("radius", &sphere<3>::radius)
-	];
-}
 
 }

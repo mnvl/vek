@@ -1,13 +1,13 @@
 #pragma once
 
-#include <math/scalar.h>
-#include <math/vec.h>
-#include <math/ray.h>
-#include <math/line.h>
-#include <math/plane.h>
-#include <math/aabb.h>
-#include <math/sphere.h>
-#include <math/matrix.h>
+#include "scalar.h"
+#include "vec.h"
+#include "ray.h"
+#include "line.h"
+#include "plane.h"
+#include "aabb.h"
+#include "sphere.h"
+#include "matrix.h"
 
 namespace math {
 

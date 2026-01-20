@@ -1,7 +1,6 @@
 #pragma once
 
 #include <assert.h>
-#include <luabind/lua_include.hpp>
 #include "scalar.h"
 #include "vec.h"
 #include "aabb.h"
@@ -302,8 +301,6 @@ private:
 	bool test_noncollision(const obb &r, vec_t const &vel, scalar_t t_min = 0,
 		scalar_t t_max = 1) const;
 };
-
-void bind_obb(lua_State *L);
 
 }
 

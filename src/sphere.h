@@ -1,6 +1,6 @@
 #pragma once
 
-#include <luabind/lua_include.hpp>
+#include <cassert>
 #include "scalar.h"
 #include "vec.h"
 #include "aabb.h"
@@ -74,7 +74,5 @@ public:
 	int query_intersection(line<N, T> const &l, vec_t &p1, vec_t &p2) const;
 	bool test_intersection(capsule<N, T> const &c) const;
 };
-
-void bind_sphere(lua_State *L);
 
 }

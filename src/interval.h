@@ -1,6 +1,5 @@
 #pragma once
 
-#include <luabind/lua_include.hpp>
 #include "scalar.h"
 
 namespace math
@@ -27,7 +26,5 @@ public:
 	scalar_t length() const { return high - low; }
 	scalar_t random() const { return length() * rand() / RAND_MAX + low; }
 };
-
-void bind_interval(lua_State *L);
 
 }

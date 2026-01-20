@@ -3,7 +3,6 @@
 #include <iosfwd>
 #include <string>
 #include <algorithm>
-#include <luabind/lua_include.hpp>
 #include "scalar.h"
 
 namespace math
@@ -27,8 +26,6 @@ template<class T> inline void minmax(vec<3,T> &v1,vec<3,T> &v2);
 template<class T> inline void minmax(vec<4,T> &v1,vec<4,T> &v2);
 
 template<int N,class T> inline vec<N,T> normalize(const vec<N,T> &v);
-
-void bind_vec(lua_State *L);
 
 #pragma pack(push, 1)
 template<class T>
@@ -449,7 +446,9 @@ public:
 
 	bool is_collinear(vec const &v, scalar_t epsilon = EPSILON) const
 	{
-		return (*this ^ v).length_sq() < epsilon;
+		vec cross;
+		cross_product(cross, *this, v);
+		return cross.length_sq() < epsilon;
 	}
 
 	vec perpendicular_xy() const;

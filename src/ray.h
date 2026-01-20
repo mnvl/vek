@@ -1,9 +1,8 @@
 #pragma once
 
 #include <limits>
-#include <luabind/lua_include.hpp>
-#include <math/scalar.h>
-#include <math/vec.h>
+#include "scalar.h"
+#include "vec.h"
 
 namespace math {
 
@@ -62,8 +61,6 @@ public:
 	// intersection point is apply(t)
 	bool query_intersection(ray const &r, scalar_t &t) const;
 };
-
-void bind_ray(lua_State *L);
 
 }
 

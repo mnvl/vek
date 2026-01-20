@@ -2,7 +2,6 @@
 
 #include <limits>
 #include <iosfwd>
-#include <luabind/lua_include.hpp>
 #include "scalar.h"
 #include "vec.h"
 
@@ -125,8 +124,6 @@ public:
 		archive & lo & hi;
 	}
 };
-
-void bind_aabb(lua_State *L);
 
 }
 

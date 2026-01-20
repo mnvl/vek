@@ -8,7 +8,7 @@
 #include "bresenham_supercover.h"
 #include "heightfield.h"
 
-namespace math
+namespace vek
 {
 
 template<class T>
@@ -21,7 +21,7 @@ heightfield<T>::heightfield(matrix<4,4> const &tf, size_t nrows, size_t ncols):
 	heights_.resize(nrows * ncols);
 
 	local_aabb_.lo.set(0, -1, 0);
-	local_aabb_.hi.set(math::scalar(ncols_ - 1), 1, math::scalar(nrows_ - 1));
+	local_aabb_.hi.set(vek::scalar(ncols_ - 1), 1, vek::scalar(nrows_ - 1));
 }
 
 template<class T>
@@ -81,7 +81,7 @@ scalar heightfield<T>::max_y_in_cell(vec<3> const &position, scalar default_valu
 }
 
 template<class T>
-void heightfield<T>::set_local_to_world(math::matrix<4, 4> const &tf)
+void heightfield<T>::set_local_to_world(vek::matrix<4, 4> const &tf)
 {
 	local_to_world_ = tf;
     local_to_world_.inverse(world_to_local_);

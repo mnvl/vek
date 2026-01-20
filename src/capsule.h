@@ -2,7 +2,7 @@
 
 #include "line.h"
 
-namespace math
+namespace vek
 {
 
 template<int N, class T> class aabb;

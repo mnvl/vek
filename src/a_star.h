@@ -7,7 +7,7 @@
 #include <boost/unordered_map.hpp>
 #include "vec.h"
 
-namespace math
+namespace vek
 {
 
 class a_star {

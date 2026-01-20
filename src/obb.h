@@ -9,7 +9,7 @@
 #include "triangle.h"
 #include "matrix.h"
 
-namespace math
+namespace vek
 {
 
 template<class T> class plane;
@@ -95,10 +95,10 @@ public:
 
 	vec_t get_normal(size_t side_number) const {
 		switch (side_number) {
-			case 0: return math::normalize(-normal);
-			case 1: return math::normalize(tangent);
-			case 2: return math::normalize(normal);
-			case 3: return math::normalize(-tangent);
+			case 0: return vek::normalize(-normal);
+			case 1: return vek::normalize(tangent);
+			case 2: return vek::normalize(normal);
+			case 3: return vek::normalize(-tangent);
 			default: assert(0); return vec_t(0, 0);
 		}
 	}

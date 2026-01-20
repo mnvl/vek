@@ -3,7 +3,7 @@
 #include "obb.h"
 #include "frustum.h"
 
-namespace math
+namespace vek
 {
 
 template<class T>
@@ -65,7 +65,7 @@ void frustum<T>::load(matrix<4,4> const &tf)
 }
 
 template<class T>
-bool frustum<T>::contains(math::vec<3> const &point) const
+bool frustum<T>::contains(vek::vec<3> const &point) const
 {
 	for(size_t i = 0; i < PLANES_COUNT; i++)
 	{

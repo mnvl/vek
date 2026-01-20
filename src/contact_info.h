@@ -3,7 +3,7 @@
 #include "scalar.h"
 #include "vec.h"
 
-namespace math
+namespace vek
 {
 
 template<int N, class T = scalar>

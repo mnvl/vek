@@ -8,7 +8,7 @@
 #undef min
 #undef max
 
-namespace math
+namespace vek
 {
 
 template<int N,class T> class triangle;
@@ -46,7 +46,7 @@ public:
 	{
 	}
 
-	aabb(vec_t const &centre, math::scalar radius)
+	aabb(vec_t const &centre, vek::scalar radius)
 	{
 		vec_t delta;
 		delta.set_all(radius / 2);
@@ -128,7 +128,7 @@ public:
 }
 
 template<int N, class T>
-std::ostream &operator <<(std::ostream &lhs, math::aabb<N,T> &rhs)
+std::ostream &operator <<(std::ostream &lhs, vek::aabb<N,T> &rhs)
 {
 	return lhs << rhs.lo << " x " << rhs.hi;
 }

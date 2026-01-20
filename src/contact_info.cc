@@ -1,7 +1,7 @@
 
 #include "contact_info.h"
 
-namespace math
+namespace vek
 {
 
 }

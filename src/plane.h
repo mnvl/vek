@@ -4,7 +4,7 @@
 #include "vec.h"
 #include "ray.h"
 
-namespace math {
+namespace vek {
 
 template<int N, class T> class aabb;
 template<int N, class T> class obb;

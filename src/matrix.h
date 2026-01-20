@@ -9,7 +9,7 @@
 #undef minor
 #endif
 
-namespace math
+namespace vek
 {
 
 template<int N,int M,class T = scalar> class matrix;
@@ -399,30 +399,30 @@ equal(matrix<M, N, T> const &lhs, matrix<M, N, T> const &rhs, T epsilon = EPSILO
 
 }
 
-template<int M,int N,class T> inline math::vec<N-1,T>
-operator *(const math::vec<N-1,T> &left, const math::matrix<M,N,T> &right) {
-	math::vec<N-1,T> result;
+template<int M,int N,class T> inline vek::vec<N-1,T>
+operator *(const vek::vec<N-1,T> &left, const vek::matrix<M,N,T> &right) {
+	vek::vec<N-1,T> result;
 	mul(result,left,right);
 	return result;
 }
 
-template<int M,int N,class T> inline math::vec<N,T>
-operator *(const math::vec<N,T> &left, const math::matrix<M,N,T> &right) {
-	math::vec<N,T> result;
+template<int M,int N,class T> inline vek::vec<N,T>
+operator *(const vek::vec<N,T> &left, const vek::matrix<M,N,T> &right) {
+	vek::vec<N,T> result;
 	mul(result,left,right);
 	return result;
 }
 
-template<int M,int N,int K,class T> inline math::matrix<N,K,T>
-operator *(const math::matrix<M,N,T> &left,const math::matrix<N,K,T> &right) {
-	math::matrix<N,K,T> result;
+template<int M,int N,int K,class T> inline vek::matrix<N,K,T>
+operator *(const vek::matrix<M,N,T> &left,const vek::matrix<N,K,T> &right) {
+	vek::matrix<N,K,T> result;
 	mul(result,left,right);
 	return result;
 }
 
-template<int M,int N,class T> inline math::vec<N,T> &
-operator *=(math::vec<N,T> &left, const math::matrix<M,N,T> &right) {
-	mul(left,math::vec<N,T>(left),right);
+template<int M,int N,class T> inline vek::vec<N,T> &
+operator *=(vek::vec<N,T> &left, const vek::matrix<M,N,T> &right) {
+	mul(left,vek::vec<N,T>(left),right);
 	return left;
 }
 

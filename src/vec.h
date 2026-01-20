@@ -5,7 +5,7 @@
 #include <algorithm>
 #include "scalar.h"
 
-namespace math
+namespace vek
 {
 
 template<int N,class T=scalar> class vec;
@@ -885,58 +885,58 @@ normalize(const vec<N,T> &v)
 
 }
 
-template<int N,class T> inline math::vec<N,T>
-operator *(T lhs, math::vec<N,T> const &rhs)
+template<int N,class T> inline vek::vec<N,T>
+operator *(T lhs, vek::vec<N,T> const &rhs)
 {
 	return rhs * lhs;
 }
 
 template<int N,class T> inline T
-operator &(math::vec<N,T> const &lhs,math::vec<N,T> const &rhs)
+operator &(vek::vec<N,T> const &lhs,vek::vec<N,T> const &rhs)
 {
-	return math::dot_product(lhs, rhs);
+	return vek::dot_product(lhs, rhs);
 }
 
-template<class T> inline math::vec<3,T>
-operator ^(const math::vec<3,T> &lhs,const math::vec<3,T> &rhs)
+template<class T> inline vek::vec<3,T>
+operator ^(const vek::vec<3,T> &lhs,const vek::vec<3,T> &rhs)
 {
-	math::vec<3,T> res;
-	math::cross_product(res, lhs, rhs);
+	vek::vec<3,T> res;
+	vek::cross_product(res, lhs, rhs);
 	return res;
 }
 
 template<class Ch, class ChT, class T>
-std::basic_istream<Ch, ChT> &operator >>(std::basic_istream<Ch, ChT> &is, math::vec<2,T> const &v)
+std::basic_istream<Ch, ChT> &operator >>(std::basic_istream<Ch, ChT> &is, vek::vec<2,T> const &v)
 {
 	return is >> v.x >> v.y;
 }
 
 template<class Ch, class ChT, class T>
-std::basic_ostream<Ch, ChT> &operator <<(std::basic_ostream<Ch, ChT> &os, math::vec<2,T> const &v)
+std::basic_ostream<Ch, ChT> &operator <<(std::basic_ostream<Ch, ChT> &os, vek::vec<2,T> const &v)
 {
 	return os << v.x << ' ' << v.y;
 }
 
 template<class Ch, class ChT, class T>
-std::basic_istream<Ch, ChT> &operator >>(std::basic_istream<Ch, ChT> &is, math::vec<3,T> const &v)
+std::basic_istream<Ch, ChT> &operator >>(std::basic_istream<Ch, ChT> &is, vek::vec<3,T> const &v)
 {
 	return is >> v.x >> v.y >> v.z;
 }
 
 template<class Ch, class ChT, class T>
-std::basic_ostream<Ch, ChT> &operator <<(std::basic_ostream<Ch, ChT> &os, math::vec<3,T> const &v)
+std::basic_ostream<Ch, ChT> &operator <<(std::basic_ostream<Ch, ChT> &os, vek::vec<3,T> const &v)
 {
 	return os << v.x << ' ' << v.y << ' ' << v.z;
 }
 
 template<class Ch, class ChT, class T>
-std::basic_istream<Ch, ChT> &operator >>(std::basic_istream<Ch, ChT> &is, math::vec<4,T> const &v)
+std::basic_istream<Ch, ChT> &operator >>(std::basic_istream<Ch, ChT> &is, vek::vec<4,T> const &v)
 {
 	return is >> v.x >> v.y >> v.z >> v.w;
 }
 
 template<class Ch, class ChT, class T>
-std::basic_ostream<Ch, ChT> &operator <<(std::basic_ostream<Ch, ChT> &os, math::vec<4,T> const &v)
+std::basic_ostream<Ch, ChT> &operator <<(std::basic_ostream<Ch, ChT> &os, vek::vec<4,T> const &v)
 {
 	return os << v.x << ' ' << v.y << ' ' << v.z << ' ' << v.w;
 }

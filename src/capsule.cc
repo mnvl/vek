@@ -3,7 +3,7 @@
 #include "obb.h"
 #include "capsule.h"
 
-namespace math
+namespace vek
 {
 
 template<int N, class T> void

@@ -2,7 +2,7 @@
 #include "quaternion.h"
 #include "matrix.h"
 
-namespace math
+namespace vek
 {
 
 template<class T> void

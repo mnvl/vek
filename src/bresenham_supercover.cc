@@ -1,7 +1,7 @@
 
 #include "bresenham_supercover.h"
 
-namespace math
+namespace vek
 {
 
 template<class T>

@@ -1,7 +1,7 @@
 
 #include "line.h"
 
-namespace math
+namespace vek
 {
 
 }

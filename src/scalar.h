@@ -5,7 +5,7 @@
 #include <cmath>
 #include <algorithm>
 
-namespace math
+namespace vek
 {
 
 typedef float scalar;

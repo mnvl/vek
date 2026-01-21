@@ -1,4 +1,4 @@
-# vek
+# vecr
 
 A fast, lightweight C++ math and geometry library for game development and robotics with Python bindings.
 

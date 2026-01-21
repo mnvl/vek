@@ -1,0 +1,16 @@
+# Include the CMake build configuration
+include CMakeLists.txt
+
+# Include all source files
+recursive-include src *.h *.cc
+
+# Exclude test files from the distribution
+recursive-exclude src test_*.cc
+
+# Include documentation
+include README.md
+include LICENSE.md
+include CLAUDE.md
+
+# Include Python package files
+recursive-include pyrove *.py

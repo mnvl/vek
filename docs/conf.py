@@ -8,7 +8,7 @@ import sys
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'pyrove'
+project = 'rove'
 copyright = '2026, rove contributors'
 author = 'rove contributors'
 release = '1.0.0'
@@ -22,10 +22,11 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.intersphinx',
     'sphinx.ext.mathjax',
+    'breathe',
 ]
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ['_build', 'xml', 'Thumbs.db', '.DS_Store']
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
@@ -68,3 +69,15 @@ intersphinx_mapping = {
 
 # MathJax for mathematical formulas
 mathjax_path = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+
+# -- Breathe configuration ---------------------------------------------------
+# https://breathe.readthedocs.io/en/latest/
+
+# Path to Doxygen XML output (relative to this conf.py)
+breathe_projects = {
+    'rove': './xml',
+}
+breathe_default_project = 'rove'
+
+# Default members to show in doxygenclass directives
+breathe_default_members = ('members', 'undoc-members')

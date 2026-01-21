@@ -91,3 +91,35 @@ if(ROVE_BUILD_PYTHON)
     target_link_libraries(pyrove PRIVATE rove)
     target_include_directories(pyrove PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 endif()
+
+# Documentation
+option(ROVE_BUILD_DOCS "Build documentation" OFF)
+
+if(ROVE_BUILD_DOCS)
+    find_package(Doxygen REQUIRED)
+    find_program(SPHINX_EXECUTABLE sphinx-build REQUIRED)
+
+    set(DOXYGEN_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/docs)
+    set(SPHINX_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/docs)
+    set(SPHINX_BUILD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/docs/_build)
+
+    # Doxygen target - generates XML for Breathe
+    add_custom_target(doxygen
+        COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMENT "Generating Doxygen XML documentation"
+        VERBATIM
+    )
+
+    # Sphinx target - generates HTML documentation
+    add_custom_target(sphinx
+        COMMAND ${SPHINX_EXECUTABLE} -b html ${SPHINX_SOURCE_DIR} ${SPHINX_BUILD_DIR}/html
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMENT "Generating Sphinx HTML documentation"
+        VERBATIM
+    )
+    add_dependencies(sphinx doxygen)
+
+    # Main docs target
+    add_custom_target(docs DEPENDS sphinx)
+endif()

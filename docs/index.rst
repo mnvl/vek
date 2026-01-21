@@ -1,9 +1,11 @@
-pyrove Documentation
-===================
+rove Documentation
+==================
 
-**pyrove** is the Python bindings for the **rove** C++ math and geometry library.
-It provides high-performance vector math, matrix transformations, and quaternion
-operations optimized for robotics and game development.
+**rove** is a C++ math and geometry library for robotics and game development.
+It provides high-performance vector math, matrix transformations, quaternion
+operations, collision detection, and pathfinding utilities.
+
+This documentation covers both the C++ API and the Python bindings (**pyrove**).
 
 Features
 --------
@@ -71,12 +73,18 @@ Contents
 
 .. toctree::
    :maxdepth: 2
-   :caption: API Reference
+   :caption: Python API Reference
 
    api/vectors
    api/matrices
    api/quaternions
    api/functions
+
+.. toctree::
+   :maxdepth: 2
+   :caption: C++ API Reference
+
+   cpp_api/index
 
 .. toctree::
    :maxdepth: 1

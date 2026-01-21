@@ -1,5 +1,6 @@
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/string.h>
+#include <nanobind/ndarray.h>
 #include <sstream>
 
 #include "vec.h"
@@ -7,6 +8,7 @@
 #include "quaternion.h"
 
 namespace nb = nanobind;
+using namespace nb::literals;
 
 template<typename T>
 void bind_vec2(nb::module_ &m, const char *name) {
@@ -17,6 +19,17 @@ void bind_vec2(nb::module_ &m, const char *name) {
         .def(nb::init<T, T>(), nb::arg("x"), nb::arg("y"))
         .def_rw("x", &Vec::x)
         .def_rw("y", &Vec::y)
+        .def_static("from_numpy", [](nb::ndarray<T, nb::shape<2>> arr) {
+            return Vec(arr(0), arr(1));
+        }, nb::arg("array"), "Create vec2 from numpy array")
+        .def("to_numpy", [](const Vec &v) {
+            T* data = new T[2]{v.x, v.y};
+            size_t shape[1] = {2};
+            nb::capsule deleter(data, [](void *p) noexcept {
+                delete[] (T*)p;
+            });
+            return nb::ndarray<nb::numpy, T, nb::shape<2>>(data, 1, shape, deleter);
+        }, "Convert vec2 to numpy array")
         .def("set", &Vec::set, nb::arg("x"), nb::arg("y"))
         .def("set_all", &Vec::set_all, nb::arg("a"))
         .def("length", &Vec::length)
@@ -54,6 +67,17 @@ void bind_vec3(nb::module_ &m, const char *name) {
         .def_rw("x", &Vec::x)
         .def_rw("y", &Vec::y)
         .def_rw("z", &Vec::z)
+        .def_static("from_numpy", [](nb::ndarray<T, nb::shape<3>> arr) {
+            return Vec(arr(0), arr(1), arr(2));
+        }, nb::arg("array"), "Create vec3 from numpy array")
+        .def("to_numpy", [](const Vec &v) {
+            T* data = new T[3]{v.x, v.y, v.z};
+            size_t shape[1] = {3};
+            nb::capsule deleter(data, [](void *p) noexcept {
+                delete[] (T*)p;
+            });
+            return nb::ndarray<nb::numpy, T, nb::shape<3>>(data, 1, shape, deleter);
+        }, "Convert vec3 to numpy array")
         .def("set", &Vec::set, nb::arg("x"), nb::arg("y"), nb::arg("z"))
         .def("set_all", &Vec::set_all, nb::arg("a"))
         .def("length", &Vec::length)
@@ -95,6 +119,17 @@ void bind_vec4(nb::module_ &m, const char *name) {
         .def_rw("y", &Vec::y)
         .def_rw("z", &Vec::z)
         .def_rw("w", &Vec::w)
+        .def_static("from_numpy", [](nb::ndarray<T, nb::shape<4>> arr) {
+            return Vec(arr(0), arr(1), arr(2), arr(3));
+        }, nb::arg("array"), "Create vec4 from numpy array")
+        .def("to_numpy", [](const Vec &v) {
+            T* data = new T[4]{v.x, v.y, v.z, v.w};
+            size_t shape[1] = {4};
+            nb::capsule deleter(data, [](void *p) noexcept {
+                delete[] (T*)p;
+            });
+            return nb::ndarray<nb::numpy, T, nb::shape<4>>(data, 1, shape, deleter);
+        }, "Convert vec4 to numpy array")
         .def("set", &Vec::set, nb::arg("x"), nb::arg("y"), nb::arg("z"), nb::arg("w"))
         .def("set_all", &Vec::set_all, nb::arg("a"))
         .def("length", &Vec::length)
@@ -126,6 +161,28 @@ void bind_matrix3(nb::module_ &m, const char *name) {
 
     nb::class_<Mat>(m, name)
         .def(nb::init<>())
+        .def_static("from_numpy", [](nb::ndarray<T, nb::shape<3, 3>> arr) {
+            Mat result;
+            for (int row = 0; row < 3; row++) {
+                for (int col = 0; col < 3; col++) {
+                    result.ij[col][row] = arr(row, col);
+                }
+            }
+            return result;
+        }, nb::arg("array"), "Create mat3 from numpy array")
+        .def("to_numpy", [](const Mat &m) {
+            T* data = new T[9];
+            for (int row = 0; row < 3; row++) {
+                for (int col = 0; col < 3; col++) {
+                    data[row * 3 + col] = m.ij[col][row];
+                }
+            }
+            size_t shape[2] = {3, 3};
+            nb::capsule deleter(data, [](void *p) noexcept {
+                delete[] (T*)p;
+            });
+            return nb::ndarray<nb::numpy, T, nb::shape<3, 3>>(data, 2, shape, deleter);
+        }, "Convert mat3 to numpy array")
         .def("identity", &Mat::identity, "Set to identity matrix")
         .def("zero", &Mat::zero, "Set to zero matrix")
         .def("translation", nb::overload_cast<T, T>(&Mat::translation),
@@ -234,6 +291,28 @@ void bind_matrix4(nb::module_ &m, const char *name) {
 
     nb::class_<Mat>(m, name)
         .def(nb::init<>())
+        .def_static("from_numpy", [](nb::ndarray<T, nb::shape<4, 4>> arr) {
+            Mat result;
+            for (int row = 0; row < 4; row++) {
+                for (int col = 0; col < 4; col++) {
+                    result.ij[col][row] = arr(row, col);
+                }
+            }
+            return result;
+        }, nb::arg("array"), "Create mat4 from numpy array")
+        .def("to_numpy", [](const Mat &m) {
+            T* data = new T[16];
+            for (int row = 0; row < 4; row++) {
+                for (int col = 0; col < 4; col++) {
+                    data[row * 4 + col] = m.ij[col][row];
+                }
+            }
+            size_t shape[2] = {4, 4};
+            nb::capsule deleter(data, [](void *p) noexcept {
+                delete[] (T*)p;
+            });
+            return nb::ndarray<nb::numpy, T, nb::shape<4, 4>>(data, 2, shape, deleter);
+        }, "Convert mat4 to numpy array")
         .def("identity", &Mat::identity, "Set to identity matrix")
         .def("zero", &Mat::zero, "Set to zero matrix")
         .def("translation", nb::overload_cast<T, T, T>(&Mat::translation),
@@ -352,6 +431,17 @@ void bind_quaternion(nb::module_ &m, const char *name) {
     nb::class_<Quat>(m, name)
         .def(nb::init<>())
         .def(nb::init<T, T, T, T>(), nb::arg("x"), nb::arg("y"), nb::arg("z"), nb::arg("w"))
+        .def_static("from_numpy", [](nb::ndarray<T, nb::shape<4>> arr) {
+            return Quat(arr(0), arr(1), arr(2), arr(3));
+        }, nb::arg("array"), "Create quaternion from numpy array")
+        .def("to_numpy", [](const Quat &q) {
+            T* data = new T[4]{q.x, q.y, q.z, q.w};
+            size_t shape[1] = {4};
+            nb::capsule deleter(data, [](void *p) noexcept {
+                delete[] (T*)p;
+            });
+            return nb::ndarray<nb::numpy, T, nb::shape<4>>(data, 1, shape, deleter);
+        }, "Convert quaternion to numpy array")
         .def_rw("x", &Quat::x)
         .def_rw("y", &Quat::y)
         .def_rw("z", &Quat::z)

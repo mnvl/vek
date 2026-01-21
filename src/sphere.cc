@@ -59,7 +59,7 @@ sphere<N,T>::query_intersection(ray<N, T> const &r, vec_t &p1, vec_t &p2) const
 	p1 = r.a * t1 + r.r0;
 
 	scalar_t t2 = (-B - discriminant_sqrt) / (2 * A);
-	p2 = r.a * t1 + r.r0;
+	p2 = r.a * t2 + r.r0;
 
 	return 2;
 }

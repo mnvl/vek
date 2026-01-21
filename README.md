@@ -220,6 +220,33 @@ The generated documentation includes:
 - Mathematical explanations for transformations
 - Usage examples and parameter descriptions
 
+### Python Documentation
+
+Comprehensive Sphinx documentation for the Python bindings.
+
+**Install Sphinx:**
+```bash
+pip install -r docs/python/requirements.txt
+```
+
+**Build documentation:**
+```bash
+cd docs/python
+make html
+```
+
+**View documentation:**
+```bash
+xdg-open docs/python/_build/html/index.html
+```
+
+The Python documentation includes:
+- Getting started guide and tutorials
+- Complete API reference for all classes
+- NumPy integration examples
+- Performance optimization tips
+- Practical usage examples
+
 ## API Reference
 
 ### Vector Operations

@@ -146,9 +146,9 @@ BOOST_AUTO_TEST_CASE(triangle_circumcircle_radius)
 	);
 
 	rove::scalar r = tri.circumcircle_radius();
-	// Verify that the radius is positive and reasonable
-	BOOST_REQUIRE(r > 0);
-	BOOST_REQUIRE(r < 10);
+	// For a right triangle, circumradius = hypotenuse / 2 = 2*sqrt(2) / 2 = sqrt(2)
+	rove::scalar expected = rove::square_root(2.0f);
+	BOOST_REQUIRE(rove::abs(r - expected) < 0.01f);
 }
 
 BOOST_AUTO_TEST_CASE(triangle_get_circumcircle)
@@ -160,9 +160,13 @@ BOOST_AUTO_TEST_CASE(triangle_get_circumcircle)
 	);
 
 	rove::sphere<3> sphere = tri.get_circumcircle();
-	// Verify that the sphere radius is positive and reasonable
-	BOOST_REQUIRE(sphere.radius > 0);
-	BOOST_REQUIRE(sphere.radius < 10);
+	// For a right triangle, circumradius = hypotenuse / 2 = sqrt(2)
+	rove::scalar expected = rove::square_root(2.0f);
+	BOOST_REQUIRE(rove::abs(sphere.radius - expected) < 0.01f);
+	// Circumcenter should be at midpoint of hypotenuse: (1, 1, 0)
+	BOOST_REQUIRE(rove::abs(sphere.centre.x - 1.0f) < 0.01f);
+	BOOST_REQUIRE(rove::abs(sphere.centre.y - 1.0f) < 0.01f);
+	BOOST_REQUIRE(rove::abs(sphere.centre.z) < 0.01f);
 }
 
 BOOST_AUTO_TEST_CASE(triangle_incenter)
@@ -189,9 +193,8 @@ BOOST_AUTO_TEST_CASE(triangle_incircle_radius)
 	);
 
 	rove::scalar r = tri.incircle_radius();
-	// Verify that the radius is positive and reasonable
-	BOOST_REQUIRE(r > 0);
-	BOOST_REQUIRE(r < 3);
+	// For a 3-4-5 right triangle: area = 6, perimeter = 12, inradius = 2*area/perimeter = 1
+	BOOST_REQUIRE(rove::abs(r - 1.0f) < 0.01f);
 }
 
 BOOST_AUTO_TEST_CASE(triangle_get_incircle)

@@ -107,18 +107,12 @@ public:
         vec_t a = B - C;
         vec_t b = C - A;
         vec_t c = A - B;
-	
-        scalar_t d1 = -(b & c);
-        scalar_t d2 = -(c & a);
-        scalar_t d3 = -(a & b);
-	
-        scalar_t e1 = d2 * d3;
-        scalar_t e2 = d3 * d1;
-        scalar_t e3 = d1 * d2;
-	
-        scalar_t e = e1 + e2 + e3;
-	
-        return scalar_t(0.5)*sqrt((a.length_sq()+b.length_sq()+c.length_sq())/e);
+
+        scalar_t ab = a.length();
+        scalar_t bc = b.length();
+        scalar_t ca = c.length();
+
+        return (ab * bc * ca) / (scalar_t(4) * area());
     }
 	
     sphere_t get_circumcircle() const {
@@ -144,12 +138,12 @@ public:
         vec_t a = B - C;
         vec_t b = C - A;
         vec_t c = A - B;
-	
+
         scalar_t ab=a.length();
         scalar_t bc=b.length();
         scalar_t ca=c.length();
-	
-        return area()/(ab+bc+ca);
+
+        return scalar_t(2)*area()/(ab+bc+ca);
     }
 	
     sphere_t get_incircle() const {

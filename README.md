@@ -188,6 +188,38 @@ All code lives in `src/` under the `rove` namespace.
 - Matrices use column-major storage (OpenGL style)
 - Collision functions return bool and populate output parameters by reference
 
+## Documentation
+
+The library includes comprehensive Doxygen documentation in the header files.
+
+### Generating Documentation
+
+**Install Doxygen:**
+```bash
+sudo apt install doxygen graphviz
+```
+
+**Generate HTML documentation:**
+```bash
+./generate_docs.sh
+```
+
+Or manually:
+```bash
+doxygen Doxyfile
+```
+
+**View the documentation:**
+```bash
+xdg-open docs/html/index.html
+```
+
+The generated documentation includes:
+- Detailed API reference for all classes and functions
+- Class hierarchy and collaboration diagrams
+- Mathematical explanations for transformations
+- Usage examples and parameter descriptions
+
 ## API Reference
 
 ### Vector Operations

@@ -4,6 +4,7 @@
 
 #include "vec.h"
 #include "matrix.h"
+#include "quaternion.h"
 
 namespace nb = nanobind;
 
@@ -121,6 +122,7 @@ void bind_matrix3(nb::module_ &m, const char *name) {
     using Mat = vek::matrix<3, 3, T>;
     using Vec3 = vek::vec<3, T>;
     using Vec2 = vek::vec<2, T>;
+    using Quat = vek::quaternion<T>;
 
     nb::class_<Mat>(m, name)
         .def(nb::init<>())
@@ -144,8 +146,12 @@ void bind_matrix3(nb::module_ &m, const char *name) {
              nb::arg("p"), "Apply scaling")
         .def("rotation", nb::overload_cast<const Vec3&, T>(&Mat::rotation),
              nb::arg("axis"), nb::arg("angle"), "Set to rotation matrix")
+        .def("rotation", nb::overload_cast<const Quat&>(&Mat::rotation),
+             nb::arg("q"), "Set to rotation matrix from quaternion")
         .def("rotate", nb::overload_cast<const Vec3&, T>(&Mat::rotate),
              nb::arg("axis"), nb::arg("angle"), "Apply rotation")
+        .def("rotate", nb::overload_cast<const Quat&>(&Mat::rotate),
+             nb::arg("q"), "Apply rotation from quaternion")
         .def("determinant", &Mat::determinant, "Compute determinant")
         .def("trace", &Mat::trace, "Compute trace")
         .def("invert", &Mat::invert, "Invert matrix in place")
@@ -224,6 +230,7 @@ void bind_matrix4(nb::module_ &m, const char *name) {
     using Mat = vek::matrix<4, 4, T>;
     using Vec3 = vek::vec<3, T>;
     using Vec4 = vek::vec<4, T>;
+    using Quat = vek::quaternion<T>;
 
     nb::class_<Mat>(m, name)
         .def(nb::init<>())
@@ -247,8 +254,12 @@ void bind_matrix4(nb::module_ &m, const char *name) {
              nb::arg("p"), "Apply scaling")
         .def("rotation", nb::overload_cast<const Vec3&, T>(&Mat::rotation),
              nb::arg("axis"), nb::arg("angle"), "Set to rotation matrix")
+        .def("rotation", nb::overload_cast<const Quat&>(&Mat::rotation),
+             nb::arg("q"), "Set to rotation matrix from quaternion")
         .def("rotate", nb::overload_cast<const Vec3&, T>(&Mat::rotate),
              nb::arg("axis"), nb::arg("angle"), "Apply rotation")
+        .def("rotate", nb::overload_cast<const Quat&>(&Mat::rotate),
+             nb::arg("q"), "Apply rotation from quaternion")
         .def("lookat", &Mat::lookat,
              nb::arg("eye"), nb::arg("at"), nb::arg("up"), "Set to lookat matrix")
         .def("ortho", &Mat::ortho,
@@ -333,6 +344,51 @@ void bind_matrix4(nb::module_ &m, const char *name) {
         }, nb::arg("i"), nb::arg("j"), nb::arg("value"), "Set matrix element at [i][j]");
 }
 
+template<typename T>
+void bind_quaternion(nb::module_ &m, const char *name) {
+    using Quat = vek::quaternion<T>;
+    using Vec3 = vek::vec<3, T>;
+
+    nb::class_<Quat>(m, name)
+        .def(nb::init<>())
+        .def(nb::init<T, T, T, T>(), nb::arg("x"), nb::arg("y"), nb::arg("z"), nb::arg("w"))
+        .def_rw("x", &Quat::x)
+        .def_rw("y", &Quat::y)
+        .def_rw("z", &Quat::z)
+        .def_rw("w", &Quat::w)
+        .def("identity", &Quat::identity, "Set to identity quaternion (0, 0, 0, 1)")
+        .def("norm", &Quat::norm, "Compute quaternion norm")
+        .def("normalize", &Quat::normalize, "Normalize quaternion in place")
+        .def("normalized", &Quat::normalized, "Return normalized quaternion")
+        .def("scale", &Quat::scale, nb::arg("s"), "Scale quaternion by scalar")
+        .def("__neg__", [](const Quat &q) { return -q; })
+        .def("__add__", [](const Quat &p, const Quat &q) { return p + q; })
+        .def("__sub__", [](const Quat &p, const Quat &q) { return p - q; })
+        .def("__mul__", [](const Quat &q, T s) { return q * s; })
+        .def("__rmul__", [](const Quat &q, T s) { return q * s; })
+        .def("__repr__", [](const Quat &q) {
+            std::ostringstream ss;
+            ss << "quat(" << q.x << ", " << q.y << ", " << q.z << ", " << q.w << ")";
+            return ss.str();
+        })
+        .def("dot", [](const Quat &p, const Quat &q) {
+            return vek::dot_product(p, q);
+        }, nb::arg("other"), "Compute dot product with another quaternion");
+}
+
+template<typename T>
+void bind_quaternion_slerper(nb::module_ &m, const char *name) {
+    using Slerper = vek::quaternion_slerper<T>;
+    using Quat = vek::quaternion<T>;
+
+    nb::class_<Slerper>(m, name)
+        .def(nb::init<>())
+        .def("setup", &Slerper::setup, nb::arg("p"), nb::arg("q"),
+             "Setup SLERP between two quaternions")
+        .def("interpolate", nb::overload_cast<T>(&Slerper::interpolate, nb::const_),
+             nb::arg("t"), "Interpolate between quaternions at parameter t [0,1]");
+}
+
 NB_MODULE(pyvek, m) {
     m.doc() = "Python bindings for vek vector math library";
 
@@ -353,6 +409,14 @@ NB_MODULE(pyvek, m) {
     // Bind matrix double versions
     bind_matrix3<double>(m, "dmat3");
     bind_matrix4<double>(m, "dmat4");
+
+    // Bind quaternion float versions (default)
+    bind_quaternion<float>(m, "quat");
+    bind_quaternion_slerper<float>(m, "quat_slerper");
+
+    // Bind quaternion double versions
+    bind_quaternion<double>(m, "dquat");
+    bind_quaternion_slerper<double>(m, "dquat_slerper");
 
     // Free functions
     m.def("dot", [](const vek::vec<2, float> &a, const vek::vec<2, float> &b) {
@@ -384,4 +448,15 @@ NB_MODULE(pyvek, m) {
     m.def("normalize", [](const vek::vec<4, float> &v) {
         return vek::normalize(v);
     }, nb::arg("v"), "Return normalized vec4");
+
+    // Quaternion free functions
+    m.def("dot", [](const vek::quaternion<float> &p, const vek::quaternion<float> &q) {
+        return vek::dot_product(p, q);
+    }, nb::arg("p"), nb::arg("q"), "Compute dot product of two quaternions");
+
+    m.def("slerp", [](const vek::quaternion<float> &p, const vek::quaternion<float> &q, float t) {
+        vek::quaternion_slerper<float> slerper;
+        slerper.setup(p, q);
+        return slerper.interpolate(t);
+    }, nb::arg("p"), nb::arg("q"), nb::arg("t"), "Spherical linear interpolation between quaternions");
 }

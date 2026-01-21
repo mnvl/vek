@@ -9,7 +9,7 @@
 #include "sphere.h"
 #include "matrix.h"
 
-namespace vek {
+namespace rove {
 
 template<int N,class T=scalar> class triangle;
 

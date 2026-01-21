@@ -6,9 +6,9 @@ BOOST_AUTO_TEST_SUITE (brezenham_supercover)
 
 BOOST_AUTO_TEST_CASE (one_point)
 {
-	vek::bresenham_supercover<> bs(vek::vec<2, int>(1, 5), vek::vec<2, int>(1, 5));
+	rove::bresenham_supercover<> bs(rove::vec<2, int>(1, 5), rove::vec<2, int>(1, 5));
 
-	vek::vec<2, int> position;
+	rove::vec<2, int> position;
 	bool flag;
 
 	boost::tie(position, flag) = bs.get();
@@ -22,9 +22,9 @@ BOOST_AUTO_TEST_CASE (one_point)
 
 BOOST_AUTO_TEST_CASE (two_points_digonal_1)
 {
-	vek::bresenham_supercover<> bs(vek::vec<2, int>(1, 5), vek::vec<2, int>(2, 6));
+	rove::bresenham_supercover<> bs(rove::vec<2, int>(1, 5), rove::vec<2, int>(2, 6));
 
-	vek::vec<2, int> position;
+	rove::vec<2, int> position;
 	bool flag;
 
 	boost::tie(position, flag) = bs.get();
@@ -53,9 +53,9 @@ BOOST_AUTO_TEST_CASE (two_points_digonal_1)
 
 BOOST_AUTO_TEST_CASE (two_points_digonal_2)
 {
-	vek::bresenham_supercover<> bs(vek::vec<2, int>(1, 5), vek::vec<2, int>(2, 4));
+	rove::bresenham_supercover<> bs(rove::vec<2, int>(1, 5), rove::vec<2, int>(2, 4));
 
-	vek::vec<2, int> position;
+	rove::vec<2, int> position;
 	bool flag;
 
 	boost::tie(position, flag) = bs.get();
@@ -85,9 +85,9 @@ BOOST_AUTO_TEST_CASE (two_points_digonal_2)
 
 BOOST_AUTO_TEST_CASE (two_points_digonal_3)
 {
-	vek::bresenham_supercover<> bs(vek::vec<2, int>(2, 6), vek::vec<2, int>(1, 5));
+	rove::bresenham_supercover<> bs(rove::vec<2, int>(2, 6), rove::vec<2, int>(1, 5));
 
-	vek::vec<2, int> position;
+	rove::vec<2, int> position;
 	bool flag;
 
 	boost::tie(position, flag) = bs.get();
@@ -116,9 +116,9 @@ BOOST_AUTO_TEST_CASE (two_points_digonal_3)
 
 BOOST_AUTO_TEST_CASE (two_points_digonal_4)
 {
-	vek::bresenham_supercover<> bs(vek::vec<2, int>(2, 4), vek::vec<2, int>(1, 5));
+	rove::bresenham_supercover<> bs(rove::vec<2, int>(2, 4), rove::vec<2, int>(1, 5));
 
-	vek::vec<2, int> position;
+	rove::vec<2, int> position;
 	bool flag;
 
 	boost::tie(position, flag) = bs.get();
@@ -147,9 +147,9 @@ BOOST_AUTO_TEST_CASE (two_points_digonal_4)
 
 BOOST_AUTO_TEST_CASE (three_points_digonal_1)
 {
-	vek::bresenham_supercover<> bs(vek::vec<2, int>(1, 5), vek::vec<2, int>(3, 6));
+	rove::bresenham_supercover<> bs(rove::vec<2, int>(1, 5), rove::vec<2, int>(3, 6));
 
-	vek::vec<2, int> position;
+	rove::vec<2, int> position;
 	bool flag;
 
 	boost::tie(position, flag) = bs.get();
@@ -178,9 +178,9 @@ BOOST_AUTO_TEST_CASE (three_points_digonal_1)
 
 BOOST_AUTO_TEST_CASE (three_points_digonal_2)
 {
-	vek::bresenham_supercover<> bs(vek::vec<2, int>(1, 5), vek::vec<2, int>(3, 4));
+	rove::bresenham_supercover<> bs(rove::vec<2, int>(1, 5), rove::vec<2, int>(3, 4));
 
-	vek::vec<2, int> position;
+	rove::vec<2, int> position;
 	bool flag;
 
 	boost::tie(position, flag) = bs.get();
@@ -209,9 +209,9 @@ BOOST_AUTO_TEST_CASE (three_points_digonal_2)
 
 BOOST_AUTO_TEST_CASE (three_points_digonal_3)
 {
-	vek::bresenham_supercover<> bs(vek::vec<2, int>(3, 6), vek::vec<2, int>(1, 5));
+	rove::bresenham_supercover<> bs(rove::vec<2, int>(3, 6), rove::vec<2, int>(1, 5));
 
-	vek::vec<2, int> position;
+	rove::vec<2, int> position;
 	bool flag;
 
 	boost::tie(position, flag) = bs.get();
@@ -240,9 +240,9 @@ BOOST_AUTO_TEST_CASE (three_points_digonal_3)
 
 BOOST_AUTO_TEST_CASE (three_points_digonal_4)
 {
-	vek::bresenham_supercover<> bs(vek::vec<2, int>(3, 4), vek::vec<2, int>(1, 5));
+	rove::bresenham_supercover<> bs(rove::vec<2, int>(3, 4), rove::vec<2, int>(1, 5));
 
-	vek::vec<2, int> position;
+	rove::vec<2, int> position;
 	bool flag;
 
 	boost::tie(position, flag) = bs.get();
@@ -271,9 +271,9 @@ BOOST_AUTO_TEST_CASE (three_points_digonal_4)
 
 BOOST_AUTO_TEST_CASE (many_points_1)
 {
-	vek::bresenham_supercover<> bs(vek::vec<2, int>(1, 1), vek::vec<2, int>(12, 9));
+	rove::bresenham_supercover<> bs(rove::vec<2, int>(1, 1), rove::vec<2, int>(12, 9));
 
-	vek::vec<2, int> position;
+	rove::vec<2, int> position;
 	bool flag;
 
 	boost::tie(position, flag) = bs.get();
@@ -382,9 +382,9 @@ BOOST_AUTO_TEST_CASE (many_points_1)
 
 BOOST_AUTO_TEST_CASE (many_points_2)
 {
-	vek::bresenham_supercover<> bs(vek::vec<2, int>(4, 7), vek::vec<2, int>(0, 0));
+	rove::bresenham_supercover<> bs(rove::vec<2, int>(4, 7), rove::vec<2, int>(0, 0));
 
-	vek::vec<2, int> position, prev_position;
+	rove::vec<2, int> position, prev_position;
 	bool flag;
 
 	do
@@ -397,9 +397,9 @@ BOOST_AUTO_TEST_CASE (many_points_2)
 
 BOOST_AUTO_TEST_CASE (final_point_1)
 {
-	vek::bresenham_supercover<> bs(vek::vec<2, int>(2, 5), vek::vec<2, int>(0, 0));
+	rove::bresenham_supercover<> bs(rove::vec<2, int>(2, 5), rove::vec<2, int>(0, 0));
 
-	vek::vec<2, int> position, prev_position;
+	rove::vec<2, int> position, prev_position;
 	bool flag;
 
 	do
@@ -422,9 +422,9 @@ BOOST_AUTO_TEST_CASE (final_point_2)
 		int y1 = rand() % 1000;
 		int y2 = rand() % 1000;
 
-		vek::bresenham_supercover<> bs(vek::vec<2, int>(x1, y1), vek::vec<2, int>(x2, y2));
+		rove::bresenham_supercover<> bs(rove::vec<2, int>(x1, y1), rove::vec<2, int>(x2, y2));
 
-		vek::vec<2, int> position, prev_position;
+		rove::vec<2, int> position, prev_position;
 		bool flag;
 
 		do

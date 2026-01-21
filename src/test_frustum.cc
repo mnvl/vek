@@ -8,12 +8,12 @@ BOOST_AUTO_TEST_SUITE(frustum)
 
 BOOST_AUTO_TEST_CASE(orthographic_projection_and_obb_1)
 {
-	vek::matrix<4,4> tf;
+	rove::matrix<4,4> tf;
 	tf.ortho(400, 300, 0, 1000);
 
-	vek::frustum<> fr(tf);
+	rove::frustum<> fr(tf);
 
-	vek::obb<3> bound;
+	rove::obb<3> bound;
 	bound.origin.set(-1000, 0, 0);
 	bound.tangent.set(1, 0, 0);
 	bound.normal.set(0, 1, 0);
@@ -24,12 +24,12 @@ BOOST_AUTO_TEST_CASE(orthographic_projection_and_obb_1)
 
 BOOST_AUTO_TEST_CASE(orthographic_projection_and_obb_2)
 {
-	vek::matrix<4,4> tf;
+	rove::matrix<4,4> tf;
 	tf.ortho(400, 300, 0, 1000);
 
-	vek::frustum<> fr(tf);
+	rove::frustum<> fr(tf);
 
-	vek::obb<3> bound;
+	rove::obb<3> bound;
 	bound.origin.set(-199.5f, 0, 0);
 	bound.tangent.set(1, 0, 0);
 	bound.normal.set(0, 1, 0);
@@ -40,12 +40,12 @@ BOOST_AUTO_TEST_CASE(orthographic_projection_and_obb_2)
 
 BOOST_AUTO_TEST_CASE(orthographic_projection_and_obb_3)
 {
-	vek::matrix<4,4> tf;
+	rove::matrix<4,4> tf;
 	tf.ortho(400, 300, 0, 1000);
 
-	vek::frustum<> fr(tf);
+	rove::frustum<> fr(tf);
 
-	vek::obb<3> bound;
+	rove::obb<3> bound;
 	bound.origin.set(0, 0, 0);
 	bound.tangent.set(1, 0, 0);
 	bound.normal.set(0, 1, 0);
@@ -56,12 +56,12 @@ BOOST_AUTO_TEST_CASE(orthographic_projection_and_obb_3)
 
 BOOST_AUTO_TEST_CASE(orthographic_projection_and_obb_4)
 {
-	vek::matrix<4,4> tf;
+	rove::matrix<4,4> tf;
 	tf.ortho(400, 300, 0, 1000);
 
-	vek::frustum<> fr(tf);
+	rove::frustum<> fr(tf);
 
-	vek::obb<3> bound;
+	rove::obb<3> bound;
 	bound.origin.set(199.5f, 0, 0);
 	bound.tangent.set(1, 0, 0);
 	bound.normal.set(0, 1, 0);
@@ -72,12 +72,12 @@ BOOST_AUTO_TEST_CASE(orthographic_projection_and_obb_4)
 
 BOOST_AUTO_TEST_CASE(orthographic_projection_and_obb_5)
 {
-	vek::matrix<4,4> tf;
+	rove::matrix<4,4> tf;
 	tf.ortho(400, 300, 0, 1000);
 
-	vek::frustum<> fr(tf);
+	rove::frustum<> fr(tf);
 
-	vek::obb<3> bound;
+	rove::obb<3> bound;
 	bound.origin.set(1000, 0, 0);
 	bound.tangent.set(1, 0, 0);
 	bound.normal.set(0, 1, 0);
@@ -88,15 +88,15 @@ BOOST_AUTO_TEST_CASE(orthographic_projection_and_obb_5)
 
 BOOST_AUTO_TEST_CASE(orthographic_projection_with_rotation_and_obb_1)
 {
-	vek::matrix<4,4> projection;
+	rove::matrix<4,4> projection;
 	projection.ortho(400, 300, 0, 1000);
 
-	vek::matrix<4,4> world;
-	world.rotation(-vek::PI/4, 0, 0);
+	rove::matrix<4,4> world;
+	world.rotation(-rove::PI/4, 0, 0);
 
-	vek::frustum<> fr(world * projection);
+	rove::frustum<> fr(world * projection);
 
-	vek::obb<3> bound;
+	rove::obb<3> bound;
 	bound.origin.set(0, 1000, 0);
 	bound.tangent.set(1, 0, 0);
 	bound.normal.set(0, 1, 0);
@@ -107,15 +107,15 @@ BOOST_AUTO_TEST_CASE(orthographic_projection_with_rotation_and_obb_1)
 
 BOOST_AUTO_TEST_CASE(orthographic_projection_with_rotation_and_obb_2)
 {
-	vek::matrix<4,4> projection;
+	rove::matrix<4,4> projection;
 	projection.ortho(400, 300, 0, 1000);
 
-	vek::matrix<4,4> world;
-	world.rotation(-vek::PI/4, 0, 0);
+	rove::matrix<4,4> world;
+	world.rotation(-rove::PI/4, 0, 0);
 
-	vek::frustum<> fr(world * projection);
+	rove::frustum<> fr(world * projection);
 
-	vek::obb<3> bound;
+	rove::obb<3> bound;
 	bound.origin.set(0, 0, 0);
 	bound.tangent.set(1, 0, 0);
 	bound.normal.set(0, 1, 0);
@@ -126,15 +126,15 @@ BOOST_AUTO_TEST_CASE(orthographic_projection_with_rotation_and_obb_2)
 
 BOOST_AUTO_TEST_CASE(orthographic_projection_with_rotation_and_obb_3)
 {
-	vek::matrix<4,4> projection;
+	rove::matrix<4,4> projection;
 	projection.ortho(400, 300, 0, 1000);
 
-	vek::matrix<4,4> world;
-	world.rotation(-vek::PI/4, 0, 0);
+	rove::matrix<4,4> world;
+	world.rotation(-rove::PI/4, 0, 0);
 
-	vek::frustum<> fr(world * projection);
+	rove::frustum<> fr(world * projection);
 
-	vek::obb<3> bound;
+	rove::obb<3> bound;
 	bound.origin.set(0, -1000, 0);
 	bound.tangent.set(1, 0, 0);
 	bound.normal.set(0, 1, 0);
@@ -145,16 +145,16 @@ BOOST_AUTO_TEST_CASE(orthographic_projection_with_rotation_and_obb_3)
 
 BOOST_AUTO_TEST_CASE(perspective_projection_with_rotation_translation_and_obb_1)
 {
-	vek::matrix<4,4> projection;
-	projection.perspective(vek::PI/2, 1.5f, 0, 1000);
+	rove::matrix<4,4> projection;
+	projection.perspective(rove::PI/2, 1.5f, 0, 1000);
 
-	vek::matrix<4,4> world;
+	rove::matrix<4,4> world;
 	world.translation(-500, -10, 500);
-	world.rotate(-vek::PI/4, 0, 0);
+	world.rotate(-rove::PI/4, 0, 0);
 
-	vek::frustum<> fr(world * projection);
+	rove::frustum<> fr(world * projection);
 
-	vek::obb<3> bound;
+	rove::obb<3> bound;
 	bound.origin.set(510, 2, 490);
 	bound.tangent.set(1, 0, 0);
 	bound.normal.set(0, 1, 0);
@@ -170,7 +170,7 @@ BOOST_AUTO_TEST_CASE(perspective_projection_with_rotation_translation_and_obb_1)
 
 BOOST_AUTO_TEST_CASE(from_matrix_and_intersection_with_obb_1)
 {
-	vek::matrix<4,4> tf;
+	rove::matrix<4,4> tf;
 	tf._11 =  0.20000000f;
 	tf._12 =  0.00000000f;
 	tf._13 =  0.00000000f;
@@ -188,9 +188,9 @@ BOOST_AUTO_TEST_CASE(from_matrix_and_intersection_with_obb_1)
 	tf._43 =  0.012431229f;
 	tf._44 =  1.0000000f;
 
-	vek::frustum<> fr(tf);
+	rove::frustum<> fr(tf);
 
-	vek::obb<3> bound;
+	rove::obb<3> bound;
 	bound.origin.set(-5.6245117f, 0.00000000f, 23.716305f);
 	bound.tangent.set(2.0000000f, 0.00000000f, 0.00000000f);
 	bound.normal.set(0.00000000f, 1.0000000f, 0.00000000f);

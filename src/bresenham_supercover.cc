@@ -1,7 +1,7 @@
 
 #include "bresenham_supercover.h"
 
-namespace vek
+namespace rove
 {
 
 template<class T>

@@ -8,7 +8,7 @@
 #include "matrix.h"
 #include "collision.h"
 
-namespace vek
+namespace rove
 {
 
 template<class T = scalar>
@@ -34,7 +34,7 @@ public:
     matrix<4,4> const &get_world_to_local() const { return world_to_local_; }
 	aabb<3> const &get_local_aabb() const { return local_aabb_; }
 
-	void set_local_to_world(vek::matrix<4, 4> const &tf);
+	void set_local_to_world(rove::matrix<4, 4> const &tf);
 	cell_t world_position_to_cell(vec<3> const &position) const;
 	vec<3> cell_to_world_position(cell_t const &cell) const;
     contact_info<3> trace(ray<3> const &r, scalar max_distance = 1000.0f) const;

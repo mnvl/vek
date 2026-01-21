@@ -8,21 +8,21 @@ BOOST_AUTO_TEST_SUITE (capsule)
 
 BOOST_AUTO_TEST_CASE (bounds_1)
 {
-	using vek::random;
+	using rove::random;
 
 	unsigned false_positives = 0;
 
 	for (int i = 0; i < 100; i++)
 	{
-		vek::capsule<3> c(vek::vec<3>(random(), random(), random()), vek::vec<3>(random(), random(), random()),
-			vek::abs(random()) + 0.001f);
+		rove::capsule<3> c(rove::vec<3>(random(), random(), random()), rove::vec<3>(random(), random(), random()),
+			rove::abs(random()) + 0.001f);
 
-		vek::aabb<3> b;
+		rove::aabb<3> b;
 		c.get_aabb(b);
 
 		for (int j = 0; j < 100; j++)
 		{
-			vek::vec<3> point(random(), random(), random());
+			rove::vec<3> point(random(), random(), random());
 
 			bool b1 = c.contains(point);
 			bool b2 = b.contains(point);

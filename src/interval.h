@@ -2,7 +2,7 @@
 
 #include "scalar.h"
 
-namespace vek
+namespace rove
 {
 
 template<class T = scalar>

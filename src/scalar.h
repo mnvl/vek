@@ -5,7 +5,7 @@
 #include <cmath>
 #include <algorithm>
 
-namespace vek
+namespace rove
 {
 
 typedef float scalar;

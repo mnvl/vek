@@ -2,7 +2,7 @@
 #include "matrix.h"
 #include "ray.h"
 
-namespace vek
+namespace rove
 {
 
 namespace
@@ -52,13 +52,13 @@ template<class T> bool query_intersection(ray<2, T> const &r1, ray<2, T> const &
 template<int N, class T> T
 ray<N, T>::distance(ray const &r) const
 {
-	return vek::distance(*this, r);
+	return rove::distance(*this, r);
 }
 
 template<int N, class T> bool
 ray<N, T>::query_intersection(ray const &r, scalar_t &t) const
 {
-	return vek::query_intersection(*this, r, t);
+	return rove::query_intersection(*this, r, t);
 }
 
 template class ray<2>;

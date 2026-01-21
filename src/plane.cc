@@ -4,7 +4,7 @@
 #include "obb.h"
 #include "plane.h"
 
-namespace vek
+namespace rove
 {
 
 template<class T> typename plane<T>::vec_t

@@ -9,7 +9,7 @@
 #include "obb.h"
 #include "contact_info.h"
 
-namespace vek
+namespace rove
 {
 
 static scalar const COLLISION_EPSILON = 0.001f;
@@ -33,8 +33,8 @@ bool collide(sphere<N, S> const &s1, sphere<N, S> const &s2, vec<N, S> const &ve
 
 		if (ci.penetration_depth > COLLISION_EPSILON) {
 			ci.penetrated = true;
-			ci.position = s1.centre - vek::normalize(delta) * (s1.radius - ci.penetration_depth);
-			ci.normal = vek::normalize(-delta);
+			ci.position = s1.centre - rove::normalize(delta) * (s1.radius - ci.penetration_depth);
+			ci.normal = rove::normalize(-delta);
 			ci.time = 0;
 			return ci.happened = true;
 		}
@@ -68,7 +68,7 @@ bool collide(sphere<N, S> const &s1, sphere<N, S> const &s2, vec<N, S> const &ve
 	}
 
 	ci.position = s2.centre + vel * ci.time;
-	ci.normal = vek::normalize(ci.position - s1.centre);
+	ci.normal = rove::normalize(ci.position - s1.centre);
 
 	return ci.happened = true;
 }
@@ -85,7 +85,7 @@ bool collide(line<N, S> const &l, sphere<N, S> const &s, vec<N, S> const &vel, c
 			ci.penetrated = false;
 		} else {
 			ci.penetrated = true;
-			ci.normal = vek::normalize(s.centre - ci.position);
+			ci.normal = rove::normalize(s.centre - ci.position);
 			ci.time = 0;
 
 			return ci.happened = true;
@@ -94,7 +94,7 @@ bool collide(line<N, S> const &l, sphere<N, S> const &s, vec<N, S> const &vel, c
 		ci.penetrated = false;
 	}
 
-	vec<N, S> l_dir = vek::normalize(l.direction());
+	vec<N, S> l_dir = rove::normalize(l.direction());
 	vec<N, S> l_norm(-l_dir.y, l_dir.x);
 	S l_vel = vel & l_norm;
 	vec<N, S> l_norm_v = l_norm * sign(l_vel);

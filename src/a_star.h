@@ -7,7 +7,7 @@
 #include <boost/unordered_map.hpp>
 #include "vec.h"
 
-namespace vek
+namespace rove
 {
 
 class a_star {

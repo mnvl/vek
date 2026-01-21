@@ -6,15 +6,15 @@ BOOST_AUTO_TEST_SUITE(a_star)
 
 BOOST_AUTO_TEST_CASE(simple_path_1)
 {
-	typedef vek::a_star::point point;
+	typedef rove::a_star::point point;
 
 	struct dummy {
-		static vek::scalar score(point const &p) {
+		static rove::scalar score(point const &p) {
 			return (p - point(1, 0)).length_sq() + (p.x == 0 && (p.y == 0 || p.y == -1) ? 1000.0f : 0.0f);
 		}
 	};
 
-	vek::a_star a_star(point(-1, 0), point(1, 0), &dummy::score);
+	rove::a_star a_star(point(-1, 0), point(1, 0), &dummy::score);
 	a_star.calculate_path();
 	BOOST_REQUIRE(!a_star.have_failed());
 
@@ -27,15 +27,15 @@ BOOST_AUTO_TEST_CASE(simple_path_1)
 
 BOOST_AUTO_TEST_CASE(simple_path_2)
 {
-	typedef vek::a_star::point point;
+	typedef rove::a_star::point point;
 
 	struct dummy {
-		static vek::scalar score(point const &p) {
+		static rove::scalar score(point const &p) {
 			return (p - point(1, 0)).length_sq() + (p.x == 0 && (p.y == 0 || p.y == -1) ? 1000.0f : 0.0f);
 		}
 	};
 
-	vek::a_star a_star(point(-2, 0), point(1, 0), &dummy::score);
+	rove::a_star a_star(point(-2, 0), point(1, 0), &dummy::score);
 	a_star.calculate_path();
 	BOOST_REQUIRE(!a_star.have_failed());
 
@@ -49,15 +49,15 @@ BOOST_AUTO_TEST_CASE(simple_path_2)
 
 BOOST_AUTO_TEST_CASE(simple_path_3)
 {
-	typedef vek::a_star::point point;
+	typedef rove::a_star::point point;
 
 	struct dummy {
-		static vek::scalar score(point const &p) {
+		static rove::scalar score(point const &p) {
 			return (p - point(1, 0)).length_sq() + (p.x == 0 && (p.y == 0 || p.y == -1) ? 1000.0f : 0.0f);
 		}
 	};
 
-	vek::a_star a_star(point(-1, 0), point(2, 0), &dummy::score);
+	rove::a_star a_star(point(-1, 0), point(2, 0), &dummy::score);
 	a_star.calculate_path();
 	BOOST_REQUIRE(!a_star.have_failed());
 
@@ -71,15 +71,15 @@ BOOST_AUTO_TEST_CASE(simple_path_3)
 
 BOOST_AUTO_TEST_CASE(simple_path_without_obstacles)
 {
-	typedef vek::a_star::point point;
+	typedef rove::a_star::point point;
 
 	struct dummy {
-		static vek::scalar score(point const &p) {
-			return vek::scalar((p - point(10, 0)).length_sq());
+		static rove::scalar score(point const &p) {
+			return rove::scalar((p - point(10, 0)).length_sq());
 		}
 	};
 
-	vek::a_star a_star(point(0, 0), point(10, 0), &dummy::score);
+	rove::a_star a_star(point(0, 0), point(10, 0), &dummy::score);
 	a_star.calculate_path();
 	BOOST_REQUIRE(!a_star.have_failed());
 
@@ -93,15 +93,15 @@ BOOST_AUTO_TEST_CASE(simple_path_without_obstacles)
 
 BOOST_AUTO_TEST_CASE(simple_path_4)
 {
-	typedef vek::a_star::point point;
+	typedef rove::a_star::point point;
 
 	struct dummy {
-		static vek::scalar score(point const &p) {
+		static rove::scalar score(point const &p) {
 			return (p - point(10, 0)).length_sq() + (p.x == 5 && (p.y > -5 && p.y < 3) ? 1000.0f : 0.0f);
 		}
 	};
 
-	vek::a_star a_star(point(0, 0), point(10, 0), &dummy::score);
+	rove::a_star a_star(point(0, 0), point(10, 0), &dummy::score);
 	a_star.calculate_path();
 	BOOST_REQUIRE(!a_star.have_failed());
 

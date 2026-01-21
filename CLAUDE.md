@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-**vek** is a C++ math and geometry library for game development and 3D applications. It provides vector math, matrix transformations, collision detection, and pathfinding utilities.
+**rove** is a C++ math and geometry library for game development and 3D applications. It provides vector math, matrix transformations, collision detection, and pathfinding utilities.
 
 ## Build System
 
@@ -19,10 +19,10 @@ make
 # Run tests
 ctest
 # or
-./vek_tests
+./rove_tests
 ```
 
-To disable tests: `cmake -DVEK_BUILD_TESTS=OFF ..`
+To disable tests: `cmake -DROVE_BUILD_TESTS=OFF ..`
 
 Dependencies:
 - Boost (headers + unit_test_framework + serialization for tests)

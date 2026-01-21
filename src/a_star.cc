@@ -1,7 +1,7 @@
 
 #include "a_star.h"
 
-namespace vek
+namespace rove
 {
 
 a_star::a_star(point const &start, point const &goal, scorer_t const &scorer):

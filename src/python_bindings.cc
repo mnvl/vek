@@ -12,7 +12,7 @@ using namespace nb::literals;
 
 template<typename T>
 void bind_vec2(nb::module_ &m, const char *name) {
-    using Vec = vek::vec<2, T>;
+    using Vec = rove::vec<2, T>;
 
     nb::class_<Vec>(m, name)
         .def(nb::init<>())
@@ -38,7 +38,7 @@ void bind_vec2(nb::module_ &m, const char *name) {
         .def("normalize", &Vec::normalize)
         .def("negate", &Vec::negate)
         .def("perpendicular", &Vec::perpendicular)
-        .def("is_collinear", &Vec::is_collinear, nb::arg("v"), nb::arg("epsilon") = vek::EPSILON)
+        .def("is_collinear", &Vec::is_collinear, nb::arg("v"), nb::arg("epsilon") = rove::EPSILON)
         .def("__neg__", [](const Vec &v) { return -v; })
         .def("__add__", [](const Vec &a, const Vec &b) { return a + b; })
         .def("__sub__", [](const Vec &a, const Vec &b) { return a - b; })
@@ -54,12 +54,12 @@ void bind_vec2(nb::module_ &m, const char *name) {
             ss << "vec2(" << v.x << ", " << v.y << ")";
             return ss.str();
         })
-        .def("dot", [](const Vec &a, const Vec &b) { return vek::dot_product(a, b); });
+        .def("dot", [](const Vec &a, const Vec &b) { return rove::dot_product(a, b); });
 }
 
 template<typename T>
 void bind_vec3(nb::module_ &m, const char *name) {
-    using Vec = vek::vec<3, T>;
+    using Vec = rove::vec<3, T>;
 
     nb::class_<Vec>(m, name)
         .def(nb::init<>())
@@ -84,7 +84,7 @@ void bind_vec3(nb::module_ &m, const char *name) {
         .def("length_sq", &Vec::length_sq)
         .def("normalize", &Vec::normalize)
         .def("negate", &Vec::negate)
-        .def("is_collinear", &Vec::is_collinear, nb::arg("v"), nb::arg("epsilon") = vek::EPSILON)
+        .def("is_collinear", &Vec::is_collinear, nb::arg("v"), nb::arg("epsilon") = rove::EPSILON)
         .def("__neg__", [](const Vec &v) { return -v; })
         .def("__add__", [](const Vec &a, const Vec &b) { return a + b; })
         .def("__sub__", [](const Vec &a, const Vec &b) { return a - b; })
@@ -100,17 +100,17 @@ void bind_vec3(nb::module_ &m, const char *name) {
             ss << "vec3(" << v.x << ", " << v.y << ", " << v.z << ")";
             return ss.str();
         })
-        .def("dot", [](const Vec &a, const Vec &b) { return vek::dot_product(a, b); })
+        .def("dot", [](const Vec &a, const Vec &b) { return rove::dot_product(a, b); })
         .def("cross", [](const Vec &a, const Vec &b) {
             Vec result;
-            vek::cross_product(result, a, b);
+            rove::cross_product(result, a, b);
             return result;
         });
 }
 
 template<typename T>
 void bind_vec4(nb::module_ &m, const char *name) {
-    using Vec = vek::vec<4, T>;
+    using Vec = rove::vec<4, T>;
 
     nb::class_<Vec>(m, name)
         .def(nb::init<>())
@@ -149,15 +149,15 @@ void bind_vec4(nb::module_ &m, const char *name) {
             ss << "vec4(" << v.x << ", " << v.y << ", " << v.z << ", " << v.w << ")";
             return ss.str();
         })
-        .def("dot", [](const Vec &a, const Vec &b) { return vek::dot_product(a, b); });
+        .def("dot", [](const Vec &a, const Vec &b) { return rove::dot_product(a, b); });
 }
 
 template<typename T>
 void bind_matrix3(nb::module_ &m, const char *name) {
-    using Mat = vek::matrix<3, 3, T>;
-    using Vec3 = vek::vec<3, T>;
-    using Vec2 = vek::vec<2, T>;
-    using Quat = vek::quaternion<T>;
+    using Mat = rove::matrix<3, 3, T>;
+    using Vec3 = rove::vec<3, T>;
+    using Vec2 = rove::vec<2, T>;
+    using Quat = rove::quaternion<T>;
 
     nb::class_<Mat>(m, name)
         .def(nb::init<>())
@@ -234,7 +234,7 @@ void bind_matrix3(nb::module_ &m, const char *name) {
         })
         .def("__mul__", [](const Mat &a, const Mat &b) {
             Mat result;
-            vek::mul(result, a, b);
+            rove::mul(result, a, b);
             return result;
         })
         .def("__mul__", [](const Mat &m, const Vec2 &v) {
@@ -284,10 +284,10 @@ void bind_matrix3(nb::module_ &m, const char *name) {
 
 template<typename T>
 void bind_matrix4(nb::module_ &m, const char *name) {
-    using Mat = vek::matrix<4, 4, T>;
-    using Vec3 = vek::vec<3, T>;
-    using Vec4 = vek::vec<4, T>;
-    using Quat = vek::quaternion<T>;
+    using Mat = rove::matrix<4, 4, T>;
+    using Vec3 = rove::vec<3, T>;
+    using Vec4 = rove::vec<4, T>;
+    using Quat = rove::quaternion<T>;
 
     nb::class_<Mat>(m, name)
         .def(nb::init<>())
@@ -375,7 +375,7 @@ void bind_matrix4(nb::module_ &m, const char *name) {
         })
         .def("__mul__", [](const Mat &a, const Mat &b) {
             Mat result;
-            vek::mul(result, a, b);
+            rove::mul(result, a, b);
             return result;
         })
         .def("__mul__", [](const Mat &m, const Vec3 &v) {
@@ -425,8 +425,8 @@ void bind_matrix4(nb::module_ &m, const char *name) {
 
 template<typename T>
 void bind_quaternion(nb::module_ &m, const char *name) {
-    using Quat = vek::quaternion<T>;
-    using Vec3 = vek::vec<3, T>;
+    using Quat = rove::quaternion<T>;
+    using Vec3 = rove::vec<3, T>;
 
     nb::class_<Quat>(m, name)
         .def(nb::init<>())
@@ -462,14 +462,14 @@ void bind_quaternion(nb::module_ &m, const char *name) {
             return ss.str();
         })
         .def("dot", [](const Quat &p, const Quat &q) {
-            return vek::dot_product(p, q);
+            return rove::dot_product(p, q);
         }, nb::arg("other"), "Compute dot product with another quaternion");
 }
 
 template<typename T>
 void bind_quaternion_slerper(nb::module_ &m, const char *name) {
-    using Slerper = vek::quaternion_slerper<T>;
-    using Quat = vek::quaternion<T>;
+    using Slerper = rove::quaternion_slerper<T>;
+    using Quat = rove::quaternion<T>;
 
     nb::class_<Slerper>(m, name)
         .def(nb::init<>())
@@ -479,8 +479,8 @@ void bind_quaternion_slerper(nb::module_ &m, const char *name) {
              nb::arg("t"), "Interpolate between quaternions at parameter t [0,1]");
 }
 
-NB_MODULE(pyvek, m) {
-    m.doc() = "Python bindings for vek vector math library";
+NB_MODULE(pyrove, m) {
+    m.doc() = "Python bindings for rove vector math library";
 
     // Bind float versions (default)
     bind_vec2<float>(m, "vec2");
@@ -509,43 +509,43 @@ NB_MODULE(pyvek, m) {
     bind_quaternion_slerper<double>(m, "dquat_slerper");
 
     // Free functions
-    m.def("dot", [](const vek::vec<2, float> &a, const vek::vec<2, float> &b) {
-        return vek::dot_product(a, b);
+    m.def("dot", [](const rove::vec<2, float> &a, const rove::vec<2, float> &b) {
+        return rove::dot_product(a, b);
     }, nb::arg("a"), nb::arg("b"), "Compute dot product of two vec2");
 
-    m.def("dot", [](const vek::vec<3, float> &a, const vek::vec<3, float> &b) {
-        return vek::dot_product(a, b);
+    m.def("dot", [](const rove::vec<3, float> &a, const rove::vec<3, float> &b) {
+        return rove::dot_product(a, b);
     }, nb::arg("a"), nb::arg("b"), "Compute dot product of two vec3");
 
-    m.def("dot", [](const vek::vec<4, float> &a, const vek::vec<4, float> &b) {
-        return vek::dot_product(a, b);
+    m.def("dot", [](const rove::vec<4, float> &a, const rove::vec<4, float> &b) {
+        return rove::dot_product(a, b);
     }, nb::arg("a"), nb::arg("b"), "Compute dot product of two vec4");
 
-    m.def("cross", [](const vek::vec<3, float> &a, const vek::vec<3, float> &b) {
-        vek::vec<3, float> result;
-        vek::cross_product(result, a, b);
+    m.def("cross", [](const rove::vec<3, float> &a, const rove::vec<3, float> &b) {
+        rove::vec<3, float> result;
+        rove::cross_product(result, a, b);
         return result;
     }, nb::arg("a"), nb::arg("b"), "Compute cross product of two vec3");
 
-    m.def("normalize", [](const vek::vec<2, float> &v) {
-        return vek::normalize(v);
+    m.def("normalize", [](const rove::vec<2, float> &v) {
+        return rove::normalize(v);
     }, nb::arg("v"), "Return normalized vec2");
 
-    m.def("normalize", [](const vek::vec<3, float> &v) {
-        return vek::normalize(v);
+    m.def("normalize", [](const rove::vec<3, float> &v) {
+        return rove::normalize(v);
     }, nb::arg("v"), "Return normalized vec3");
 
-    m.def("normalize", [](const vek::vec<4, float> &v) {
-        return vek::normalize(v);
+    m.def("normalize", [](const rove::vec<4, float> &v) {
+        return rove::normalize(v);
     }, nb::arg("v"), "Return normalized vec4");
 
     // Quaternion free functions
-    m.def("dot", [](const vek::quaternion<float> &p, const vek::quaternion<float> &q) {
-        return vek::dot_product(p, q);
+    m.def("dot", [](const rove::quaternion<float> &p, const rove::quaternion<float> &q) {
+        return rove::dot_product(p, q);
     }, nb::arg("p"), nb::arg("q"), "Compute dot product of two quaternions");
 
-    m.def("slerp", [](const vek::quaternion<float> &p, const vek::quaternion<float> &q, float t) {
-        vek::quaternion_slerper<float> slerper;
+    m.def("slerp", [](const rove::quaternion<float> &p, const rove::quaternion<float> &q, float t) {
+        rove::quaternion_slerper<float> slerper;
         slerper.setup(p, q);
         return slerper.interpolate(t);
     }, nb::arg("p"), nb::arg("q"), nb::arg("t"), "Spherical linear interpolation between quaternions");

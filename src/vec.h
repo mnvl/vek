@@ -5,7 +5,7 @@
 #include <algorithm>
 #include "scalar.h"
 
-namespace vek
+namespace rove
 {
 
 template<int N,class T=scalar> class vec;
@@ -886,58 +886,58 @@ normalize(const vec<N,T> &v)
 
 }
 
-template<int N,class T> inline vek::vec<N,T>
-operator *(T lhs, vek::vec<N,T> const &rhs)
+template<int N,class T> inline rove::vec<N,T>
+operator *(T lhs, rove::vec<N,T> const &rhs)
 {
 	return rhs * lhs;
 }
 
 template<int N,class T> inline T
-operator &(vek::vec<N,T> const &lhs,vek::vec<N,T> const &rhs)
+operator &(rove::vec<N,T> const &lhs,rove::vec<N,T> const &rhs)
 {
-	return vek::dot_product(lhs, rhs);
+	return rove::dot_product(lhs, rhs);
 }
 
-template<class T> inline vek::vec<3,T>
-operator ^(const vek::vec<3,T> &lhs,const vek::vec<3,T> &rhs)
+template<class T> inline rove::vec<3,T>
+operator ^(const rove::vec<3,T> &lhs,const rove::vec<3,T> &rhs)
 {
-	vek::vec<3,T> res;
-	vek::cross_product(res, lhs, rhs);
+	rove::vec<3,T> res;
+	rove::cross_product(res, lhs, rhs);
 	return res;
 }
 
 template<class Ch, class ChT, class T>
-std::basic_istream<Ch, ChT> &operator >>(std::basic_istream<Ch, ChT> &is, vek::vec<2,T> const &v)
+std::basic_istream<Ch, ChT> &operator >>(std::basic_istream<Ch, ChT> &is, rove::vec<2,T> const &v)
 {
 	return is >> v.x >> v.y;
 }
 
 template<class Ch, class ChT, class T>
-std::basic_ostream<Ch, ChT> &operator <<(std::basic_ostream<Ch, ChT> &os, vek::vec<2,T> const &v)
+std::basic_ostream<Ch, ChT> &operator <<(std::basic_ostream<Ch, ChT> &os, rove::vec<2,T> const &v)
 {
 	return os << v.x << ' ' << v.y;
 }
 
 template<class Ch, class ChT, class T>
-std::basic_istream<Ch, ChT> &operator >>(std::basic_istream<Ch, ChT> &is, vek::vec<3,T> const &v)
+std::basic_istream<Ch, ChT> &operator >>(std::basic_istream<Ch, ChT> &is, rove::vec<3,T> const &v)
 {
 	return is >> v.x >> v.y >> v.z;
 }
 
 template<class Ch, class ChT, class T>
-std::basic_ostream<Ch, ChT> &operator <<(std::basic_ostream<Ch, ChT> &os, vek::vec<3,T> const &v)
+std::basic_ostream<Ch, ChT> &operator <<(std::basic_ostream<Ch, ChT> &os, rove::vec<3,T> const &v)
 {
 	return os << v.x << ' ' << v.y << ' ' << v.z;
 }
 
 template<class Ch, class ChT, class T>
-std::basic_istream<Ch, ChT> &operator >>(std::basic_istream<Ch, ChT> &is, vek::vec<4,T> const &v)
+std::basic_istream<Ch, ChT> &operator >>(std::basic_istream<Ch, ChT> &is, rove::vec<4,T> const &v)
 {
 	return is >> v.x >> v.y >> v.z >> v.w;
 }
 
 template<class Ch, class ChT, class T>
-std::basic_ostream<Ch, ChT> &operator <<(std::basic_ostream<Ch, ChT> &os, vek::vec<4,T> const &v)
+std::basic_ostream<Ch, ChT> &operator <<(std::basic_ostream<Ch, ChT> &os, rove::vec<4,T> const &v)
 {
 	return os << v.x << ' ' << v.y << ' ' << v.z << ' ' << v.w;
 }

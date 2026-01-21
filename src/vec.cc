@@ -2,7 +2,7 @@
 #include <cstring>
 #include "vec.h"
 
-namespace vek
+namespace rove
 {
 
 template <class T> vec<3,T> const vec<3,T>::I(1, 0, 0);

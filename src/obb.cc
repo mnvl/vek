@@ -1,7 +1,7 @@
 
 #include "obb.h"
 
-namespace vek
+namespace rove
 {
 
 template <class T> typename obb<3,T>::scalar_t

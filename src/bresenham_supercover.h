@@ -3,7 +3,7 @@
 #include <boost/tuple/tuple.hpp>
 #include "vec.h"
 
-namespace vek
+namespace rove
 {
 
 // based on http://lifc.univ-fcomte.fr/~ededu/projects/bresenham/

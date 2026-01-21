@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.15)
-project(vek VERSION 1.0.0 LANGUAGES CXX)
+project(rove VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Library sources
-set(VEK_SOURCES
+set(ROVE_SOURCES
     src/aabb.cc
     src/a_star.cc
     src/bresenham_supercover.cc
@@ -24,20 +24,20 @@ set(VEK_SOURCES
 )
 
 # Create static library
-add_library(vek STATIC ${VEK_SOURCES})
-target_include_directories(vek PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+add_library(rove STATIC ${ROVE_SOURCES})
+target_include_directories(rove PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # Find Boost
 find_package(Boost REQUIRED)
-target_link_libraries(vek PUBLIC Boost::boost)
+target_link_libraries(rove PUBLIC Boost::boost)
 
 # Tests
-option(VEK_BUILD_TESTS "Build tests" ON)
+option(ROVE_BUILD_TESTS "Build tests" ON)
 
-if(VEK_BUILD_TESTS)
+if(ROVE_BUILD_TESTS)
     find_package(Boost REQUIRED COMPONENTS unit_test_framework serialization)
 
-    set(VEK_TEST_SOURCES
+    set(ROVE_TEST_SOURCES
         src/test_main.cc
         src/test_aabb.cc
         src/test_a_star.cc
@@ -56,17 +56,17 @@ if(VEK_BUILD_TESTS)
         src/test_vec.cc
     )
 
-    add_executable(vek_tests ${VEK_TEST_SOURCES})
-    target_link_libraries(vek_tests PRIVATE vek Boost::unit_test_framework Boost::serialization)
+    add_executable(rove_tests ${ROVE_TEST_SOURCES})
+    target_link_libraries(rove_tests PRIVATE rove Boost::unit_test_framework Boost::serialization)
 
     enable_testing()
-    add_test(NAME vek_tests COMMAND vek_tests)
+    add_test(NAME rove_tests COMMAND rove_tests)
 endif()
 
 # Python bindings
-option(VEK_BUILD_PYTHON "Build Python bindings" OFF)
+option(ROVE_BUILD_PYTHON "Build Python bindings" OFF)
 
-if(VEK_BUILD_PYTHON)
+if(ROVE_BUILD_PYTHON)
     find_package(Python 3.8 COMPONENTS Interpreter Development.Module REQUIRED)
 
     # Fetch nanobind
@@ -78,7 +78,7 @@ if(VEK_BUILD_PYTHON)
     )
     FetchContent_MakeAvailable(nanobind)
 
-    nanobind_add_module(pyvek src/python_bindings.cc)
-    target_link_libraries(pyvek PRIVATE vek)
-    target_include_directories(pyvek PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+    nanobind_add_module(pyrove src/python_bindings.cc)
+    target_link_libraries(pyrove PRIVATE rove)
+    target_include_directories(pyrove PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 endif()

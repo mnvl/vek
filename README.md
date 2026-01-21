@@ -1,6 +1,6 @@
-# vek
+# rove
 
-A fast, lightweight C++ math and geometry library for game development and robotics with Python bindings.
+A fast, lightweight C++ math and geometry library for robotics and game development with Python bindings.
 
 I started this project as 1) Python libraries I've found were rudimentary at best, 2) Numpy, of course, is awesome, but is not easy to use in this scenario.
 
@@ -47,8 +47,8 @@ Most of the code was taken from old (15 years+!) pet project https://github.com/
 
 ```bash
 # Clone the repository
-git clone https://github.com/mnvl/vek.git
-cd vek
+git clone https://github.com/mnvl/rove.git
+cd rove
 
 # Create build directory
 mkdir build
@@ -63,20 +63,20 @@ make
 # Run C++ tests
 ctest
 # or
-./vek_tests
+./rove_tests
 ```
 
 ### Build Options
 
 ```bash
 # Build without tests
-cmake -DVEK_BUILD_TESTS=OFF ..
+cmake -DROVE_BUILD_TESTS=OFF ..
 
 # Build with Python bindings
-cmake -DVEK_BUILD_PYTHON=ON ..
+cmake -DROVE_BUILD_PYTHON=ON ..
 
 # Both options
-cmake -DVEK_BUILD_TESTS=OFF -DVEK_BUILD_PYTHON=ON ..
+cmake -DROVE_BUILD_TESTS=OFF -DVEK_BUILD_PYTHON=ON ..
 ```
 
 ## C++ Usage
@@ -86,7 +86,7 @@ cmake -DVEK_BUILD_TESTS=OFF -DVEK_BUILD_PYTHON=ON ..
 #include "matrix.h"
 #include "quaternion.h"
 
-using namespace vek;
+using namespace rove;
 
 // Vectors
 vec3 position(1.0f, 2.0f, 3.0f);
@@ -124,62 +124,62 @@ bool colliding = collide(contact, s1, s2);
 ## Python Usage
 
 ```python
-import pyvek
+import pyrove
 import numpy as np
 
 # Vectors
-v1 = pyvek.vec3(1.0, 2.0, 3.0)
-v2 = pyvek.vec3(4.0, 5.0, 6.0)
+v1 = pyrove.vec3(1.0, 2.0, 3.0)
+v2 = pyrove.vec3(4.0, 5.0, 6.0)
 
 # Vector operations
-dot = pyvek.dot(v1, v2)
-cross = pyvek.cross(v1, v2)
-normalized = pyvek.normalize(v1)
+dot = pyrove.dot(v1, v2)
+cross = pyrove.cross(v1, v2)
+normalized = pyrove.normalize(v1)
 
 # Matrices
-m = pyvek.mat4()
+m = pyrove.mat4()
 m.identity()
 m.translate(1.0, 2.0, 3.0)
-m.rotate(pyvek.vec3(0.0, 1.0, 0.0), 3.14159 / 4.0)
+m.rotate(pyrove.vec3(0.0, 1.0, 0.0), 3.14159 / 4.0)
 
 # Transform vectors
 v_transformed = m * v1
 
 # Quaternions
-q = pyvek.quat(0.0, 0.0, 0.0, 1.0)
+q = pyrove.quat(0.0, 0.0, 0.0, 1.0)
 q.normalize()
 
 # SLERP
-q1 = pyvek.quat(0.0, 0.0, 0.0, 1.0)
-q2 = pyvek.quat(0.0, 0.707, 0.0, 0.707)
-q_mid = pyvek.slerp(q1, q2, 0.5)
+q1 = pyrove.quat(0.0, 0.0, 0.0, 1.0)
+q2 = pyrove.quat(0.0, 0.707, 0.0, 0.707)
+q_mid = pyrove.slerp(q1, q2, 0.5)
 
 # NumPy integration
 arr = np.array([1.0, 2.0, 3.0], dtype=np.float32)
-v = pyvek.vec3.from_numpy(arr)
+v = pyrove.vec3.from_numpy(arr)
 arr_back = v.to_numpy()
 
 # Matrix from NumPy
 mat_array = np.eye(4, dtype=np.float32)
-mat = pyvek.mat4.from_numpy(mat_array)
+mat = pyrove.mat4.from_numpy(mat_array)
 mat_back = mat.to_numpy()
 
 # Double precision types
-dv = pyvek.dvec3(1.0, 2.0, 3.0)
-dm = pyvek.dmat4()
-dq = pyvek.dquat(0.0, 0.0, 0.0, 1.0)
+dv = pyrove.dvec3(1.0, 2.0, 3.0)
+dm = pyrove.dmat4()
+dq = pyrove.dquat(0.0, 0.0, 0.0, 1.0)
 ```
 
 ## Running Python Tests
 
 ```bash
 # From the build directory
-python3 ../src/test_pyvek.py
+python3 ../src/test_pyrove.py
 ```
 
 ## Architecture
 
-All code lives in `src/` under the `vek` namespace.
+All code lives in `src/` under the `rove` namespace.
 
 ### Conventions
 - Templates use `scalar_t` typedef for the numeric type
@@ -243,5 +243,8 @@ cd build
 ctest
 
 # Run Python tests
-python3 ../src/test_pyvek.py
+cd build
+cmake -DROVE_BUILD_PYTHON=ON ..
+make
+python3 ../src/test_pyrove.py
 ```

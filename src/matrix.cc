@@ -2,7 +2,7 @@
 #include "quaternion.h"
 #include "matrix.h"
 
-namespace vek
+namespace rove
 {
 
 template<class T> void

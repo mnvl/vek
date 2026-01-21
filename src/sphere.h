@@ -5,7 +5,7 @@
 #include "vec.h"
 #include "aabb.h"
 
-namespace vek
+namespace rove
 {
 
 template<int N, class T> class ray;

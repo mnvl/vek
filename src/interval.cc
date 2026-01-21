@@ -1,7 +1,7 @@
 
 #include "interval.h"
 
-namespace vek
+namespace rove
 {
 
 }

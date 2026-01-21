@@ -5,7 +5,7 @@
 #include "plane.h"
 #include "matrix.h"
 
-namespace vek
+namespace rove
 {
 
 template<int N, class T> class aabb;
@@ -32,12 +32,12 @@ public:
 	boost::array<plane_t, PLANES_COUNT> planes;
 
 	frustum();
-	frustum(vek::matrix<4,4> const &tf);
+	frustum(rove::matrix<4,4> const &tf);
 	~frustum();
 
-	void load(vek::matrix<4,4> const &tf);
+	void load(rove::matrix<4,4> const &tf);
 
-	bool contains(vek::vec<3> const &point) const;
+	bool contains(rove::vec<3> const &point) const;
 	bool test_intersection(aabb<3,T> const &bounds) const;
 	bool test_intersection(obb<3,T> const &bounds) const;
 };

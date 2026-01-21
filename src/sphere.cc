@@ -4,7 +4,7 @@
 #include "capsule.h"
 #include "sphere.h"
 
-namespace vek
+namespace rove
 {
 
 template<int N, class T> bool sphere<N, T>::test_intersection(ray<N, T> const &r) const

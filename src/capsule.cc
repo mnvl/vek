@@ -3,7 +3,7 @@
 #include "obb.h"
 #include "capsule.h"
 
-namespace vek
+namespace rove
 {
 
 template<int N, class T> void

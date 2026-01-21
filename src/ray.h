@@ -4,7 +4,7 @@
 #include "scalar.h"
 #include "vec.h"
 
-namespace vek {
+namespace rove {
 
 template<int N,class T=scalar>
 class ray {

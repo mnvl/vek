@@ -174,6 +174,12 @@ void bind_matrix3(nb::module_ &m, const char *name) {
             vek::mul(result, a, b);
             return result;
         })
+        .def("__mul__", [](const Mat &m, const Vec2 &v) {
+            return v * m;
+        }, "Transform vec2 by mat3, returning vec3")
+        .def("__mul__", [](const Mat &m, const Vec3 &v) {
+            return v * m;
+        }, "Transform vec3 by mat3")
         .def("__rmul__", [](const Mat &m, T k) {
             Mat result = m;
             result *= k;
@@ -282,6 +288,12 @@ void bind_matrix4(nb::module_ &m, const char *name) {
             vek::mul(result, a, b);
             return result;
         })
+        .def("__mul__", [](const Mat &m, const Vec3 &v) {
+            return v * m;
+        }, "Transform vec3 by mat4, returning vec3")
+        .def("__mul__", [](const Mat &m, const Vec4 &v) {
+            return v * m;
+        }, "Transform vec4 by mat4")
         .def("__rmul__", [](const Mat &m, T k) {
             Mat result = m;
             result *= k;

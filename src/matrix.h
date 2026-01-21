@@ -327,7 +327,7 @@ mul(vec<2,T> &result,const vec<2,T> &v,const matrix<3,3,T> &m) {
 
 template<class T> void
 mul(vec<3,T> &result,const vec<2,T> &v,const matrix<3,3,T> &m) {
-	assert(&result != &v);
+	assert((void*)&result != (void*)&v);
 
 	result.x=m.ij[0][0]*v.x+m.ij[1][0]*v.y+m.ij[2][0];
 	result.y=m.ij[0][1]*v.x+m.ij[1][1]*v.y+m.ij[2][1];
@@ -336,7 +336,7 @@ mul(vec<3,T> &result,const vec<2,T> &v,const matrix<3,3,T> &m) {
 
 template<class T> void
 mul(vec<3,T> &result,const vec<3,T> &v,const matrix<3,3,T> &m) {
-	assert(&result != &v);
+	assert((void*)&result != (void*)&v);
 
 	result.x=m.ij[0][0]*v.x+m.ij[1][0]*v.y+m.ij[2][0]*v.z;
 	result.y=m.ij[0][1]*v.x+m.ij[1][1]*v.y+m.ij[2][1]*v.z;
@@ -345,7 +345,7 @@ mul(vec<3,T> &result,const vec<3,T> &v,const matrix<3,3,T> &m) {
 
 template<class T> void
 mul(vec<3,T> &result,const vec<3,T> &v,const matrix<4,4,T> &m) {
-	assert(&result != &v);
+	assert((void*)&result != (void*)&v);
 
 	result.x=m.ij[0][0]*v.x+m.ij[1][0]*v.y+m.ij[2][0]*v.z+m.ij[3][0];
 	result.y=m.ij[0][1]*v.x+m.ij[1][1]*v.y+m.ij[2][1]*v.z+m.ij[3][1];
@@ -354,7 +354,7 @@ mul(vec<3,T> &result,const vec<3,T> &v,const matrix<4,4,T> &m) {
 
 template<class T> void
 mul(vec<4,T> &result,const vec<3,T> &v,const matrix<4,4,T> &m) {
-	assert(&result != &v);
+	assert((void*)&result != (void*)&v);
 
 	result.x=m.ij[0][0]*v.x+m.ij[1][0]*v.y+m.ij[2][0]*v.z+m.ij[3][0];
 	result.y=m.ij[0][1]*v.x+m.ij[1][1]*v.y+m.ij[2][1]*v.z+m.ij[3][1];
@@ -364,7 +364,7 @@ mul(vec<4,T> &result,const vec<3,T> &v,const matrix<4,4,T> &m) {
 
 template<class T> void
 mul(vec<4,T> &result,const vec<4,T> &v,const matrix<4,4,T> &m) {
-	assert(&result != &v);
+	assert((void*)&result != (void*)&v);
 
 	result.x=m.ij[0][0]*v.x+m.ij[1][0]*v.y+m.ij[2][0]*v.z+m.ij[3][0]*v.w;
 	result.y=m.ij[0][1]*v.x+m.ij[1][1]*v.y+m.ij[2][1]*v.z+m.ij[3][1]*v.w;

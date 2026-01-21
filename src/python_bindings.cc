@@ -53,4 +53,12 @@ NB_MODULE(pyrove, m) {
 
     // Bind quaternion free functions
     bind_quaternion_functions(m);
+
+    // Bind sphere classes (float versions)
+    bind_sphere2<float>(m, "sphere2");
+    bind_sphere3<float>(m, "sphere3");
+
+    // Bind sphere classes (double versions)
+    bind_sphere2<double>(m, "dsphere2");
+    bind_sphere3<double>(m, "dsphere3");
 }

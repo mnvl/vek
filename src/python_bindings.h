@@ -87,3 +87,21 @@ void bind_vec_functions(nb::module_ &m);
  * @param m Python module to bind to
  */
 void bind_quaternion_functions(nb::module_ &m);
+
+/**
+ * @brief Bind sphere<2> class to Python module
+ * @tparam T Scalar type (float or double)
+ * @param m Python module to bind to
+ * @param name Python class name
+ */
+template<typename T>
+void bind_sphere2(nb::module_ &m, const char *name);
+
+/**
+ * @brief Bind sphere<3> class to Python module
+ * @tparam T Scalar type (float or double)
+ * @param m Python module to bind to
+ * @param name Python class name
+ */
+template<typename T>
+void bind_sphere3(nb::module_ &m, const char *name);

@@ -3,8 +3,8 @@
  * @brief Main Python module definition for pyrove
  *
  * This file defines the pyrove Python module and registers all bindings
- * from separate binding files (vec_bindings.cc, matrix_bindings.cc,
- * quaternion_bindings.cc).
+ * from separate binding files (bind_vec.cc, bind_matrix.cc,
+ * bind_quaternion.cc).
  */
 
 #include "python_bindings.h"

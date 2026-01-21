@@ -1,5 +1,5 @@
 /**
- * @file matrix_bindings.cc
+ * @file bind_matrix.cc
  * @brief Python bindings for matrix classes (mat3, mat4)
  */
 

@@ -1,5 +1,5 @@
 /**
- * @file vec_bindings.cc
+ * @file bind_vec.cc
  * @brief Python bindings for vector classes (vec2, vec3, vec4)
  */
 

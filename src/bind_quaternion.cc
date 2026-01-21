@@ -1,5 +1,5 @@
 /**
- * @file quaternion_bindings.cc
+ * @file bind_quaternion.cc
  * @brief Python bindings for quaternion classes
  */
 

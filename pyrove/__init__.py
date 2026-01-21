@@ -27,22 +27,28 @@ except ImportError as e:
 
 # Define public API
 __all__ = [
-    # Core types
-    "vec2", "vec2i",
-    "vec3", "vec3i",
-    "vec4", "vec4i",
+    # Core types (float)
+    "vec2", "vec3", "vec4",
     "mat3", "mat4",
-    "quat",
+    "quat", "quat_slerper",
+    # Core types (double)
+    "vec2d", "vec3d", "vec4d",
+    "mat3d", "mat4d",
+    "quatd", "quat_slerperd",
     # Geometric primitives
     "ray3",
     "line3",
     "plane",
     "triangle",
-    "sphere",
+    "sphere2", "sphere3",
+    "sphere2d", "sphere3d",
     "capsule",
-    # Bounding volumes
+    # Bounding volumes (float)
     "aabb2", "aabb3",
     "obb2", "obb3",
+    # Bounding volumes (double)
+    "aabb2d", "aabb3d",
+    "obb2d", "obb3d",
     "frustum",
     # Collision
     "contact_info",

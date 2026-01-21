@@ -311,9 +311,9 @@ Double Precision Variants
 
 All vector types have double-precision variants:
 
-* ``dvec2`` - Double precision 2D vector
-* ``dvec3`` - Double precision 3D vector
-* ``dvec4`` - Double precision 4D vector
+* ``vec2d`` - Double precision 2D vector
+* ``vec3d`` - Double precision 3D vector
+* ``vec4d`` - Double precision 4D vector
 
 They have the same API as their float counterparts, but use ``double`` instead of ``float``.
 
@@ -328,4 +328,4 @@ Example
    v_float = pyrove.vec3(1.0, 2.0, 3.0)
 
    # Double precision
-   v_double = pyrove.dvec3(1.0, 2.0, 3.0)
+   v_double = pyrove.vec3d(1.0, 2.0, 3.0)

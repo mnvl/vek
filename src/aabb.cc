@@ -134,5 +134,7 @@ bool aabb<N, T>::trace(ray_t const &r, scalar_t t_min, scalar_t t_max) const
 
 template class aabb<2>;
 template class aabb<3>;
+template class aabb<2, double>;
+template class aabb<3, double>;
 
 }

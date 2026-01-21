@@ -36,9 +36,9 @@ obb<3,T>::world_to_local_plane(plane<scalar_t> &p, plane<scalar_t> const &p0) co
 }
 
 template<class T> bool
-obb<3,T>::trace(const ray<ARITY, scalar> &r, scalar_t t_min, scalar_t t_max) const {
+obb<3,T>::trace(const ray<ARITY, scalar_t> &r, scalar_t t_min, scalar_t t_max) const {
 	// transform ray to local coordinate system
-	ray<ARITY, scalar> r1;
+	ray<ARITY, scalar_t> r1;
 	world_to_local_ray(r1, r);
 
 	// intersection of line r1 with planes x=0 and x=1
@@ -293,5 +293,6 @@ obb<3,T>::is_basis_linearly_independent() const
 }
 
 template class obb<3>;
+template class obb<3, double>;
 
 }

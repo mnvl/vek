@@ -109,5 +109,6 @@ plane<T>::classify(obb<ARITY, scalar_t> const &bounds) const
 }
 
 template class plane<>;
+template class plane<double>;
 
 }

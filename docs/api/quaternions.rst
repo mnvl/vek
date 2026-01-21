@@ -162,8 +162,8 @@ Example
 Double Precision Variants
 --------------------------
 
-* ``dquat`` - Double precision quaternion
-* ``dquat_slerper`` - Double precision SLERP interpolator
+* ``quatd`` - Double precision quaternion
+* ``quat_slerperd`` - Double precision SLERP interpolator
 
 Same API as float versions.
 

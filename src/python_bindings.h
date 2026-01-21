@@ -105,3 +105,39 @@ void bind_sphere2(nb::module_ &m, const char *name);
  */
 template<typename T>
 void bind_sphere3(nb::module_ &m, const char *name);
+
+/**
+ * @brief Bind aabb<2> class to Python module
+ * @tparam T Scalar type (float or double)
+ * @param m Python module to bind to
+ * @param name Python class name
+ */
+template<typename T>
+void bind_aabb2(nb::module_ &m, const char *name);
+
+/**
+ * @brief Bind aabb<3> class to Python module
+ * @tparam T Scalar type (float or double)
+ * @param m Python module to bind to
+ * @param name Python class name
+ */
+template<typename T>
+void bind_aabb3(nb::module_ &m, const char *name);
+
+/**
+ * @brief Bind obb<2> class to Python module
+ * @tparam T Scalar type (float or double)
+ * @param m Python module to bind to
+ * @param name Python class name
+ */
+template<typename T>
+void bind_obb2(nb::module_ &m, const char *name);
+
+/**
+ * @brief Bind obb<3> class to Python module
+ * @tparam T Scalar type (float or double)
+ * @param m Python module to bind to
+ * @param name Python class name
+ */
+template<typename T>
+void bind_obb3(nb::module_ &m, const char *name);

@@ -78,6 +78,8 @@ Contents
    api/vectors
    api/matrices
    api/quaternions
+   api/aabb
+   api/obb
    api/functions
 
 .. toctree::

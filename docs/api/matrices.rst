@@ -329,8 +329,8 @@ Static Methods
 Double Precision Variants
 --------------------------
 
-* ``dmat3`` - Double precision 3x3 matrix
-* ``dmat4`` - Double precision 4x4 matrix
+* ``mat3d`` - Double precision 3x3 matrix
+* ``mat4d`` - Double precision 4x4 matrix
 
 Same API as float versions, using ``double`` precision.
 

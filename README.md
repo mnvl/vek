@@ -47,7 +47,7 @@ Most of the code was taken from old (15 years+!) pet project https://github.com/
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/mnvl/vek.git
 cd vek
 
 # Create build directory

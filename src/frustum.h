@@ -18,7 +18,12 @@ public:
 	typedef T scalar_t;
 	static size_t const ARITY = 3;
 	static size_t const PLANES_COUNT = 6;
+
+	typedef vec<ARITY, scalar_t> vec_t;
+	typedef aabb<ARITY, scalar_t> aabb_t;
+	typedef obb<ARITY, scalar_t> obb_t;
 	typedef plane<scalar_t> plane_t;
+	typedef matrix<4,4,scalar_t> matrix_t;
 
 	enum {
 		PLANE_LEFT,
@@ -29,17 +34,17 @@ public:
 		PLANE_FAR,
 	};
 
-	boost::array<plane_t, PLANES_COUNT> planes;
+	plane_t planes[PLANES_COUNT];
 
 	frustum();
-	frustum(rove::matrix<4,4> const &tf);
+	frustum(matrix_t const &tf);
 	~frustum();
 
-	void load(rove::matrix<4,4> const &tf);
+	void load(matrix_t const &tf);
 
-	bool contains(rove::vec<3> const &point) const;
-	bool test_intersection(aabb<3,T> const &bounds) const;
-	bool test_intersection(obb<3,T> const &bounds) const;
+	bool contains(vec_t const &point) const;
+	bool test_intersection(aabb_t const &bounds) const;
+	bool test_intersection(obb_t const &bounds) const;
 };
 
 }

@@ -95,6 +95,6 @@ NB_MODULE(pyrove, m) {
     bind_capsule3<float>(m, "capsule3");
     bind_capsule2<double>(m, "capsule2d");
     bind_capsule3<double>(m, "capsule3d");
-    // bind_frustum<float>(m, "frustum");
-    // bind_frustum<double>(m, "frustumd");
+    bind_frustum<float>(m, "frustum");
+    bind_frustum<double>(m, "frustumd");
 }

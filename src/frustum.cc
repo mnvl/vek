@@ -12,7 +12,7 @@ frustum<T>::frustum()
 }
 
 template<class T>
-frustum<T>::frustum(matrix<4,4> const &tf)
+frustum<T>::frustum(matrix_t const &tf)
 {
 	load(tf);
 }
@@ -23,7 +23,7 @@ frustum<T>::~frustum()
 }
 
 template<class T>
-void frustum<T>::load(matrix<4,4> const &tf)
+void frustum<T>::load(matrix_t const &tf)
 {
 	// http://zach.in.tu-clausthal.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html
 
@@ -65,7 +65,7 @@ void frustum<T>::load(matrix<4,4> const &tf)
 }
 
 template<class T>
-bool frustum<T>::contains(rove::vec<3> const &point) const
+bool frustum<T>::contains(vec_t const &point) const
 {
 	for(size_t i = 0; i < PLANES_COUNT; i++)
 	{
@@ -80,7 +80,7 @@ bool frustum<T>::contains(rove::vec<3> const &point) const
 }
 
 template<class T>
-bool frustum<T>::test_intersection(aabb<3,T> const &bounds) const
+bool frustum<T>::test_intersection(aabb_t const &bounds) const
 {
 	for (size_t i = 0; i < PLANES_COUNT; ++i)
 	{
@@ -91,7 +91,7 @@ bool frustum<T>::test_intersection(aabb<3,T> const &bounds) const
 }
 
 template<class T>
-bool frustum<T>::test_intersection(obb<3,T> const &bounds) const
+bool frustum<T>::test_intersection(obb_t const &bounds) const
 {
 	for (size_t i = 0; i < PLANES_COUNT; ++i)
 	{

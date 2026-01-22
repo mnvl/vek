@@ -216,7 +216,7 @@ void bind_capsule3(nb::module_ &m, const char *name);
 
 /**
  * @brief Bind frustum class to Python module
- * @tparam T Scalar type (float or double)
+ * @tparam T Scalar type (float only - double not supported due to C++ implementation)
  * @param m Python module to bind to
  * @param name Python class name
  */

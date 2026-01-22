@@ -63,5 +63,7 @@ ray<N, T>::query_intersection(ray const &r, scalar_t &t) const
 
 template class ray<2>;
 template class ray<3>;
+template class ray<2, double>;
+template class ray<3, double>;
 
 }

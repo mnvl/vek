@@ -21,12 +21,6 @@ void bind_plane(nb::module_ &m, const char *name) {
     using Vec3 = rove::vec<3, T>;
     using Ray3 = rove::ray<3, T>;
 
-    nb::enum_<typename Plane::classification_t>(m, (std::string(name) + "_classification").c_str())
-        .value("POSITIVE", Plane::POSITIVE, "Point/object is on the positive side of the plane")
-        .value("INTERSECTS", Plane::INTERSECTS, "Point/object intersects the plane")
-        .value("NEGATIVE", Plane::NEGATIVE, "Point/object is on the negative side of the plane")
-        .export_values();
-
     nb::class_<Plane>(m, name)
         .def(nb::init<>())
         .def(nb::init<const Vec3&, const Vec3&>(),
@@ -75,9 +69,11 @@ void bind_plane(nb::module_ &m, const char *name) {
         .def("is_correct", &Plane::is_correct,
              "Check if plane equation is valid (at least one coefficient is non-zero)")
         .def("classify",
-             nb::overload_cast<const Vec3&>(&Plane::classify, nb::const_),
+             [](const Plane &plane, const Vec3 &point) {
+                 return static_cast<int>(plane.classify(point));
+             },
              nb::arg("point"),
-             "Classify point position relative to plane")
+             "Classify point position relative to plane (returns int: 1=POSITIVE, 2=INTERSECTS, 3=NEGATIVE)")
         .def("__repr__", [](const Plane &p) {
             std::ostringstream ss;
             ss << "plane(A=" << p.A << ", B=" << p.B << ", C=" << p.C << ", D=" << p.D << ")";

@@ -69,7 +69,10 @@ bool frustum<T>::contains(rove::vec<3> const &point) const
 {
 	for(size_t i = 0; i < PLANES_COUNT; i++)
 	{
-		typename plane_t::classification_t cl = planes[i].classify(point);
+		// Note: point is vec<3> (float) but planes[i] is plane<T>
+		// For T=double, we need to convert the point
+		vec<3, T> point_t(point.x, point.y, point.z);
+		typename plane_t::classification_t cl = planes[i].classify(point_t);
 		if (cl == plane_t::NEGATIVE) return false;
 	}
 
@@ -99,5 +102,6 @@ bool frustum<T>::test_intersection(obb<3,T> const &bounds) const
 }
 
 template class frustum<>;
+template class frustum<double>;
 
 }

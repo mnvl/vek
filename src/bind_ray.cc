@@ -43,10 +43,8 @@ void bind_ray2(nb::module_ &m, const char *name) {
              nb::overload_cast<const Vec2&>(&Ray::distance),
              nb::arg("point"),
              "Get distance from ray to point")
-        .def("test_intersection",
-             &Ray::test_intersection,
-             nb::arg("other"),
-             "Test if this ray intersects with another ray")
+        // Note: test_intersection is not bound because it depends on
+        // ray::distance(ray const&) which is not implemented in C++
         .def("__repr__", [](const Ray &r) {
             std::ostringstream ss;
             ss << "ray2(r0=" << r.r0 << ", a=" << r.a << ")";
@@ -83,10 +81,8 @@ void bind_ray3(nb::module_ &m, const char *name) {
              nb::overload_cast<const Vec3&>(&Ray::distance),
              nb::arg("point"),
              "Get distance from ray to point")
-        .def("test_intersection",
-             &Ray::test_intersection,
-             nb::arg("other"),
-             "Test if this ray intersects with another ray")
+        // Note: test_intersection is not bound because it depends on
+        // ray::distance(ray const&) which is not implemented in C++
         .def("__repr__", [](const Ray &r) {
             std::ostringstream ss;
             ss << "ray3(r0=" << r.r0 << ", a=" << r.a << ")";

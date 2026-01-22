@@ -86,9 +86,8 @@ void bind_triangle3(nb::module_ &m, const char *name) {
              nb::overload_cast<const Ray3&, T, T>(&Triangle::trace, nb::const_),
              nb::arg("ray"), nb::arg("t_min") = 0, nb::arg("t_max") = 1,
              "Test if ray intersects triangle within parameter range")
-        .def("test_intersection", &Triangle::test_intersection,
-             nb::arg("other"),
-             "Test if this triangle intersects with another triangle")
+        // Note: test_intersection and query_intersection are not bound because
+        // they depend on line::query_intersection which is not implemented in C++
         .def("__repr__", [](const Triangle &t) {
             std::ostringstream ss;
             ss << "triangle3(A=" << t.A << ", B=" << t.B << ", C=" << t.C << ")";

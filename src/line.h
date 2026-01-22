@@ -61,8 +61,8 @@ public:
 		vec_t dir(direction());
 		scalar_t t = ((point - A) & dir) / dir.length_sq();
 
-		if (t < 0) return (point - A).length();
-		if (t > 1) return (point - B).length();
+		if (t < 0) return (point - A).length_sq();
+		if (t > 1) return (point - B).length_sq();
 
 		vec_t projection = A + dir * t;
 		return (projection - point).length_sq();

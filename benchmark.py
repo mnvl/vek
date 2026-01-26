@@ -88,24 +88,83 @@ def benchmark(func, iterations=100000):
     return end - start
 
 
-def benchmark_vec3_operations(iterations=100000):
-    """Benchmark 3D vector operations."""
+def benchmark_object_creation(iterations=100000):
+    """Benchmark object creation overhead."""
     print("\n" + "="*80)
-    print("3D Vector Operations")
+    print("Object Creation")
     print("="*80)
 
     results = []
 
+    # vec3 creation
+    def pyrove_vec3_create():
+        v = pyrove.vec3(1.0, 2.0, 3.0)
+
+    def numpy_vec3_create():
+        v = np.array([1.0, 2.0, 3.0], dtype=np.float32)
+
+    results.append(BenchmarkResult(
+        "vec3 Creation",
+        benchmark(pyrove_vec3_create, iterations),
+        benchmark(numpy_vec3_create, iterations),
+        iterations
+    ))
+
+    # mat4 creation
+    def pyrove_mat4_create():
+        m = pyrove.mat4()
+
+    def numpy_mat4_create():
+        m = np.zeros((4, 4), dtype=np.float32)
+
+    results.append(BenchmarkResult(
+        "mat4 Creation (zero matrix)",
+        benchmark(pyrove_mat4_create, iterations),
+        benchmark(numpy_mat4_create, iterations),
+        iterations
+    ))
+
+    # mat4 identity creation
+    def pyrove_mat4_identity():
+        m = pyrove.mat4()
+        m.identity()
+
+    def numpy_mat4_identity():
+        m = np.eye(4, dtype=np.float32)
+
+    results.append(BenchmarkResult(
+        "mat4 Identity Creation",
+        benchmark(pyrove_mat4_identity, iterations),
+        benchmark(numpy_mat4_identity, iterations),
+        iterations
+    ))
+
+    for result in results:
+        print(result)
+
+    return results
+
+
+def benchmark_vec3_operations(iterations=100000):
+    """Benchmark 3D vector operations."""
+    print("\n" + "="*80)
+    print("3D Vector Operations (Pure Arithmetic)")
+    print("="*80)
+
+    results = []
+
+    # Pre-create objects
+    pv1 = pyrove.vec3(1.0, 2.0, 3.0)
+    pv2 = pyrove.vec3(4.0, 5.0, 6.0)
+    nv1 = np.array([1.0, 2.0, 3.0], dtype=np.float32)
+    nv2 = np.array([4.0, 5.0, 6.0], dtype=np.float32)
+
     # Vector addition
     def pyrove_add():
-        v1 = pyrove.vec3(1.0, 2.0, 3.0)
-        v2 = pyrove.vec3(4.0, 5.0, 6.0)
-        v3 = v1 + v2
+        v3 = pv1 + pv2
 
     def numpy_add():
-        v1 = np.array([1.0, 2.0, 3.0], dtype=np.float32)
-        v2 = np.array([4.0, 5.0, 6.0], dtype=np.float32)
-        v3 = v1 + v2
+        v3 = nv1 + nv2
 
     results.append(BenchmarkResult(
         "Vector Addition (vec3 + vec3)",
@@ -116,14 +175,10 @@ def benchmark_vec3_operations(iterations=100000):
 
     # Vector subtraction
     def pyrove_sub():
-        v1 = pyrove.vec3(1.0, 2.0, 3.0)
-        v2 = pyrove.vec3(4.0, 5.0, 6.0)
-        v3 = v1 - v2
+        v3 = pv1 - pv2
 
     def numpy_sub():
-        v1 = np.array([1.0, 2.0, 3.0], dtype=np.float32)
-        v2 = np.array([4.0, 5.0, 6.0], dtype=np.float32)
-        v3 = v1 - v2
+        v3 = nv1 - nv2
 
     results.append(BenchmarkResult(
         "Vector Subtraction (vec3 - vec3)",
@@ -133,13 +188,14 @@ def benchmark_vec3_operations(iterations=100000):
     ))
 
     # Scalar multiplication
+    pv = pyrove.vec3(1.0, 2.0, 3.0)
+    nv = np.array([1.0, 2.0, 3.0], dtype=np.float32)
+
     def pyrove_scale():
-        v = pyrove.vec3(1.0, 2.0, 3.0)
-        v2 = v * 2.5
+        v2 = pv * 2.5
 
     def numpy_scale():
-        v = np.array([1.0, 2.0, 3.0], dtype=np.float32)
-        v2 = v * 2.5
+        v2 = nv * 2.5
 
     results.append(BenchmarkResult(
         "Scalar Multiplication (vec3 * scalar)",
@@ -150,14 +206,10 @@ def benchmark_vec3_operations(iterations=100000):
 
     # Dot product
     def pyrove_dot():
-        v1 = pyrove.vec3(1.0, 2.0, 3.0)
-        v2 = pyrove.vec3(4.0, 5.0, 6.0)
-        d = v1.dot(v2)
+        d = pv1.dot(pv2)
 
     def numpy_dot():
-        v1 = np.array([1.0, 2.0, 3.0], dtype=np.float32)
-        v2 = np.array([4.0, 5.0, 6.0], dtype=np.float32)
-        d = np.dot(v1, v2)
+        d = np.dot(nv1, nv2)
 
     results.append(BenchmarkResult(
         "Dot Product",
@@ -168,14 +220,10 @@ def benchmark_vec3_operations(iterations=100000):
 
     # Cross product
     def pyrove_cross():
-        v1 = pyrove.vec3(1.0, 2.0, 3.0)
-        v2 = pyrove.vec3(4.0, 5.0, 6.0)
-        c = v1.cross(v2)
+        c = pv1.cross(pv2)
 
     def numpy_cross():
-        v1 = np.array([1.0, 2.0, 3.0], dtype=np.float32)
-        v2 = np.array([4.0, 5.0, 6.0], dtype=np.float32)
-        c = np.cross(v1, v2)
+        c = np.cross(nv1, nv2)
 
     results.append(BenchmarkResult(
         "Cross Product",
@@ -185,13 +233,14 @@ def benchmark_vec3_operations(iterations=100000):
     ))
 
     # Vector length
+    pvl = pyrove.vec3(1.0, 2.0, 3.0)
+    nvl = np.array([1.0, 2.0, 3.0], dtype=np.float32)
+
     def pyrove_length():
-        v = pyrove.vec3(1.0, 2.0, 3.0)
-        l = v.length()
+        l = pvl.length()
 
     def numpy_length():
-        v = np.array([1.0, 2.0, 3.0], dtype=np.float32)
-        l = np.linalg.norm(v)
+        l = np.linalg.norm(nvl)
 
     results.append(BenchmarkResult(
         "Vector Length (magnitude)",
@@ -200,7 +249,7 @@ def benchmark_vec3_operations(iterations=100000):
         iterations
     ))
 
-    # Normalization
+    # Normalization (mutable operation, create fresh each time)
     def pyrove_normalize():
         v = pyrove.vec3(1.0, 2.0, 3.0)
         v.normalize()
@@ -225,38 +274,25 @@ def benchmark_vec3_operations(iterations=100000):
 def benchmark_mat4_operations(iterations=50000):
     """Benchmark 4x4 matrix operations."""
     print("\n" + "="*80)
-    print("4x4 Matrix Operations")
+    print("4x4 Matrix Operations (Pure Arithmetic)")
     print("="*80)
 
     results = []
 
-    # Matrix creation
-    def pyrove_create():
-        m = pyrove.mat4()
-        m.identity()
-
-    def numpy_create():
-        m = np.eye(4, dtype=np.float32)
-
-    results.append(BenchmarkResult(
-        "Matrix Creation (identity)",
-        benchmark(pyrove_create, iterations),
-        benchmark(numpy_create, iterations),
-        iterations
-    ))
+    # Pre-create matrices
+    pm1 = pyrove.mat4()
+    pm1.identity()
+    pm2 = pyrove.mat4()
+    pm2.identity()
+    nm1 = np.eye(4, dtype=np.float32)
+    nm2 = np.eye(4, dtype=np.float32)
 
     # Matrix multiplication
     def pyrove_matmul():
-        m1 = pyrove.mat4()
-        m1.identity()
-        m2 = pyrove.mat4()
-        m2.identity()
-        m3 = m1 * m2
+        m3 = pm1 * pm2
 
     def numpy_matmul():
-        m1 = np.eye(4, dtype=np.float32)
-        m2 = np.eye(4, dtype=np.float32)
-        m3 = np.matmul(m1, m2)
+        m3 = np.matmul(nm1, nm2)
 
     results.append(BenchmarkResult(
         "Matrix Multiplication (mat4 * mat4)",
@@ -266,16 +302,14 @@ def benchmark_mat4_operations(iterations=50000):
     ))
 
     # Matrix-vector multiplication
+    pv = pyrove.vec3(1.0, 2.0, 3.0)
+    nv = np.array([1.0, 2.0, 3.0, 1.0], dtype=np.float32)
+
     def pyrove_matvec():
-        m = pyrove.mat4()
-        m.identity()
-        v = pyrove.vec3(1.0, 2.0, 3.0)
-        v2 = m * v
+        v2 = pm1 * pv
 
     def numpy_matvec():
-        m = np.eye(4, dtype=np.float32)
-        v = np.array([1.0, 2.0, 3.0, 1.0], dtype=np.float32)
-        v2 = np.dot(m, v)
+        v2 = np.dot(nm1, nv)
 
     results.append(BenchmarkResult(
         "Matrix-Vector Multiplication",
@@ -284,33 +318,12 @@ def benchmark_mat4_operations(iterations=50000):
         iterations
     ))
 
-    # Translation matrix
-    def pyrove_translate():
-        m = pyrove.mat4()
-        m.translation(1.0, 2.0, 3.0)
-
-    def numpy_translate():
-        m = np.eye(4, dtype=np.float32)
-        m[0, 3] = 1.0
-        m[1, 3] = 2.0
-        m[2, 3] = 3.0
-
-    results.append(BenchmarkResult(
-        "Translation Matrix Creation",
-        benchmark(pyrove_translate, iterations),
-        benchmark(numpy_translate, iterations),
-        iterations
-    ))
-
     # Matrix transpose
     def pyrove_transpose():
-        m = pyrove.mat4()
-        m.identity()
-        mt = m.transpose()
+        mt = pm1.transpose()
 
     def numpy_transpose():
-        m = np.eye(4, dtype=np.float32)
-        mt = m.T
+        mt = nm1.T
 
     results.append(BenchmarkResult(
         "Matrix Transpose",
@@ -319,18 +332,19 @@ def benchmark_mat4_operations(iterations=50000):
         iterations
     ))
 
-    # Matrix inverse
+    # Matrix inverse (with translation for non-trivial matrix)
+    ptm = pyrove.mat4()
+    ptm.translation(1.0, 2.0, 3.0)
+    ntm = np.eye(4, dtype=np.float32)
+    ntm[0, 3] = 1.0
+    ntm[1, 3] = 2.0
+    ntm[2, 3] = 3.0
+
     def pyrove_inverse():
-        m = pyrove.mat4()
-        m.translation(1.0, 2.0, 3.0)
-        mi = m.inverse()
+        mi = ptm.inverse()
 
     def numpy_inverse():
-        m = np.eye(4, dtype=np.float32)
-        m[0, 3] = 1.0
-        m[1, 3] = 2.0
-        m[2, 3] = 3.0
-        mi = np.linalg.inv(m)
+        mi = np.linalg.inv(ntm)
 
     results.append(BenchmarkResult(
         "Matrix Inverse",
@@ -409,26 +423,30 @@ def benchmark_conversion_overhead(iterations=50000):
 def benchmark_geometric_operations(iterations=50000):
     """Benchmark geometric primitive operations."""
     print("\n" + "="*80)
-    print("Geometric Primitive Operations")
+    print("Geometric Primitive Operations (Pure Computation)")
     print("="*80)
 
     results = []
 
-    # Ray-point distance (no direct NumPy equivalent)
+    # Pre-create geometric objects
+    pray = pyrove.ray3(pyrove.vec3(0, 0, 0), pyrove.vec3(1, 0, 0))
+    ppoint = pyrove.vec3(5, 3, 0)
+
+    # NumPy equivalents (pre-created)
+    norigin = np.array([0, 0, 0], dtype=np.float32)
+    ndirection = np.array([1, 0, 0], dtype=np.float32)
+    npoint = np.array([5, 3, 0], dtype=np.float32)
+
+    # Ray-point distance
     def pyrove_ray_distance():
-        ray = pyrove.ray3(pyrove.vec3(0, 0, 0), pyrove.vec3(1, 0, 0))
-        point = pyrove.vec3(5, 3, 0)
-        dist = ray.distance(point)
+        dist = pray.distance(ppoint)
 
     def numpy_ray_distance():
         # Manual implementation
-        origin = np.array([0, 0, 0], dtype=np.float32)
-        direction = np.array([1, 0, 0], dtype=np.float32)
-        point = np.array([5, 3, 0], dtype=np.float32)
-        v = point - origin
-        t = np.dot(v, direction)
-        closest = origin + t * direction
-        dist = np.linalg.norm(point - closest)
+        v = npoint - norigin
+        t = np.dot(v, ndirection)
+        closest = norigin + t * ndirection
+        dist = np.linalg.norm(npoint - closest)
 
     results.append(BenchmarkResult(
         "Ray-Point Distance",
@@ -438,18 +456,21 @@ def benchmark_geometric_operations(iterations=50000):
     ))
 
     # Plane intersection test
+    pplane = pyrove.plane(pyrove.vec3(0, 0, 0), pyrove.vec3(0, 1, 0))
+    pray2 = pyrove.ray3(pyrove.vec3(0, 10, 0), pyrove.vec3(0, -1, 0))
+
+    # NumPy equivalents
+    nplane_n = np.array([0, 1, 0], dtype=np.float32)
+    nplane_d = 0.0
+    nray_o = np.array([0, 10, 0], dtype=np.float32)
+    nray_d = np.array([0, -1, 0], dtype=np.float32)
+
     def pyrove_plane_test():
-        plane = pyrove.plane(pyrove.vec3(0, 0, 0), pyrove.vec3(0, 1, 0))
-        ray = pyrove.ray3(pyrove.vec3(0, 10, 0), pyrove.vec3(0, -1, 0))
-        intersects = plane.test_intersection(ray)
+        intersects = pplane.test_intersection(pray2)
 
     def numpy_plane_test():
         # Manual implementation
-        plane_n = np.array([0, 1, 0], dtype=np.float32)
-        plane_d = 0.0
-        ray_o = np.array([0, 10, 0], dtype=np.float32)
-        ray_d = np.array([0, -1, 0], dtype=np.float32)
-        denom = np.dot(plane_n, ray_d)
+        denom = np.dot(nplane_n, nray_d)
         intersects = abs(denom) > 1e-6
 
     results.append(BenchmarkResult(
@@ -460,22 +481,25 @@ def benchmark_geometric_operations(iterations=50000):
     ))
 
     # Triangle area calculation
+    ptri = pyrove.triangle3(
+        pyrove.vec3(0, 0, 0),
+        pyrove.vec3(1, 0, 0),
+        pyrove.vec3(0, 1, 0)
+    )
+
+    # NumPy equivalents
+    na = np.array([0, 0, 0], dtype=np.float32)
+    nb = np.array([1, 0, 0], dtype=np.float32)
+    nc = np.array([0, 1, 0], dtype=np.float32)
+    nab = nb - na
+    nac = nc - na
+
     def pyrove_triangle_area():
-        tri = pyrove.triangle3(
-            pyrove.vec3(0, 0, 0),
-            pyrove.vec3(1, 0, 0),
-            pyrove.vec3(0, 1, 0)
-        )
-        area = tri.area()
+        area = ptri.area()
 
     def numpy_triangle_area():
         # Using cross product
-        a = np.array([0, 0, 0], dtype=np.float32)
-        b = np.array([1, 0, 0], dtype=np.float32)
-        c = np.array([0, 1, 0], dtype=np.float32)
-        ab = b - a
-        ac = c - a
-        cross = np.cross(ab, ac)
+        cross = np.cross(nab, nac)
         area = 0.5 * np.linalg.norm(cross)
 
     results.append(BenchmarkResult(

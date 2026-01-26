@@ -153,6 +153,45 @@ Create Quaternions
    q2 = pyrove.quat(0.0, 0.707, 0.0, 0.707)
    q_mid = pyrove.slerp(q1, q2, 0.5)
 
+Geometric Primitives
+~~~~~~~~~~~~~~~~~~~~
+
+The library includes comprehensive geometric primitive support:
+
+.. code-block:: python
+
+   # Rays for ray casting
+   ray = pyrove.ray3(pyrove.vec3(0, 0, 0), pyrove.vec3(1, 0, 0))
+   point = ray.apply(5.0)  # Get point at t=5
+
+   # Line segments
+   line = pyrove.line3(pyrove.vec3(0, 0, 0), pyrove.vec3(10, 0, 0))
+   dist = line.distance(pyrove.vec3(5, 3, 0))
+
+   # Planes with intersection tests
+   plane = pyrove.plane(pyrove.vec3(0, 0, 0), pyrove.vec3(0, 1, 0))
+   if plane.test_intersection(ray):
+       t = plane.trace(ray)
+
+   # Triangles with geometric properties
+   tri = pyrove.triangle3(
+       pyrove.vec3(0, 0, 0),
+       pyrove.vec3(1, 0, 0),
+       pyrove.vec3(0, 1, 0)
+   )
+   area = tri.area()
+   centroid = tri.cog()
+
+   # Capsules for collision detection
+   cap = pyrove.capsule3(pyrove.vec3(0, 0, 0), pyrove.vec3(0, 2, 0), 0.5)
+   if cap.contains(pyrove.vec3(0, 1, 0.3)):
+       print("Inside capsule")
+
+   # Frustum culling
+   frustum = pyrove.frustum(view_proj_matrix)
+   if frustum.test_intersection(bbox):
+       print("Object visible")
+
 Double Precision
 ~~~~~~~~~~~~~~~~
 
@@ -171,6 +210,10 @@ All types have double-precision variants:
 
    # Double precision quaternions
    dq = pyrove.dquat(0.0, 0.0, 0.0, 1.0)
+
+   # Geometric primitives also have double variants
+   ray_d = pyrove.ray3d(pyrove.vec3d(0, 0, 0), pyrove.vec3d(1, 0, 0))
+   tri_d = pyrove.triangle3d(v1d, v2d, v3d)
 
 NumPy Integration
 ~~~~~~~~~~~~~~~~~
@@ -201,4 +244,5 @@ Next Steps
 * Learn more about :doc:`vectors`
 * Explore :doc:`matrices` for 3D transformations
 * Understand :doc:`quaternions` for smooth rotations
+* Discover :doc:`geometric_primitives` for ray casting, collision detection, and more
 * See :doc:`examples` for practical use cases

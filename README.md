@@ -15,13 +15,15 @@ Most of the code was taken from old (15 years+!) pet project https://github.com/
 - **Flexible component access**: Use `.x/.y/.z/.w` or `.r/.g/.b/.a` notation
 
 ### Geometric Primitives
-- Rays and line segments
-- 3D planes with intersection tests
-- Triangles with barycentric coordinates
-- Spheres and capsules
-- Axis-aligned bounding boxes (AABB)
-- Oriented bounding boxes (OBB)
-- View frustums for culling
+- **Rays**: Half-infinite lines for ray casting and tracing (2D and 3D)
+- **Line segments**: Finite lines with distance queries (2D and 3D)
+- **Planes**: Infinite planes with intersection and classification tests (3D)
+- **Triangles**: Full geometric properties including centers, circles, and ray intersection (3D)
+- **Capsules**: Swept spheres for collision detection (2D and 3D)
+- **Spheres**: Basic sphere primitives (2D and 3D)
+- **AABB**: Axis-aligned bounding boxes (2D and 3D)
+- **OBB**: Oriented bounding boxes (2D and 3D)
+- **Frustums**: View frustums for camera culling (3D)
 
 ### Advanced Features
 - **Collision detection**: Template-based collision functions between various shapes
@@ -168,6 +170,49 @@ mat_back = mat.to_numpy()
 dv = pyrove.dvec3(1.0, 2.0, 3.0)
 dm = pyrove.dmat4()
 dq = pyrove.dquat(0.0, 0.0, 0.0, 1.0)
+
+# Geometric primitives
+
+# Rays for ray casting
+ray = pyrove.ray3(pyrove.vec3(0, 0, 0), pyrove.vec3(1, 0, 0))
+point_on_ray = ray.apply(5.0)  # Get point at t=5
+
+# Line segments
+line = pyrove.line3(pyrove.vec3(0, 0, 0), pyrove.vec3(10, 0, 0))
+distance = line.distance(pyrove.vec3(5, 3, 0))
+
+# Planes with intersection tests
+plane = pyrove.plane(pyrove.vec3(0, 0, 0), pyrove.vec3(0, 1, 0))
+if plane.test_intersection(ray):
+    t = plane.trace(ray)
+    hit_point = ray.apply(t)
+
+# Triangles with extensive geometric properties
+tri = pyrove.triangle3(
+    pyrove.vec3(0, 0, 0),
+    pyrove.vec3(1, 0, 0),
+    pyrove.vec3(0, 1, 0)
+)
+area = tri.area()
+centroid = tri.cog()
+circumcenter = tri.circumcenter()
+if tri.trace(ray, 0.0, 100.0):
+    print("Ray hits triangle!")
+
+# Capsules for collision detection
+capsule = pyrove.capsule3(
+    pyrove.vec3(0, 0, 0),
+    pyrove.vec3(0, 2, 0),
+    0.5
+)
+if capsule.contains(pyrove.vec3(0, 1, 0.3)):
+    print("Point inside capsule")
+
+# Frustum culling
+frustum = pyrove.frustum(view_projection_matrix)
+bbox = pyrove.aabb3(pyrove.vec3(-1, -1, -1), pyrove.vec3(1, 1, 1))
+if frustum.test_intersection(bbox):
+    print("Object is visible")
 ```
 
 ## Running Python Tests
@@ -285,8 +330,18 @@ using quat = quaternion<float>;
 ```
 
 ### Python
-- Float precision: `vec2`, `vec3`, `vec4`, `mat3`, `mat4`, `quat`
-- Double precision: `dvec2`, `dvec3`, `dvec4`, `dmat3`, `dmat4`, `dquat`
+- **Vectors**: `vec2`, `vec3`, `vec4` (float), `dvec2`, `dvec3`, `dvec4` (double)
+- **Matrices**: `mat3`, `mat4` (float), `dmat3`, `dmat4` (double)
+- **Quaternions**: `quat` (float), `dquat` (double)
+- **Rays**: `ray2`, `ray3` (float), `ray2d`, `ray3d` (double)
+- **Lines**: `line2`, `line3` (float), `line2d`, `line3d` (double)
+- **Planes**: `plane` (float), `planed` (double)
+- **Triangles**: `triangle3` (float), `triangle3d` (double)
+- **Capsules**: `capsule2`, `capsule3` (float), `capsule2d`, `capsule3d` (double)
+- **Spheres**: `sphere2`, `sphere3` (float), `sphere2d`, `sphere3d` (double)
+- **AABB**: `aabb2`, `aabb3` (float), `aabb2d`, `aabb3d` (double)
+- **OBB**: `obb2`, `obb3` (float), `obb2d`, `obb3d` (double)
+- **Frustums**: `frustum` (float), `frustumd` (double)
 
 ## License
 

@@ -69,6 +69,7 @@ Contents
    vectors
    matrices
    quaternions
+   geometric_primitives
    numpy_integration
 
 .. toctree::
@@ -80,6 +81,12 @@ Contents
    api/quaternions
    api/aabb
    api/obb
+   api/ray
+   api/line
+   api/plane
+   api/triangle
+   api/capsule
+   api/frustum
    api/functions
 
 .. toctree::

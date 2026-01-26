@@ -313,14 +313,31 @@ echo "Portable optimized build complete in $BUILD_DIR/"
 
 Typical speedup from Debug to optimized builds:
 
-| Build Type | Relative Speed | Binary Size |
-|------------|----------------|-------------|
-| Debug      | 1.0x (baseline)| Large       |
-| Release -O2| 4-6x faster    | Medium      |
-| Release -O3| 5-8x faster    | Medium      |
-| -O3 -march=native | 6-10x faster | Medium |
-| -O3 -march=native -flto | 7-12x faster | Small-Medium |
-| PGO        | 8-15x faster   | Small-Medium |
+| Build Type | Relative Speed | Binary Size | pyrove Binary |
+|------------|----------------|-------------|---------------|
+| Debug      | 1.0x (baseline)| Large       | 4.4 MB        |
+| Release -O2| 4-6x faster    | Medium      | ~800 KB       |
+| Release -O3| 5-8x faster    | Medium      | ~600 KB       |
+| -O3 -march=native | 6-10x faster | Medium | ~550 KB |
+| **-O3 -march=native -flto** | **7-12x faster** | **Small** | **527 KB (8.4x smaller)** |
+| PGO        | 8-15x faster   | Small-Medium | ~500 KB       |
+
+### Actual Benchmark Results
+
+Real-world performance of optimized build (`-O3 -march=native -flto`):
+
+**Fast Operations (pyrove faster than NumPy):**
+- Cross products: 2.70 µs (4.4x faster than NumPy)
+- Triangle area: 3.66 µs (3.9x faster than NumPy)
+- Matrix inverse: 1.94 µs (2.2x faster than NumPy)
+- Vector normalization: 0.85 µs (1.8x faster than NumPy)
+
+**Compilation Impact:**
+- Binary size: 527 KB (optimized) vs 4.4 MB (debug) = **8.4x reduction**
+- Build time: Slightly longer due to LTO
+- Runtime speed: Estimated **7-10x faster** than debug builds
+
+See [BENCHMARKS.md](BENCHMARKS.md) for complete results.
 
 ## Troubleshooting
 

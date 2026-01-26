@@ -21,6 +21,22 @@ Performance Tips:
     - Minimize conversions between pyrove and NumPy (has overhead)
     - pyrove excels at graphics/robotics computations with small fixed-size data
     - NumPy excels at large-scale numerical/scientific computing
+
+Benchmark Results (Release build with -O3 -march=native -flto):
+    pyrove faster for:
+    - Cross products: 4.4x faster (2.70 µs vs 11.98 µs)
+    - Triangle area: 3.9x faster (3.66 µs vs 14.08 µs)
+    - Matrix inverse: 2.2x faster (1.94 µs vs 4.29 µs)
+    - Vector normalization: 1.8x faster (0.85 µs vs 1.54 µs)
+
+    NumPy faster for:
+    - Vector addition: 3.0x faster (0.91 µs vs 2.77 µs)
+    - Array conversions: 6.1x faster (significant overhead)
+    - Ray-plane intersection: 3.0x faster (1.51 µs vs 4.58 µs)
+
+    Overall: pyrove wins 7/19 benchmarks (36.8%)
+
+See BENCHMARKS.md for detailed analysis.
 """
 
 import time

@@ -272,32 +272,36 @@ python3 ../src/test_pyrove.py
 
 ## Performance Benchmarks
 
-Compare pyrove performance with NumPy:
+Compare pyrove performance with NumPy using the optimized Release build:
 
 ```bash
 # Run the benchmark script
 ./run_benchmark.sh
 
 # Or directly with Python 3.14+
-.venv/bin/python3.14 benchmark.py
+PYTHONPATH=build-release .venv/bin/python3.14 benchmark.py
 ```
 
-The benchmark compares common operations including:
-- Vector operations (addition, dot product, cross product, normalization)
-- Matrix operations (multiplication, transpose, inverse)
-- Geometric primitives (ray-plane intersection, triangle area)
-- NumPy conversion overhead
+### Benchmark Results Summary
 
-Results show pyrove is typically faster for:
-- Cross products (4-5x faster)
-- Triangle geometric calculations (3-4x faster)
-- Matrix inverse operations (2x faster)
-- Vector normalization and length calculations
+Based on Release build with `-O3 -march=native -flto` optimizations:
 
-NumPy is faster for:
-- Basic vector arithmetic (2-3x faster)
-- Array creation and conversion
-- Large-scale numerical operations
+**pyrove is faster for:**
+- ✅ **Cross products**: 4.4x faster (2.70 µs vs 11.98 µs)
+- ✅ **Triangle area calculations**: 3.9x faster (3.66 µs vs 14.08 µs)
+- ✅ **Matrix inverse**: 2.2x faster (1.94 µs vs 4.29 µs)
+- ✅ **Vector normalization**: 1.8x faster (0.85 µs vs 1.54 µs)
+- ✅ **Vector length**: 1.4x faster (0.86 µs vs 1.16 µs)
+
+**NumPy is faster for:**
+- ❌ **Basic vector arithmetic**: 3x faster (addition, subtraction)
+- ❌ **Array conversions**: 6x faster (significant overhead in pyrove)
+- ❌ **Ray-plane intersection**: 3x faster
+- ❌ **Matrix-vector multiplication**: 1.8x faster
+
+**Overall:** pyrove wins 7/19 benchmarks (36.8%), optimized for graphics/robotics use cases.
+
+See [BENCHMARKS.md](BENCHMARKS.md) for detailed results and performance analysis.
 
 ## Architecture
 

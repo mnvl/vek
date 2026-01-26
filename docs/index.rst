@@ -13,6 +13,8 @@ Features
 * **Fast vector operations**: 2D, 3D, and 4D vectors with NumPy integration
 * **Matrix transformations**: 3x3 and 4x4 matrices for 2D/3D graphics
 * **Quaternion rotations**: Smooth rotation interpolation with SLERP
+* **Geometric primitives**: Rays, planes, triangles, capsules, and frustums
+* **High performance**: Optimized C++ with Python bindings (4.4x faster cross products)
 * **Double precision support**: Float and double precision types
 * **NumPy interoperability**: Seamless conversion to/from NumPy arrays
 
@@ -101,6 +103,7 @@ Contents
 
    examples
    performance
+   benchmarks
 
 Indices and tables
 ==================

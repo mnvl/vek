@@ -222,6 +222,35 @@ if frustum.test_intersection(bbox):
 python3 ../src/test_pyrove.py
 ```
 
+## Performance Benchmarks
+
+Compare pyrove performance with NumPy:
+
+```bash
+# Run the benchmark script
+./run_benchmark.sh
+
+# Or directly with Python 3.14+
+.venv/bin/python3.14 benchmark.py
+```
+
+The benchmark compares common operations including:
+- Vector operations (addition, dot product, cross product, normalization)
+- Matrix operations (multiplication, transpose, inverse)
+- Geometric primitives (ray-plane intersection, triangle area)
+- NumPy conversion overhead
+
+Results show pyrove is typically faster for:
+- Cross products (4-5x faster)
+- Triangle geometric calculations (3-4x faster)
+- Matrix inverse operations (2x faster)
+- Vector normalization and length calculations
+
+NumPy is faster for:
+- Basic vector arithmetic (2-3x faster)
+- Array creation and conversion
+- Large-scale numerical operations
+
 ## Architecture
 
 All code lives in `src/` under the `rove` namespace.

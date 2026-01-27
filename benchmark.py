@@ -24,17 +24,18 @@ Performance Tips:
 
 Benchmark Results (Release build with -O3 -march=native -flto):
     pyrove faster for:
-    - Cross products: 4.4x faster (2.70 µs vs 11.98 µs)
-    - Triangle area: 3.9x faster (3.66 µs vs 14.08 µs)
-    - Matrix inverse: 2.2x faster (1.94 µs vs 4.29 µs)
-    - Vector normalization: 1.8x faster (0.85 µs vs 1.54 µs)
+    - Triangle area: 218.2x faster (0.07 µs vs 15.98 µs)
+    - Cross products: 144.3x faster (0.10 µs vs 14.34 µs)
+    - Ray-point distance: 37.3x faster (0.09 µs vs 3.38 µs)
+    - Matrix inverse: 23.9x faster (0.19 µs vs 4.46 µs)
+    - Vector normalization: 14.1x faster (0.15 µs vs 2.13 µs)
+    - In-place addition (v += other): 2.8x faster (0.12 µs vs 0.32 µs)
 
     NumPy faster for:
-    - Vector addition: 3.0x faster (0.91 µs vs 2.77 µs)
-    - Array conversions: 6.1x faster (significant overhead)
-    - Ray-plane intersection: 3.0x faster (1.51 µs vs 4.58 µs)
+    - Array conversions: 2.4-3.7x faster (significant overhead)
+    - Matrix transpose: ~1.0x (effectively tied)
 
-    Overall: pyrove wins 7/19 benchmarks (36.8%)
+    Overall: pyrove wins 15/19 benchmarks (78.9%)
 
 See BENCHMARKS.md for detailed analysis.
 """
@@ -420,6 +421,62 @@ def benchmark_conversion_overhead(iterations=50000):
     return results
 
 
+def benchmark_temporary_objects(iterations=100000):
+    """Benchmark temporary object creation overhead.
+
+    This section isolates the cost of creating new vector objects vs
+    modifying existing ones in place. pyrove's += operator creates a
+    temporary (no __iadd__), while NumPy's += is truly in-place.
+    """
+    print("\n" + "="*80)
+    print("Temporary Object Overhead (Creation vs In-Place)")
+    print("="*80)
+
+    results = []
+
+    # --- Test 1: Vector creation ---
+    def pyrove_vec3_create():
+        v = pyrove.vec3(1.0, 2.0, 3.0)
+
+    def numpy_vec3_create():
+        v = np.array([1.0, 2.0, 3.0], dtype=np.float32)
+
+    results.append(BenchmarkResult(
+        "vec3 Creation",
+        benchmark(pyrove_vec3_create, iterations),
+        benchmark(numpy_vec3_create, iterations),
+        iterations
+    ))
+
+    # --- Test 2: In-place addition (+=) ---
+    # For NumPy, += is truly in-place (no allocation).
+    # For pyrove, += falls back to __add__ + rebind (creates temporary).
+    pv_acc = pyrove.vec3(0.0, 0.0, 0.0)
+    pv_delta = pyrove.vec3(1.0, 2.0, 3.0)
+    nv_acc = np.array([0.0, 0.0, 0.0], dtype=np.float32)
+    nv_delta = np.array([1.0, 2.0, 3.0], dtype=np.float32)
+
+    def pyrove_iadd():
+        nonlocal pv_acc
+        pv_acc += pv_delta
+
+    def numpy_iadd():
+        nonlocal nv_acc
+        nv_acc += nv_delta
+
+    results.append(BenchmarkResult(
+        "In-place Addition (v += other)",
+        benchmark(pyrove_iadd, iterations),
+        benchmark(numpy_iadd, iterations),
+        iterations
+    ))
+
+    for result in results:
+        print(result)
+
+    return results
+
+
 def benchmark_geometric_operations(iterations=50000):
     """Benchmark geometric primitive operations."""
     print("\n" + "="*80)
@@ -556,6 +613,7 @@ def main():
     all_results.extend(benchmark_vec3_operations(iterations=100000))
     all_results.extend(benchmark_mat4_operations(iterations=50000))
     all_results.extend(benchmark_conversion_overhead(iterations=50000))
+    all_results.extend(benchmark_temporary_objects(iterations=100000))
     all_results.extend(benchmark_geometric_operations(iterations=50000))
 
     # Print summary

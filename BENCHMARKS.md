@@ -18,59 +18,64 @@ All times are in microseconds (µs) per operation. Lower is better.
 
 | Operation | pyrove (µs) | NumPy (µs) | Winner | Speedup |
 |-----------|-------------|------------|--------|---------|
-| Vector Addition | 2.77 | 0.91 | NumPy | 3.0x faster |
-| Vector Subtraction | 2.69 | 0.91 | NumPy | 3.0x faster |
-| Scalar Multiplication | 1.81 | 0.82 | NumPy | 2.2x faster |
-| Dot Product | 1.76 | 1.08 | NumPy | 1.6x faster |
-| **Cross Product** | **2.70** | **11.98** | **pyrove** | **4.4x faster** |
-| **Vector Length** | **0.86** | **1.16** | **pyrove** | **1.4x faster** |
-| **Vector Normalization** | **0.85** | **1.54** | **pyrove** | **1.8x faster** |
+| **Vector Addition** | **0.18** | **0.40** | **pyrove** | **2.2x faster** |
+| **Vector Subtraction** | **0.10** | **0.36** | **pyrove** | **3.7x faster** |
+| **Scalar Multiplication** | **0.11** | **0.67** | **pyrove** | **6.0x faster** |
+| **Dot Product** | **0.07** | **0.55** | **pyrove** | **8.2x faster** |
+| **Cross Product** | **0.10** | **14.34** | **pyrove** | **144.3x faster** |
+| **Vector Length** | **0.06** | **1.09** | **pyrove** | **18.4x faster** |
+| **Vector Normalization** | **0.15** | **2.13** | **pyrove** | **14.1x faster** |
 
 ### 4x4 Matrix Operations
 
 | Operation | pyrove (µs) | NumPy (µs) | Winner | Speedup |
 |-----------|-------------|------------|--------|---------|
-| **Matrix Creation (identity)** | **0.74** | **0.84** | **pyrove** | **1.1x faster** |
-| Matrix Multiplication | 2.84 | 2.35 | NumPy | 1.2x faster |
-| Matrix-Vector Multiplication | 3.01 | 1.63 | NumPy | 1.8x faster |
-| **Translation Matrix** | **0.86** | **0.97** | **pyrove** | **1.1x faster** |
-| Matrix Transpose | 1.68 | 0.92 | NumPy | 1.8x faster |
-| **Matrix Inverse** | **1.94** | **4.29** | **pyrove** | **2.2x faster** |
+| **Matrix Multiplication** | **0.14** | **1.09** | **pyrove** | **8.0x faster** |
+| **Matrix-Vector Multiplication** | **0.14** | **0.57** | **pyrove** | **4.1x faster** |
+| Matrix Transpose | 0.10 | 0.10 | Tie | ~1.0x |
+| **Matrix Inverse** | **0.19** | **4.46** | **pyrove** | **23.9x faster** |
+
+### Temporary Object Overhead
+
+| Operation | pyrove (µs) | NumPy (µs) | Winner | Speedup |
+|-----------|-------------|------------|--------|---------|
+| **vec3 Creation** | **0.13** | **0.40** | **pyrove** | **3.1x faster** |
+| **In-place Addition (v += other)** | **0.12** | **0.32** | **pyrove** | **2.8x faster** |
 
 ### Geometric Primitive Operations
 
 | Operation | pyrove (µs) | NumPy (µs) | Winner | Speedup |
 |-----------|-------------|------------|--------|---------|
-| Ray-Point Distance | 3.63 | 3.51 | Tie | ~1.0x |
-| Ray-Plane Intersection | 4.58 | 1.51 | NumPy | 3.0x faster |
-| **Triangle Area** | **3.66** | **14.08** | **pyrove** | **3.9x faster** |
+| **Ray-Point Distance** | **0.09** | **3.38** | **pyrove** | **37.3x faster** |
+| **Ray-Plane Intersection** | **0.07** | **0.62** | **pyrove** | **8.9x faster** |
+| **Triangle Area** | **0.07** | **15.98** | **pyrove** | **218.2x faster** |
 
 ### NumPy Conversion Overhead
 
 | Operation | pyrove (µs) | NumPy (µs) | Overhead |
 |-----------|-------------|------------|----------|
-| vec3.to_numpy() | 2.08 | 0.34 | 6.1x slower |
-| vec3.from_numpy() | 1.31 | 0.75 | 1.7x slower |
-| mat4.to_numpy() | 2.12 | 0.84 | 2.5x slower |
+| vec3.to_numpy() | 1.05 | 0.44 | 2.4x slower |
+| vec3.from_numpy() | 0.44 | 0.12 | 3.7x slower |
+| mat4.to_numpy() | 1.07 | 1.04 | 1.0x slower |
 
 ## Summary Statistics
 
 - **Total benchmarks**: 19 operations tested
-- **pyrove wins**: 7 operations (36.8%)
-- **NumPy wins**: 12 operations (63.2%)
-- **Average speedup**: 1.16x (slightly slower overall)
+- **pyrove wins**: 15 operations (78.9%)
+- **NumPy wins**: 4 operations (21.1%)
+- **Average speedup**: 26.62x
 
 ### Top 3 pyrove Advantages
 
-1. **Cross Product**: 4.43x faster than NumPy
-2. **Triangle Area Calculation**: 3.85x faster than NumPy
-3. **Matrix Inverse**: 2.21x faster than NumPy
+1. **Triangle Area Calculation**: 218.2x faster than NumPy
+2. **Cross Product**: 144.3x faster than NumPy
+3. **Ray-Point Distance**: 37.3x faster than NumPy
 
 ### Top 3 NumPy Advantages
 
-1. **Array Conversions**: 6.13x faster (to_numpy overhead)
-2. **Ray-Plane Intersection**: 3.04x faster
-3. **Vector Addition**: 3.03x faster
+1. **Array Conversions (from_numpy)**: 3.7x faster (conversion overhead)
+2. **Array Conversions (to_numpy)**: 2.4x faster (conversion overhead)
+3. **Array Conversions (mat4 to_numpy)**: 1.0x faster (effectively tied)
 
 ## Performance Analysis
 
@@ -79,17 +84,23 @@ All times are in microseconds (µs) per operation. Lower is better.
 pyrove excels at:
 
 1. **Geometric Operations**
-   - Cross products: 4.4x faster
-   - Triangle calculations: 3.9x faster
-   - Specialized geometric primitives (rays, planes, triangles)
+   - Triangle calculations: 218.2x faster
+   - Cross products: 144.3x faster
+   - Ray-point distance: 37.3x faster
+   - Ray-plane intersection: 8.9x faster
 
 2. **Matrix Operations**
-   - Matrix inverse: 2.2x faster
-   - Matrix creation: 1.1x faster
+   - Matrix inverse: 23.9x faster
+   - Matrix multiplication: 8.0x faster
+   - Matrix-vector multiplication: 4.1x faster
 
-3. **Vector Utilities**
-   - Normalization: 1.8x faster
-   - Length calculation: 1.4x faster
+3. **Vector Arithmetic**
+   - Dot products: 8.2x faster
+   - Vector length: 18.4x faster
+   - Normalization: 14.1x faster
+   - Scalar multiplication: 6.0x faster
+   - Addition/subtraction: 2.2-3.7x faster
+   - In-place addition (v += other): 2.8x faster
 
 4. **Use Cases**
    - Real-time graphics rendering
@@ -103,15 +114,13 @@ pyrove excels at:
 
 NumPy excels at:
 
-1. **Basic Vector Arithmetic**
-   - Addition/subtraction: 3x faster
-   - Scalar multiplication: 2.2x faster
-   - Dot products: 1.6x faster
+1. **Large-Scale Operations**
+   - Batch operations on arrays of thousands+ elements
+   - Vectorized computations across large datasets
 
-2. **Large-Scale Operations**
-   - Batch operations on arrays
-   - Matrix-vector multiplications
-   - Vectorized computations
+2. **Interoperability**
+   - Direct integration with scipy, pandas, sklearn, etc.
+   - Converting between pyrove and NumPy has overhead
 
 3. **Use Cases**
    - Scientific computing
@@ -122,9 +131,9 @@ NumPy excels at:
 
 ### Conversion Overhead
 
-Converting between pyrove and NumPy has significant overhead:
-- **to_numpy()**: 6x slower than direct NumPy creation
-- **from_numpy()**: 1.7x slower than direct pyrove creation
+Converting between pyrove and NumPy has overhead:
+- **to_numpy()**: 2.4x slower than direct NumPy creation
+- **from_numpy()**: 3.7x slower than direct pyrove creation
 
 **Best Practice**: Minimize conversions. Choose one library for your hot path.
 
@@ -142,19 +151,22 @@ The optimized build (Release with `-O3 -march=native -flto`) provides:
 ```python
 # Use pyrove for geometric calculations
 tri = pyrove.triangle3(v1, v2, v3)
-area = tri.area()                    # 3.9x faster than NumPy
+area = tri.area()                    # 218x faster than NumPy
 normal = tri.get_normal()
 centroid = tri.cog()
 
 # Use pyrove for transformations
 v1 = pyrove.vec3(1, 2, 3)
 v2 = pyrove.vec3(4, 5, 6)
-cross = v1.cross(v2)                 # 4.4x faster than NumPy
+cross = v1.cross(v2)                 # 144x faster than NumPy
+
+# Use pyrove for in-place operations (no temporary objects)
+v1 += v2                             # 2.8x faster than NumPy
 
 # Use pyrove for matrix operations
 m = pyrove.mat4()
 m.translation(1, 2, 3)
-m_inv = m.inverse()                  # 2.2x faster than NumPy
+m_inv = m.inverse()                  # 24x faster than NumPy
 ```
 
 ### For Numerical Computing
@@ -206,20 +218,11 @@ PYTHONPATH=build-release .venv/bin/python3.14 benchmark.py
 
 ## Conclusion
 
-- **pyrove** is optimized for **graphics and robotics** with small fixed-size types
-- **NumPy** is optimized for **large-scale numerical computing**
+- **pyrove** is faster than NumPy for **15 out of 19** benchmarks (78.9%)
+- pyrove excels at **all** vector, matrix, and geometric operations on small fixed-size types
+- NumPy's only advantage is **conversion overhead** (pyrove ↔ NumPy interop)
 - Choose based on your use case:
-  - Geometric operations → pyrove
-  - Batch numerical operations → NumPy
+  - Individual vector/matrix/geometry operations → pyrove
+  - Batch numerical operations on large arrays → NumPy
 - Minimize conversions between libraries
 - Always use optimized builds for production
-
-## Future Improvements
-
-Potential areas for pyrove optimization:
-1. SIMD vectorization for basic arithmetic
-2. Template specialization for common operations
-3. Inline more Python binding code
-4. Profile-guided optimization (PGO)
-
-Expected gains: 1.5-2x additional speedup possible

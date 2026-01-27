@@ -133,6 +133,18 @@ if(ROVE_BUILD_PYTHON)
     nanobind_add_module(pyrove ${PYROVE_SOURCES})
     target_link_libraries(pyrove PRIVATE rove)
     target_include_directories(pyrove PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+    # Override nanobind's default -Os with -O3 for maximum performance.
+    # nanobind_add_module adds -Os to minimize binary size, but for a math
+    # library the binding code benefits from full optimization. The last -O
+    # flag wins with GCC/Clang.
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+            target_compile_options(pyrove PRIVATE -O3)
+        endif()
+    endif()
+
+    install(TARGETS pyrove LIBRARY DESTINATION .)
 endif()
 
 # Documentation

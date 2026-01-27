@@ -47,7 +47,7 @@ import numpy as np
 
 # Add build directory to path to find pyrove
 script_dir = os.path.dirname(os.path.abspath(__file__))
-build_dir = os.path.join(script_dir, 'build')
+build_dir = os.path.join(script_dir, 'build-release')
 if os.path.exists(build_dir):
     sys.path.insert(0, build_dir)
 
@@ -624,8 +624,6 @@ def main():
     print("="*80)
     print("\nNotes:")
     print("- pyrove operations are often faster for small, fixed-size vectors/matrices")
-    print("- NumPy may be faster for large arrays and vectorized operations")
-    print("- Conversion between pyrove and NumPy has overhead")
     print("- pyrove is optimized for graphics/robotics use cases")
     print("- Use pyrove for tight loops with small vectors/matrices")
     print("- Use NumPy for large-scale numerical computations")

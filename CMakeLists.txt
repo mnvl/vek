@@ -130,9 +130,9 @@ if(ROVE_BUILD_PYTHON)
         src/bind_frustum.cc
     )
 
-    nanobind_add_module(pyrove ${PYROVE_SOURCES})
-    target_link_libraries(pyrove PRIVATE rove)
-    target_include_directories(pyrove PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+    nanobind_add_module(pyrove_bind ${PYROVE_SOURCES})
+    target_link_libraries(pyrove_bind PRIVATE rove)
+    target_include_directories(pyrove_bind PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
     # Override nanobind's default -Os with -O3 for maximum performance.
     # nanobind_add_module adds -Os to minimize binary size, but for a math
@@ -140,11 +140,11 @@ if(ROVE_BUILD_PYTHON)
     # flag wins with GCC/Clang.
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
         if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-            target_compile_options(pyrove PRIVATE -O3)
+            target_compile_options(pyrove_bind PRIVATE -O3)
         endif()
     endif()
 
-    install(TARGETS pyrove LIBRARY DESTINATION .)
+    install(TARGETS pyrove_bind LIBRARY DESTINATION .)
 endif()
 
 # Documentation

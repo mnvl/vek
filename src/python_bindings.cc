@@ -19,7 +19,7 @@ namespace nb = nanobind;
  * free functions. The actual binding implementations are in separate
  * files for better organization.
  */
-NB_MODULE(pyrove, m) {
+NB_MODULE(pyrove_bind, m) {
     m.doc() = "Python bindings for rove vector math library";
 
     // Bind vector classes (float versions)

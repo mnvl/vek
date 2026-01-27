@@ -29,8 +29,8 @@ classifiers = [
 keywords = ["math", "geometry", "3d", "vector", "matrix", "collision", "pathfinding", "game-development"]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/rove"
-Repository = "https://github.com/yourusername/rove"
+Homepage = "https://github.com/mnvl/rove"
+Repository = "https://github.com/mnvl/rove.git"
 
 [tool.scikit-build]
 cmake.build-type = "Release"

@@ -39,7 +39,7 @@ Most of the code was taken from old (15 years+!) pet project https://github.com/
 ## Python Usage
 
 ```bash
-pip3 install git+https://github.com/mnvl/rove.git
+pip install git+https://github.com/mnvl/rove.git
 ```
 
 ```python
@@ -176,7 +176,9 @@ bool colliding = collide(contact, s1, s2);
 
 ## Performance Benchmarks
 
-See [BENCHMARKS.md](BENCHMARKS.md) for detailed results and performance analysis.
+```bash
+python3 ./benchmark.py
+```
 
 ## Architecture
 

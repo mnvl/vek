@@ -6,18 +6,24 @@
 #pragma once
 
 #include <array>
+#include <algorithm>
 #include <cassert>
+#include <cmath>
 #include <cstddef>
 #include <memory>
 #include <vector>
 #include "aabb.h"
 #include "sphere.h"
+#include "triangle.h"
 
 namespace rove
 {
 
 template<class Primitive>
 struct octree_traits;
+
+template<class StoredPrimitive, class QueryPrimitive>
+struct octree_query_traits;
 
 template<class T>
 struct octree_traits<aabb<3, T> > {
@@ -47,6 +53,96 @@ struct octree_traits<sphere<3, T> > {
 	static aabb_t bounds(primitive_t const &primitive)
 	{
 		return primitive.get_aabb();
+	}
+
+	static bool intersects(primitive_t const &left, primitive_t const &right)
+	{
+		return left.test_intersection(right);
+	}
+};
+
+template<class Primitive>
+struct octree_query_traits<Primitive, Primitive> {
+	typedef octree_traits<Primitive> primitive_traits_t;
+	typedef typename primitive_traits_t::aabb_t aabb_t;
+	typedef Primitive stored_primitive_t;
+	typedef Primitive query_primitive_t;
+
+	static aabb_t bounds(query_primitive_t const &query)
+	{
+		return primitive_traits_t::bounds(query);
+	}
+
+	static bool intersects(stored_primitive_t const &stored, query_primitive_t const &query)
+	{
+		return primitive_traits_t::intersects(stored, query);
+	}
+};
+
+template<class T>
+struct octree_query_traits<triangle<3, T>, aabb<3, T> > {
+	typedef triangle<3, T> stored_primitive_t;
+	typedef aabb<3, T> query_primitive_t;
+	typedef aabb<3, T> aabb_t;
+
+	static aabb_t bounds(query_primitive_t const &query)
+	{
+		return query;
+	}
+
+	static bool intersects(stored_primitive_t const &stored, query_primitive_t const &query)
+	{
+		aabb_t stored_bounds(stored.A);
+		stored_bounds.extend(stored.B);
+		stored_bounds.extend(stored.C);
+		return stored_bounds.test_intersection(query);
+	}
+};
+
+template<class T>
+struct octree_query_traits<triangle<3, T>, sphere<3, T> > {
+	typedef triangle<3, T> stored_primitive_t;
+	typedef sphere<3, T> query_primitive_t;
+	typedef aabb<3, T> aabb_t;
+	typedef vec<3, T> vec_t;
+
+	static aabb_t bounds(query_primitive_t const &query)
+	{
+		return query.get_aabb();
+	}
+
+	static bool intersects(stored_primitive_t const &stored, query_primitive_t const &query)
+	{
+		aabb_t stored_bounds(stored.A);
+		stored_bounds.extend(stored.B);
+		stored_bounds.extend(stored.C);
+		return aabb_intersects_sphere(stored_bounds, query);
+	}
+
+private:
+	static bool aabb_intersects_sphere(aabb_t const &box, query_primitive_t const &sphere)
+	{
+		vec_t closest = sphere.centre;
+		closest.x = std::max(box.lo.x, std::min(closest.x, box.hi.x));
+		closest.y = std::max(box.lo.y, std::min(closest.y, box.hi.y));
+		closest.z = std::max(box.lo.z, std::min(closest.z, box.hi.z));
+		return (closest - sphere.centre).length_sq() <= sphere.radius * sphere.radius;
+	}
+};
+
+template<class T>
+struct octree_traits<triangle<3, T> > {
+	typedef T scalar_t;
+	typedef vec<3, T> vec_t;
+	typedef aabb<3, T> aabb_t;
+	typedef triangle<3, T> primitive_t;
+
+	static aabb_t bounds(primitive_t const &primitive)
+	{
+		aabb_t result(primitive.A);
+		result.extend(primitive.B);
+		result.extend(primitive.C);
+		return result;
 	}
 
 	static bool intersects(primitive_t const &left, primitive_t const &right)
@@ -180,6 +276,25 @@ public:
 		}
 
 		query_node(*root_, primitive, traits_t::bounds(primitive), result);
+	}
+
+	template<class QueryPrimitive, class QueryTraits = octree_query_traits<primitive_t, QueryPrimitive> >
+	std::vector<payload_t> query_intersection(QueryPrimitive const &primitive) const
+	{
+		std::vector<payload_t> result;
+		query_intersection<QueryPrimitive, QueryTraits>(primitive, result);
+		return result;
+	}
+
+	template<class QueryPrimitive, class QueryTraits = octree_query_traits<primitive_t, QueryPrimitive> >
+	void query_intersection(QueryPrimitive const &primitive, std::vector<payload_t> &result) const
+	{
+		assert(built_ && "octree::build() must be called before query_intersection()");
+		if (!built_ || root_ == nullptr) {
+			return;
+		}
+
+		query_node<QueryPrimitive, QueryTraits>(*root_, primitive, QueryTraits::bounds(primitive), result);
 	}
 
 private:
@@ -340,6 +455,30 @@ private:
 			node const *child = current.children[subclusters[i]].get();
 			if (child != nullptr) {
 				query_node(*child, query_primitive, query_bounds, result);
+			}
+		}
+	}
+
+	template<class QueryPrimitive, class QueryTraits>
+	void query_node(node const &current, QueryPrimitive const &query_primitive, aabb_t const &query_bounds, std::vector<payload_t> &result) const
+	{
+		for (size_t item_index : current.item_indices) {
+			if (QueryTraits::intersects(items_[item_index].primitive, query_primitive)) {
+				result.push_back(items_[item_index].payload);
+			}
+		}
+
+		if (current.is_leaf()) {
+			return;
+		}
+
+		unsigned subclusters[SUBCLUSTERS_COUNT];
+		size_t nsubclusters = get_subclusters_by_aabb(current.centre, query_bounds, subclusters);
+
+		for (size_t i = 0; i < nsubclusters; ++i) {
+			node const *child = current.children[subclusters[i]].get();
+			if (child != nullptr) {
+				query_node<QueryPrimitive, QueryTraits>(*child, query_primitive, query_bounds, result);
 			}
 		}
 	}

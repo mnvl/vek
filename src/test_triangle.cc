@@ -343,9 +343,6 @@ BOOST_AUTO_TEST_CASE(triangle_trace_boolean)
 }
 
 // Triangle-triangle intersection tests
-// Note: test_intersection and query_intersection require line::query_intersection
-// which is not implemented, so these tests are commented out
-/*
 BOOST_AUTO_TEST_CASE(triangle_test_intersection_coplanar)
 {
 	rove::triangle<3> tri1(
@@ -380,7 +377,7 @@ BOOST_AUTO_TEST_CASE(triangle_test_intersection_different_planes)
 	BOOST_REQUIRE(tri1.test_intersection(tri2));
 }
 
-BOOST_AUTO_TEST_CASE(triangle_query_intersection)
+BOOST_AUTO_TEST_CASE(triangle_test_intersection_disjoint)
 {
 	rove::triangle<3> tri1(
 		rove::vec<3>(0, 0, 0),
@@ -389,15 +386,13 @@ BOOST_AUTO_TEST_CASE(triangle_query_intersection)
 	);
 
 	rove::triangle<3> tri2(
-		rove::vec<3>(1, 0, -1),
-		rove::vec<3>(1, 0, 1),
-		rove::vec<3>(1, 2, 0)
+		rove::vec<3>(5, 5, 1),
+		rove::vec<3>(6, 5, 1),
+		rove::vec<3>(5, 6, 1)
 	);
 
-	rove::line<3> ln;
-	BOOST_REQUIRE(tri1.query_intersection(tri2, ln));
+	BOOST_REQUIRE(!tri1.test_intersection(tri2));
 }
-*/
 
 // Transform test
 BOOST_AUTO_TEST_CASE(triangle_transform)

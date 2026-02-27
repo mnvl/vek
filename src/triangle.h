@@ -258,10 +258,7 @@ public:
         return trace(r,t,v,t_min,t_max);
     }
 
-    bool test_intersection(const triangle_t &t) const {
-        line_t ln;
-        return query_intersection(t, ln);
-    }
+    bool test_intersection(const triangle_t &t) const;
 
     bool query_intersection(const triangle_t &t,line_t &ln) const {
         ray_t r;
@@ -355,4 +352,3 @@ public:
 };
 
 }
-

@@ -41,6 +41,7 @@ set(ROVE_SOURCES
     src/plane.cc
     src/ray.cc
     src/sphere.cc
+    src/triangle.cc
     src/vec.cc
 )
 

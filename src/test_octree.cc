@@ -4,6 +4,7 @@
 #include "aabb.h"
 #include "octree.h"
 #include "sphere.h"
+#include "triangle.h"
 
 namespace
 {
@@ -38,13 +39,41 @@ rove::aabb<3> random_aabb()
 	return rove::aabb<3>(centre - half_size, centre + half_size);
 }
 
-template<class Primitive>
-std::set<int> brute_force_intersection_set(std::vector<Primitive> const &primitives, Primitive const &query)
+rove::triangle<3> random_triangle()
 {
+	for (size_t i = 0; i < 64; ++i) {
+		rove::vec<3> a(
+			rove::random(-1.0f, 1.0f),
+			rove::random(-1.0f, 1.0f),
+			rove::random(-1.0f, 1.0f));
+		rove::vec<3> b(
+			rove::random(-1.0f, 1.0f),
+			rove::random(-1.0f, 1.0f),
+			rove::random(-1.0f, 1.0f));
+		rove::vec<3> c(
+			rove::random(-1.0f, 1.0f),
+			rove::random(-1.0f, 1.0f),
+			rove::random(-1.0f, 1.0f));
+
+		if (((b - a) ^ (c - a)).length_sq() > rove::EPSILON) {
+			return rove::triangle<3>(a, b, c);
+		}
+	}
+
+	return rove::triangle<3>(
+		rove::vec<3>(-0.5f, -0.5f, 0.0f),
+		rove::vec<3>(0.5f, -0.5f, 0.0f),
+		rove::vec<3>(0.0f, 0.5f, 0.0f));
+}
+
+template<class Primitive, class QueryPrimitive>
+std::set<int> brute_force_intersection_set(std::vector<Primitive> const &primitives, QueryPrimitive const &query)
+{
+	typedef rove::octree_query_traits<Primitive, QueryPrimitive> query_traits_t;
 	std::set<int> result;
 
 	for (size_t i = 0; i < primitives.size(); ++i) {
-		if (primitives[i].test_intersection(query)) {
+		if (query_traits_t::intersects(primitives[i], query)) {
 			result.insert(static_cast<int>(i));
 		}
 	}
@@ -221,6 +250,98 @@ BOOST_AUTO_TEST_CASE(static_aabb_query_correctness_random)
 
 	for (size_t i = 0; i < M; ++i) {
 		primitive_t query = random_aabb();
+		std::set<int> expected = brute_force_intersection_set(primitives, query);
+		std::set<int> actual = to_set(tree.query_intersection(query));
+		BOOST_REQUIRE(actual == expected);
+	}
+}
+
+BOOST_AUTO_TEST_CASE(static_triangle_query_correctness_random)
+{
+	typedef rove::triangle<3> primitive_t;
+	static size_t const N = 200;
+	static size_t const M = 80;
+
+	rove::octree<primitive_t, int> tree(
+		rove::aabb<3>(rove::vec<3>(-1, -1, -1), rove::vec<3>(1, 1, 1)),
+		8);
+
+	std::vector<primitive_t> primitives;
+	primitives.reserve(N);
+	tree.reserve(N);
+
+	for (size_t i = 0; i < N; ++i) {
+		primitive_t primitive = random_triangle();
+		primitives.push_back(primitive);
+		tree.insert(primitive, static_cast<int>(i));
+	}
+
+	tree.build();
+
+	for (size_t i = 0; i < M; ++i) {
+		primitive_t query = random_triangle();
+		std::set<int> expected = brute_force_intersection_set(primitives, query);
+		std::set<int> actual = to_set(tree.query_intersection(query));
+		BOOST_REQUIRE(actual == expected);
+	}
+}
+
+BOOST_AUTO_TEST_CASE(static_triangle_query_by_aabb_correctness_random)
+{
+	typedef rove::triangle<3> primitive_t;
+	typedef rove::aabb<3> query_t;
+	static size_t const N = 200;
+	static size_t const M = 80;
+
+	rove::octree<primitive_t, int> tree(
+		rove::aabb<3>(rove::vec<3>(-1, -1, -1), rove::vec<3>(1, 1, 1)),
+		8);
+
+	std::vector<primitive_t> primitives;
+	primitives.reserve(N);
+	tree.reserve(N);
+
+	for (size_t i = 0; i < N; ++i) {
+		primitive_t primitive = random_triangle();
+		primitives.push_back(primitive);
+		tree.insert(primitive, static_cast<int>(i));
+	}
+
+	tree.build();
+
+	for (size_t i = 0; i < M; ++i) {
+		query_t query = random_aabb();
+		std::set<int> expected = brute_force_intersection_set(primitives, query);
+		std::set<int> actual = to_set(tree.query_intersection(query));
+		BOOST_REQUIRE(actual == expected);
+	}
+}
+
+BOOST_AUTO_TEST_CASE(static_triangle_query_by_sphere_correctness_random)
+{
+	typedef rove::triangle<3> primitive_t;
+	typedef rove::sphere<3> query_t;
+	static size_t const N = 200;
+	static size_t const M = 80;
+
+	rove::octree<primitive_t, int> tree(
+		rove::aabb<3>(rove::vec<3>(-1, -1, -1), rove::vec<3>(1, 1, 1)),
+		8);
+
+	std::vector<primitive_t> primitives;
+	primitives.reserve(N);
+	tree.reserve(N);
+
+	for (size_t i = 0; i < N; ++i) {
+		primitive_t primitive = random_triangle();
+		primitives.push_back(primitive);
+		tree.insert(primitive, static_cast<int>(i));
+	}
+
+	tree.build();
+
+	for (size_t i = 0; i < M; ++i) {
+		query_t query = random_sphere(0.4f);
 		std::set<int> expected = brute_force_intersection_set(primitives, query);
 		std::set<int> actual = to_set(tree.query_intersection(query));
 		BOOST_REQUIRE(actual == expected);

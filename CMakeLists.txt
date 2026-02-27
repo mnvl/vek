@@ -37,6 +37,7 @@ set(ROVE_SOURCES
     src/line.cc
     src/matrix.cc
     src/obb.cc
+    src/octree.cc
     src/plane.cc
     src/ray.cc
     src/sphere.cc
@@ -83,6 +84,7 @@ if(ROVE_BUILD_TESTS)
         src/test_heightfield.cc
         src/test_matrix.cc
         src/test_obb.cc
+        src/test_octree.cc
         src/test_plane.cc
         src/test_quaternion.cc
         src/test_ray.cc

@@ -186,9 +186,23 @@ public:
 			dot = -dot;
 		}
 
-		omega_ = (T) acos(dot);
+		dot = std::min(T(1), std::max(T(-1), dot));
+		if (dot >= T(1) - T(EPSILON)) {
+			linear_ = true;
+			omega_ = 0;
+			return;
+		}
 
-		T inv_sin_omega = T(1/sin(omega_));
+		omega_ = (T) acos(dot);
+		T const sin_omega = T(sin(omega_));
+		if (std::abs(sin_omega) <= T(EPSILON)) {
+			linear_ = true;
+			omega_ = 0;
+			return;
+		}
+
+		linear_ = false;
+		T const inv_sin_omega = T(1 / sin_omega);
 		q1_.scale(inv_sin_omega);
 		q2_.scale(inv_sin_omega);
     }
@@ -199,6 +213,11 @@ public:
 	 * @param[out] result Interpolated quaternion
 	 */
     void interpolate(T t, quaternion<T> &result) const {
+		if (linear_) {
+			result = q1_ * T(1 - t) + q2_ * t;
+			result.normalize();
+			return;
+		}
 		result = q1_ * T(sin((1 - t) * omega_)) + q2_ * T(sin(t*omega_));
     }
 
@@ -215,7 +234,8 @@ public:
 
 private:
     quaternion<T> q1_, q2_;  ///< Normalized and scaled quaternions
-    T dot, omega_;           ///< Dot product and angle between quaternions
+    T omega_;                ///< Angle between quaternions
+	bool linear_ = false;    ///< Fall back to normalized lerp for tiny angles
 };
 
 }

@@ -200,6 +200,25 @@ class TestCapsule3(unittest.TestCase):
         self.assertEqual(cap.axe.B.z, 6.0)
         self.assertEqual(cap.radius, 7.0)
 
+    def test_triangle_intersection(self):
+        cap = pyrove.capsule3(
+            pyrove.vec3(0.0, 0.0, 0.0),
+            pyrove.vec3(0.0, 0.0, 1.0),
+            0.5,
+        )
+        tri_hit = pyrove.triangle3(
+            pyrove.vec3(-1.0, -1.0, 0.5),
+            pyrove.vec3(1.0, -1.0, 0.5),
+            pyrove.vec3(0.0, 1.0, 0.5),
+        )
+        tri_miss = pyrove.triangle3(
+            pyrove.vec3(2.0, 2.0, 0.5),
+            pyrove.vec3(3.0, 2.0, 0.5),
+            pyrove.vec3(2.0, 3.0, 0.5),
+        )
+        self.assertTrue(cap.test_intersection(tri_hit))
+        self.assertFalse(cap.test_intersection(tri_miss))
+
 
 class TestDoubleCapsule(unittest.TestCase):
     def test_capsule2d(self):

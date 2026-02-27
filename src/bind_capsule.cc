@@ -11,6 +11,7 @@
 #include "vec.h"
 #include "capsule.h"
 #include "line.h"
+#include "triangle.h"
 
 namespace nb = nanobind;
 using namespace nb::literals;
@@ -46,6 +47,7 @@ void bind_capsule3(nb::module_ &m, const char *name) {
     using Capsule = rove::capsule<3, T>;
     using Vec3 = rove::vec<3, T>;
     using Line3 = rove::line<3, T>;
+    using Triangle3 = rove::triangle<3, T>;
 
     nb::class_<Capsule>(m, name)
         .def(nb::init<>())
@@ -60,6 +62,9 @@ void bind_capsule3(nb::module_ &m, const char *name) {
         .def("distance", &Capsule::distance,
              nb::arg("point"),
              "Get distance from capsule surface to point (0 if inside)")
+        .def("test_intersection", &Capsule::test_intersection,
+             nb::arg("triangle"),
+             "Test if capsule intersects a triangle")
         .def("__repr__", [](const Capsule &c) {
             std::ostringstream ss;
             ss << "capsule3(A=" << c.axe.A << ", B=" << c.axe.B << ", radius=" << c.radius << ")";

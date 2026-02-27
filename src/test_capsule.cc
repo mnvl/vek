@@ -4,6 +4,7 @@
 #include "obb.h"
 #include "capsule.h"
 #include "line.h"
+#include "triangle.h"
 
 BOOST_AUTO_TEST_SUITE (capsule)
 
@@ -274,6 +275,57 @@ BOOST_AUTO_TEST_CASE(capsule_vertical)
 	BOOST_REQUIRE(c.contains(rove::vec<3>(0, 5, 0)));
 	BOOST_REQUIRE(c.contains(rove::vec<3>(0, 5, 1)));
 	BOOST_REQUIRE(!c.contains(rove::vec<3>(2, 5, 0)));
+}
+
+BOOST_AUTO_TEST_CASE(capsule_triangle_intersection_basic)
+{
+	rove::capsule<3> capsule_shape(
+		rove::vec<3>(0.0f, 0.0f, 0.0f),
+		rove::vec<3>(0.0f, 0.0f, 1.0f),
+		0.5f
+	);
+
+	rove::triangle<3> triangle_shape(
+		rove::vec<3>(-1.0f, -1.0f, 0.5f),
+		rove::vec<3>(1.0f, -1.0f, 0.5f),
+		rove::vec<3>(0.0f, 1.0f, 0.5f)
+	);
+
+	BOOST_REQUIRE(capsule_shape.test_intersection(triangle_shape));
+}
+
+BOOST_AUTO_TEST_CASE(capsule_triangle_intersection_no_hit)
+{
+	rove::capsule<3> capsule_shape(
+		rove::vec<3>(0.0f, 0.0f, 0.0f),
+		rove::vec<3>(0.0f, 0.0f, 1.0f),
+		0.5f
+	);
+
+	rove::triangle<3> triangle_shape(
+		rove::vec<3>(2.0f, 2.0f, 0.5f),
+		rove::vec<3>(3.0f, 2.0f, 0.5f),
+		rove::vec<3>(2.0f, 3.0f, 0.5f)
+	);
+
+	BOOST_REQUIRE(!capsule_shape.test_intersection(triangle_shape));
+}
+
+BOOST_AUTO_TEST_CASE(capsule_triangle_intersection_cap_hit)
+{
+	rove::capsule<3> capsule_shape(
+		rove::vec<3>(0.0f, 0.0f, 0.0f),
+		rove::vec<3>(0.0f, 0.0f, 1.0f),
+		0.5f
+	);
+
+	rove::triangle<3> triangle_shape(
+		rove::vec<3>(-0.25f, 0.0f, 1.45f),
+		rove::vec<3>(0.25f, 0.0f, 1.45f),
+		rove::vec<3>(0.0f, 0.5f, 1.45f)
+	);
+
+	BOOST_REQUIRE(capsule_shape.test_intersection(triangle_shape));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

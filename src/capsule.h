@@ -7,6 +7,7 @@ namespace rove
 
 template<int N, class T> class aabb;
 template<int N, class T> class obb;
+template<int N, class T> class triangle;
 
 template<int N, class T = scalar>
 class capsule {
@@ -42,7 +43,8 @@ public:
 	}
 
 	void get_aabb(aabb<ARITY, scalar_t> &bounds) const;
+
+	bool test_intersection(triangle<ARITY, scalar_t> const &triangle) const;
 };
 
 }
-

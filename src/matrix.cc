@@ -10,7 +10,7 @@ matrix<3,3,T>::assign(vec_t const &l1, vec_t const &l2, vec_t const &l3)
 {
 	ij[0][0]=l1.x;	ij[0][1]=l1.y;	ij[0][2]=l1.z;
 	ij[1][0]=l2.x;	ij[1][1]=l2.y;	ij[1][2]=l2.z;
-	ij[2][0]=l3.x;	ij[2][1]=l3.z;	ij[2][2]=l3.z;
+	ij[2][0]=l3.x;	ij[2][1]=l3.y;	ij[2][2]=l3.z;
 }
 
 template<class T> void

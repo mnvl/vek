@@ -78,6 +78,7 @@ if(ROVE_BUILD_TESTS)
         src/test_main.cc
         src/test_aabb.cc
         src/test_a_star.cc
+        src/test_line.cc
         src/test_bresenham_supercover.cc
         src/test_capsule.cc
         src/test_collision.cc

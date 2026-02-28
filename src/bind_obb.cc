@@ -59,6 +59,14 @@ void bind_obb2(nb::module_ &m, const char *name) {
                << ", tangent=" << o.tangent
                << ", normal=" << o.normal << ")";
             return ss.str();
+        })
+        .def("__getstate__", [](const OBB &o) {
+            return nb::make_tuple(o.origin, o.tangent, o.normal);
+        })
+        .def("__setstate__", [](OBB &o, nb::tuple t) {
+            o.origin  = nb::cast<Vec2>(t[0]);
+            o.tangent = nb::cast<Vec2>(t[1]);
+            o.normal  = nb::cast<Vec2>(t[2]);
         });
 }
 
@@ -109,6 +117,15 @@ void bind_obb3(nb::module_ &m, const char *name) {
                << ", normal=" << o.normal
                << ", binormal=" << o.binormal << ")";
             return ss.str();
+        })
+        .def("__getstate__", [](const OBB &o) {
+            return nb::make_tuple(o.origin, o.tangent, o.normal, o.binormal);
+        })
+        .def("__setstate__", [](OBB &o, nb::tuple t) {
+            o.origin   = nb::cast<Vec3>(t[0]);
+            o.tangent  = nb::cast<Vec3>(t[1]);
+            o.normal   = nb::cast<Vec3>(t[2]);
+            o.binormal = nb::cast<Vec3>(t[3]);
         });
 }
 

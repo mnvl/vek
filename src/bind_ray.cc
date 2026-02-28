@@ -49,6 +49,13 @@ void bind_ray2(nb::module_ &m, const char *name) {
             std::ostringstream ss;
             ss << "ray2(r0=" << r.r0 << ", a=" << r.a << ")";
             return ss.str();
+        })
+        .def("__getstate__", [](const Ray &r) {
+            return nb::make_tuple(r.r0, r.a);
+        })
+        .def("__setstate__", [](Ray &r, nb::tuple t) {
+            r.r0 = nb::cast<Vec2>(t[0]);
+            r.a  = nb::cast<Vec2>(t[1]);
         });
 }
 
@@ -87,6 +94,13 @@ void bind_ray3(nb::module_ &m, const char *name) {
             std::ostringstream ss;
             ss << "ray3(r0=" << r.r0 << ", a=" << r.a << ")";
             return ss.str();
+        })
+        .def("__getstate__", [](const Ray &r) {
+            return nb::make_tuple(r.r0, r.a);
+        })
+        .def("__setstate__", [](Ray &r, nb::tuple t) {
+            r.r0 = nb::cast<Vec3>(t[0]);
+            r.a  = nb::cast<Vec3>(t[1]);
         });
 }
 

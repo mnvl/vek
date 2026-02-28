@@ -39,6 +39,14 @@ void bind_capsule2(nb::module_ &m, const char *name) {
             std::ostringstream ss;
             ss << "capsule2(A=" << c.axe.A << ", B=" << c.axe.B << ", radius=" << c.radius << ")";
             return ss.str();
+        })
+        .def("__getstate__", [](const Capsule &c) {
+            return nb::make_tuple(c.axe.A, c.axe.B, c.radius);
+        })
+        .def("__setstate__", [](Capsule &c, nb::tuple t) {
+            c.axe.A = nb::cast<Vec2>(t[0]);
+            c.axe.B = nb::cast<Vec2>(t[1]);
+            c.radius = nb::cast<T>(t[2]);
         });
 }
 
@@ -69,6 +77,14 @@ void bind_capsule3(nb::module_ &m, const char *name) {
             std::ostringstream ss;
             ss << "capsule3(A=" << c.axe.A << ", B=" << c.axe.B << ", radius=" << c.radius << ")";
             return ss.str();
+        })
+        .def("__getstate__", [](const Capsule &c) {
+            return nb::make_tuple(c.axe.A, c.axe.B, c.radius);
+        })
+        .def("__setstate__", [](Capsule &c, nb::tuple t) {
+            c.axe.A = nb::cast<Vec3>(t[0]);
+            c.axe.B = nb::cast<Vec3>(t[1]);
+            c.radius = nb::cast<T>(t[2]);
         });
 }
 

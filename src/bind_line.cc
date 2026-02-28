@@ -54,6 +54,13 @@ void bind_line2(nb::module_ &m, const char *name) {
             std::ostringstream ss;
             ss << "line2(A=" << l.A << ", B=" << l.B << ")";
             return ss.str();
+        })
+        .def("__getstate__", [](const Line &l) {
+            return nb::make_tuple(l.A, l.B);
+        })
+        .def("__setstate__", [](Line &l, nb::tuple t) {
+            l.A = nb::cast<Vec2>(t[0]);
+            l.B = nb::cast<Vec2>(t[1]);
         });
 }
 
@@ -95,6 +102,13 @@ void bind_line3(nb::module_ &m, const char *name) {
             std::ostringstream ss;
             ss << "line3(A=" << l.A << ", B=" << l.B << ")";
             return ss.str();
+        })
+        .def("__getstate__", [](const Line &l) {
+            return nb::make_tuple(l.A, l.B);
+        })
+        .def("__setstate__", [](Line &l, nb::tuple t) {
+            l.A = nb::cast<Vec3>(t[0]);
+            l.B = nb::cast<Vec3>(t[1]);
         });
 }
 

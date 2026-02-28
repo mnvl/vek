@@ -78,6 +78,15 @@ void bind_plane(nb::module_ &m, const char *name) {
             std::ostringstream ss;
             ss << "plane(A=" << p.A << ", B=" << p.B << ", C=" << p.C << ", D=" << p.D << ")";
             return ss.str();
+        })
+        .def("__getstate__", [](const Plane &p) {
+            return nb::make_tuple(p.A, p.B, p.C, p.D);
+        })
+        .def("__setstate__", [](Plane &p, nb::tuple t) {
+            p.A = nb::cast<T>(t[0]);
+            p.B = nb::cast<T>(t[1]);
+            p.C = nb::cast<T>(t[2]);
+            p.D = nb::cast<T>(t[3]);
         });
 }
 

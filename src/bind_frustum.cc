@@ -100,6 +100,16 @@ void bind_frustum(nb::module_ &m, const char *name) {
             }
             ss << "])";
             return ss.str();
+        })
+        .def("__getstate__", [](const Frustum &f) {
+            return nb::make_tuple(
+                f.planes[0], f.planes[1], f.planes[2],
+                f.planes[3], f.planes[4], f.planes[5]);
+        })
+        .def("__setstate__", [](Frustum &f, nb::tuple t) {
+            for (int i = 0; i < 6; i++) {
+                f.planes[i] = nb::cast<Plane>(t[i]);
+            }
         });
     // Add module-level constants for plane indices (for backward compatibility)
     // Only add these once (for the first frustum type - float)

@@ -55,7 +55,16 @@ void bind_quaternion(nb::module_ &m, const char *name) {
         })
         .def("dot", [](const Quat &p, const Quat &q) {
             return rove::dot_product(p, q);
-        }, nb::arg("other"), "Compute dot product with another quaternion");
+        }, nb::arg("other"), "Compute dot product with another quaternion")
+        .def("__getstate__", [](const Quat &q) {
+            return nb::make_tuple(q.x, q.y, q.z, q.w);
+        })
+        .def("__setstate__", [](Quat &q, nb::tuple t) {
+            q.x = nb::cast<T>(t[0]);
+            q.y = nb::cast<T>(t[1]);
+            q.z = nb::cast<T>(t[2]);
+            q.w = nb::cast<T>(t[3]);
+        });
 }
 
 template<typename T>

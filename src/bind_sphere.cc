@@ -51,6 +51,13 @@ void bind_sphere2(nb::module_ &m, const char *name) {
             std::ostringstream ss;
             ss << "sphere2(centre=" << s.centre << ", radius=" << s.radius << ")";
             return ss.str();
+        })
+        .def("__getstate__", [](const Sphere &s) {
+            return nb::make_tuple(s.centre, s.radius);
+        })
+        .def("__setstate__", [](Sphere &s, nb::tuple t) {
+            s.centre = nb::cast<Vec2>(t[0]);
+            s.radius = nb::cast<T>(t[1]);
         });
 }
 
@@ -89,6 +96,13 @@ void bind_sphere3(nb::module_ &m, const char *name) {
             std::ostringstream ss;
             ss << "sphere3(centre=" << s.centre << ", radius=" << s.radius << ")";
             return ss.str();
+        })
+        .def("__getstate__", [](const Sphere &s) {
+            return nb::make_tuple(s.centre, s.radius);
+        })
+        .def("__setstate__", [](Sphere &s, nb::tuple t) {
+            s.centre = nb::cast<Vec3>(t[0]);
+            s.radius = nb::cast<T>(t[1]);
         });
 }
 

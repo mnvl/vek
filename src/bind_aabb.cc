@@ -61,6 +61,13 @@ void bind_aabb2(nb::module_ &m, const char *name) {
             std::ostringstream ss;
             ss << name << "(lo=" << a.lo << ", hi=" << a.hi << ")";
             return ss.str();
+        })
+        .def("__getstate__", [](const AABB &a) {
+            return nb::make_tuple(a.lo, a.hi);
+        })
+        .def("__setstate__", [](AABB &a, nb::tuple t) {
+            a.lo = nb::cast<Vec2>(t[0]);
+            a.hi = nb::cast<Vec2>(t[1]);
         });
 }
 
@@ -110,6 +117,13 @@ void bind_aabb3(nb::module_ &m, const char *name) {
             std::ostringstream ss;
             ss << name << "(lo=" << a.lo << ", hi=" << a.hi << ")";
             return ss.str();
+        })
+        .def("__getstate__", [](const AABB &a) {
+            return nb::make_tuple(a.lo, a.hi);
+        })
+        .def("__setstate__", [](AABB &a, nb::tuple t) {
+            a.lo = nb::cast<Vec3>(t[0]);
+            a.hi = nb::cast<Vec3>(t[1]);
         });
 }
 

@@ -92,6 +92,14 @@ void bind_triangle3(nb::module_ &m, const char *name) {
             std::ostringstream ss;
             ss << "triangle3(A=" << t.A << ", B=" << t.B << ", C=" << t.C << ")";
             return ss.str();
+        })
+        .def("__getstate__", [](const Triangle &t) {
+            return nb::make_tuple(t.A, t.B, t.C);
+        })
+        .def("__setstate__", [](Triangle &t, nb::tuple state) {
+            t.A = nb::cast<Vec3>(state[0]);
+            t.B = nb::cast<Vec3>(state[1]);
+            t.C = nb::cast<Vec3>(state[2]);
         });
 }
 

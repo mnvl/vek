@@ -64,7 +64,14 @@ void bind_vec2(nb::module_ &m, const char *name) {
             ss << "vec2(" << v.x << ", " << v.y << ")";
             return ss.str();
         })
-        .def("dot", [](const Vec &a, const Vec &b) { return rove::dot_product(a, b); });
+        .def("dot", [](const Vec &a, const Vec &b) { return rove::dot_product(a, b); })
+        .def("__getstate__", [](const Vec &v) {
+            return nb::make_tuple(v.x, v.y);
+        })
+        .def("__setstate__", [](Vec &v, nb::tuple t) {
+            v.x = nb::cast<T>(t[0]);
+            v.y = nb::cast<T>(t[1]);
+        });
 }
 
 template<typename T>
@@ -121,6 +128,14 @@ void bind_vec3(nb::module_ &m, const char *name) {
             Vec result;
             rove::cross_product(result, a, b);
             return result;
+        })
+        .def("__getstate__", [](const Vec &v) {
+            return nb::make_tuple(v.x, v.y, v.z);
+        })
+        .def("__setstate__", [](Vec &v, nb::tuple t) {
+            v.x = nb::cast<T>(t[0]);
+            v.y = nb::cast<T>(t[1]);
+            v.z = nb::cast<T>(t[2]);
         });
 }
 
@@ -171,7 +186,16 @@ void bind_vec4(nb::module_ &m, const char *name) {
             ss << "vec4(" << v.x << ", " << v.y << ", " << v.z << ", " << v.w << ")";
             return ss.str();
         })
-        .def("dot", [](const Vec &a, const Vec &b) { return rove::dot_product(a, b); });
+        .def("dot", [](const Vec &a, const Vec &b) { return rove::dot_product(a, b); })
+        .def("__getstate__", [](const Vec &v) {
+            return nb::make_tuple(v.x, v.y, v.z, v.w);
+        })
+        .def("__setstate__", [](Vec &v, nb::tuple t) {
+            v.x = nb::cast<T>(t[0]);
+            v.y = nb::cast<T>(t[1]);
+            v.z = nb::cast<T>(t[2]);
+            v.w = nb::cast<T>(t[3]);
+        });
 }
 
 void bind_vec_functions(nb::module_ &m) {

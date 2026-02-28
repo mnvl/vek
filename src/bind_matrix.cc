@@ -144,7 +144,18 @@ void bind_matrix3(nb::module_ &m, const char *name) {
                 throw std::out_of_range("Matrix index out of range");
             }
             m.ij[i][j] = value;
-        }, nb::arg("i"), nb::arg("j"), nb::arg("value"), "Set matrix element at [i][j]");
+        }, nb::arg("i"), nb::arg("j"), nb::arg("value"), "Set matrix element at [i][j]")
+        .def("__getstate__", [](const Mat &m) {
+            return nb::make_tuple(
+                m.ij[0][0], m.ij[0][1], m.ij[0][2],
+                m.ij[1][0], m.ij[1][1], m.ij[1][2],
+                m.ij[2][0], m.ij[2][1], m.ij[2][2]);
+        })
+        .def("__setstate__", [](Mat &m, nb::tuple t) {
+            m.ij[0][0]=nb::cast<T>(t[0]); m.ij[0][1]=nb::cast<T>(t[1]); m.ij[0][2]=nb::cast<T>(t[2]);
+            m.ij[1][0]=nb::cast<T>(t[3]); m.ij[1][1]=nb::cast<T>(t[4]); m.ij[1][2]=nb::cast<T>(t[5]);
+            m.ij[2][0]=nb::cast<T>(t[6]); m.ij[2][1]=nb::cast<T>(t[7]); m.ij[2][2]=nb::cast<T>(t[8]);
+        });
 }
 
 template<typename T>
@@ -285,7 +296,20 @@ void bind_matrix4(nb::module_ &m, const char *name) {
                 throw std::out_of_range("Matrix index out of range");
             }
             m.ij[i][j] = value;
-        }, nb::arg("i"), nb::arg("j"), nb::arg("value"), "Set matrix element at [i][j]");
+        }, nb::arg("i"), nb::arg("j"), nb::arg("value"), "Set matrix element at [i][j]")
+        .def("__getstate__", [](const Mat &m) {
+            return nb::make_tuple(
+                m.ij[0][0], m.ij[0][1], m.ij[0][2], m.ij[0][3],
+                m.ij[1][0], m.ij[1][1], m.ij[1][2], m.ij[1][3],
+                m.ij[2][0], m.ij[2][1], m.ij[2][2], m.ij[2][3],
+                m.ij[3][0], m.ij[3][1], m.ij[3][2], m.ij[3][3]);
+        })
+        .def("__setstate__", [](Mat &m, nb::tuple t) {
+            m.ij[0][0]=nb::cast<T>(t[0]);  m.ij[0][1]=nb::cast<T>(t[1]);  m.ij[0][2]=nb::cast<T>(t[2]);  m.ij[0][3]=nb::cast<T>(t[3]);
+            m.ij[1][0]=nb::cast<T>(t[4]);  m.ij[1][1]=nb::cast<T>(t[5]);  m.ij[1][2]=nb::cast<T>(t[6]);  m.ij[1][3]=nb::cast<T>(t[7]);
+            m.ij[2][0]=nb::cast<T>(t[8]);  m.ij[2][1]=nb::cast<T>(t[9]);  m.ij[2][2]=nb::cast<T>(t[10]); m.ij[2][3]=nb::cast<T>(t[11]);
+            m.ij[3][0]=nb::cast<T>(t[12]); m.ij[3][1]=nb::cast<T>(t[13]); m.ij[3][2]=nb::cast<T>(t[14]); m.ij[3][3]=nb::cast<T>(t[15]);
+        });
 }
 
 // Explicit template instantiations
